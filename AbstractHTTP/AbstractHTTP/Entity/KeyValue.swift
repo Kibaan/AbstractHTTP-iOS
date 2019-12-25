@@ -9,7 +9,7 @@
 import Foundation
 
 /// キーと値のペア
-/// クエリパラメーターを構築するのに用いる
+/// クエリパラメーターを構築するのに使う
 public struct KeyValue {
     
     public let key: String
