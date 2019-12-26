@@ -12,14 +12,15 @@ import Foundation
 /// 通信の一括キャンセルや通信オブジェクトが通信中に解放されないよう保持する役割を持つ
 public class ConnectionHolder {
     static var shared = ConnectionHolder()
-    var connections: [ConnectionTask] = []
+
+    public var connections: [ConnectionTask] = []
 
     /// 通信オブジェクトを追加する。
     /// 既に同じものが保持されている場合は何もしない
     ///
     /// - Parameters:
     ///   - connection: 追加する通信オブジェクト
-    func add(connection: ConnectionTask) {
+    public func add(connection: ConnectionTask) {
         if !contains(connection: connection) {
             connections.append(connection)
         }
@@ -29,7 +30,7 @@ public class ConnectionHolder {
     ///
     /// - Parameters:
     ///   - connection: 削除する通信オブジェクト
-    func remove(connection: ConnectionTask?) {
+    public func remove(connection: ConnectionTask?) {
         connections.removeAll { $0 === connection }
     }
 
@@ -38,12 +39,19 @@ public class ConnectionHolder {
     /// - Parameters:
     ///   - connection: 判定する通信オブジェクト
     /// - Returns: 引数に指定した通信オブエジェクトを保持している場合 `true`
-    func contains(connection: ConnectionTask?) -> Bool {
+    public func contains(connection: ConnectionTask?) -> Bool {
         return connections.contains { $0 === connection }
     }
 
     /// 保持する全ての通信オブジェクトを削除する。
-    func removeAll() {
+    public func removeAll() {
         connections.removeAll()
+    }
+
+    /// 保持する全ての通信をキャンセルする
+    public func cancelAll() {
+        connections.forEach {
+            $0.cancel()
+        }
     }
 }
