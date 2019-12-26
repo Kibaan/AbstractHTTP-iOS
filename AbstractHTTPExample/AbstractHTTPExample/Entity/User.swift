@@ -17,6 +17,16 @@ struct User: Decodable {
     let website: String?
     let address: Address?
     let company: Company?
+
+    var stringValue: String {
+        return  """
+            ID: \(id)
+            Name: \(name ?? "")
+            UserName: \(username ?? "")
+            Email: \(email ?? "")
+            Phone: \(phone ?? "")
+        """
+    }
 }
 
 struct Address: Decodable {

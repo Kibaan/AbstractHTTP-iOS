@@ -48,12 +48,6 @@ class GetJSONViewController: UIViewController, ExampleItem, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
 
         let user = response[indexPath.row]
-        AlertUtils.show(title: user.name ?? "", message: """
-            ID: \(user.id)
-            Name: \(user.name ?? "")
-            UserName: \(user.username ?? "")
-            Email: \(user.email ?? "")
-            Phone: \(user.phone ?? "")
-""")
+        AlertUtils.show(title: user.name ?? "", message: user.stringValue)
     }
 }

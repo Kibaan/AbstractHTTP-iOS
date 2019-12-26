@@ -67,11 +67,9 @@ Connection(spec) { response in
 
 最小構成の通信サンプルを `Simplest` 内に実装しています。
 
-## JSON形式のREST APIの例
+## JSON形式のAPIの読み込み
 
-APIのレスポンスには様々な形式がありますが、アプリにおいて一番メジャーなJSON形式のAPIの実装例を記載します。
-
-`GetJSON` 内に実装。
+アプリのデファクトスタンダードであるJSON形式のAPIの実装例を`GetJSON` 内に実装しています。
 
 ## リクエスト仕様の共通化
 

@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4065359123B452ED00F3F69F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359023B452ED00F3F69F /* User.swift */; };
 		4065359623B456AF00F3F69F /* AlertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359523B456AF00F3F69F /* AlertUtils.swift */; };
+		4065359823B45BF400F3F69F /* CommonRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359723B45BF400F3F69F /* CommonRequestSpec.swift */; };
+		4065359A23B45E5D00F3F69F /* Sub1RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359923B45E5D00F3F69F /* Sub1RequestSpec.swift */; };
+		4065359C23B45FD400F3F69F /* Sub2RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359B23B45FD400F3F69F /* Sub2RequestSpec.swift */; };
+		4065359F23B461A200F3F69F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359E23B461A200F3F69F /* User.swift */; };
+		406535A123B461AE00F3F69F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535A023B461AE00F3F69F /* Post.swift */; };
 		40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C8998423B44F9000CD9177 /* GetJSONSpec.swift */; };
 		40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885423B359FA000E5179 /* AppDelegate.swift */; };
 		40D7885923B359FA000E5179 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885823B359FA000E5179 /* ViewController.swift */; };
@@ -44,8 +48,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4065359023B452ED00F3F69F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4065359523B456AF00F3F69F /* AlertUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertUtils.swift; sourceTree = "<group>"; };
+		4065359723B45BF400F3F69F /* CommonRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonRequestSpec.swift; sourceTree = "<group>"; };
+		4065359923B45E5D00F3F69F /* Sub1RequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub1RequestSpec.swift; sourceTree = "<group>"; };
+		4065359B23B45FD400F3F69F /* Sub2RequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sub2RequestSpec.swift; sourceTree = "<group>"; };
+		4065359E23B461A200F3F69F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		406535A023B461AE00F3F69F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		40C8998423B44F9000CD9177 /* GetJSONSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSONSpec.swift; sourceTree = "<group>"; };
 		40D7885123B359FA000E5179 /* AbstractHTTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbstractHTTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7885423B359FA000E5179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +95,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		4065359D23B4617E00F3F69F /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				4065359E23B461A200F3F69F /* User.swift */,
+				406535A023B461AE00F3F69F /* Post.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		40D7884823B359FA000E5179 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +124,7 @@
 		40D7885323B359FA000E5179 /* AbstractHTTPExample */ = {
 			isa = PBXGroup;
 			children = (
+				4065359D23B4617E00F3F69F /* Entity */,
 				4065359223B4565100F3F69F /* Utils */,
 				40D7887E23B367D1000E5179 /* Indicator */,
 				40D7887923B367A4000E5179 /* CommonRequestSpec */,
@@ -147,7 +165,6 @@
 				40D7887523B366A9000E5179 /* GetJSONViewController.swift */,
 				40D7887623B366A9000E5179 /* GetJSONViewController.xib */,
 				40C8998423B44F9000CD9177 /* GetJSONSpec.swift */,
-				4065359023B452ED00F3F69F /* User.swift */,
 			);
 			path = GetJSON;
 			sourceTree = "<group>";
@@ -157,6 +174,9 @@
 			children = (
 				40D7887A23B367B6000E5179 /* CommonRequestSpecViewController.swift */,
 				40D7887B23B367B6000E5179 /* CommonRequestSpecViewController.xib */,
+				4065359723B45BF400F3F69F /* CommonRequestSpec.swift */,
+				4065359923B45E5D00F3F69F /* Sub1RequestSpec.swift */,
+				4065359B23B45FD400F3F69F /* Sub2RequestSpec.swift */,
 			);
 			path = CommonRequestSpec;
 			sourceTree = "<group>";
@@ -246,17 +266,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4065359C23B45FD400F3F69F /* Sub2RequestSpec.swift in Sources */,
 				40D7885923B359FA000E5179 /* ViewController.swift in Sources */,
 				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
 				40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */,
 				40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */,
 				40D7887023B36380000E5179 /* SimplestViewController.swift in Sources */,
+				4065359F23B461A200F3F69F /* User.swift in Sources */,
 				40D7887C23B367B6000E5179 /* CommonRequestSpecViewController.swift in Sources */,
 				40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */,
+				406535A123B461AE00F3F69F /* Post.swift in Sources */,
 				40D7887723B366A9000E5179 /* GetJSONViewController.swift in Sources */,
 				4065359623B456AF00F3F69F /* AlertUtils.swift in Sources */,
-				4065359123B452ED00F3F69F /* User.swift in Sources */,
+				4065359A23B45E5D00F3F69F /* Sub1RequestSpec.swift in Sources */,
 				40D7887323B36599000E5179 /* ExampleItem.swift in Sources */,
+				4065359823B45BF400F3F69F /* CommonRequestSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

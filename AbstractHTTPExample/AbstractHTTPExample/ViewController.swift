@@ -14,7 +14,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     let exampleList: [ExampleItem & UIViewController] = [
         SimplestViewController(),
-        GetJSONViewController()
+        GetJSONViewController(),
+        CommonRequestSpecViewController(),
+        IndicatorViewController()
     ]
 
     var selectedRow: IndexPath?

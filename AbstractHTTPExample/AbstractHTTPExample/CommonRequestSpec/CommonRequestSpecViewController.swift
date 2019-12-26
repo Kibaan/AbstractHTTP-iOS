@@ -7,24 +7,30 @@
 //
 
 import UIKit
+import AbstractHTTP
 
-class CommonRequestSpecViewController: UIViewController {
+class CommonRequestSpecViewController: UIViewController, ExampleItem {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var displayTitle: String { return "リクエスト仕様の共通化" }
 
-        // Do any additional setup after loading the view.
+    @IBOutlet weak var textView: UITextView!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.text = nil
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func button1Action(_ sender: Any) {
+        let spec = Sub1RequestSpec(userId: 1)
+        Connection(spec) { response in
+            self.textView.text = response.stringValue
+        }.start()
     }
-    */
 
+    @IBAction func button2Action(_ sender: Any) {
+        let spec = Sub2RequestSpec(postId: 1)
+        Connection(spec) { response in
+            self.textView.text = response.stringValue
+        }.start()
+    }
 }

@@ -10,7 +10,11 @@ public class AlertUtils {
     static public var isEnabled = true
     static public var defaultErrorTitle = "エラー"
     static public var defaultCloseLabel = "閉じる"
-    
+
+    static var foregroundViewController: UIViewController? {
+        return UIApplication.shared.windows.first?.foregroundViewController
+    }
+
     /// 閉じるだけのアラートを表示する
     static public func showNotice(title: String, message: String, handler:(() -> Void)? = nil) {
         show(title: title, message: message, handler: handler)
@@ -45,7 +49,7 @@ public class AlertUtils {
             alert.addAction(action)
         }
         
-        if let viewController = UIApplication.shared.keyWindow?.foregroundViewController {
+        if let viewController = foregroundViewController {
             viewController.present(alert, animated: true)
         } else {
             print("No root viewcontroller to show alert. \(message)")
@@ -55,7 +59,7 @@ public class AlertUtils {
     
     /// アラートを全て閉じる
     static public func dismissAllAlert() {
-        findRootAlertPresentingController(UIApplication.shared.keyWindow?.foregroundViewController)?.dismiss(animated: false, completion: nil)
+        findRootAlertPresentingController(foregroundViewController)?.dismiss(animated: false, completion: nil)
     }
     
     /// アラートを表示しているルートのビューコントローラを探す
