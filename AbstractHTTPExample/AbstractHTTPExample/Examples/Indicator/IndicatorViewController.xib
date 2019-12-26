@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IndicatorViewController" customModule="AbstractHTTPExample" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="LuB-6l-u8p" id="byy-9m-oTj"/>
+                <outlet property="indicatorBackgroundView" destination="70a-uo-V22" id="Bv0-iE-mhq"/>
+                <outlet property="textView" destination="gXr-pq-M8e" id="hml-8N-mQF"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70a-uo-V22">
+                    <rect key="frame" x="110" y="0.0" width="100" height="100"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="LuB-6l-u8p">
+                            <rect key="frame" x="31.5" y="31.5" width="37" height="37"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="LuB-6l-u8p" firstAttribute="centerY" secondItem="70a-uo-V22" secondAttribute="centerY" id="9yL-BA-kFj"/>
+                        <constraint firstAttribute="height" constant="100" id="Ish-qj-pV7"/>
+                        <constraint firstItem="LuB-6l-u8p" firstAttribute="centerX" secondItem="70a-uo-V22" secondAttribute="centerX" id="L8p-DB-PRg"/>
+                        <constraint firstAttribute="width" constant="100" id="T2s-Ud-sEh"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvp-Te-pbj">
+                    <rect key="frame" x="125" y="203" width="70" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="連続通信"/>
+                    <connections>
+                        <action selector="sequencialButtonAction:" destination="-1" eventType="touchUpInside" id="I0Q-qJ-h9k"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="emb-21-Nco">
+                    <rect key="frame" x="125" y="266" width="70" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="並行通信"/>
+                    <connections>
+                        <action selector="parallelButtonAction:" destination="-1" eventType="touchUpInside" id="oHs-Oi-uq3"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gan-Rb-PR1">
+                    <rect key="frame" x="125" y="140" width="70" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="単一実行"/>
+                    <connections>
+                        <action selector="singleButtonAction:" destination="-1" eventType="touchUpInside" id="0Cf-sy-fvP"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gXr-pq-M8e">
+                    <rect key="frame" x="0.0" y="335" width="320" height="233"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jmz-Pg-GBq">
+                    <rect key="frame" x="235" y="140" width="52" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="エラー"/>
+                    <connections>
+                        <action selector="errorButtonAction:" destination="-1" eventType="touchUpInside" id="aAz-Xw-Yr9"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Gan-Rb-PR1" firstAttribute="top" secondItem="70a-uo-V22" secondAttribute="bottom" constant="40" id="2w2-JD-npt"/>
+                <constraint firstItem="gXr-pq-M8e" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="4Kn-qL-6Yw"/>
+                <constraint firstItem="Jmz-Pg-GBq" firstAttribute="leading" secondItem="Gan-Rb-PR1" secondAttribute="trailing" constant="40" id="4L5-tU-uTp"/>
+                <constraint firstItem="70a-uo-V22" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ALe-xe-MOP"/>
+                <constraint firstItem="gXr-pq-M8e" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="JgH-HD-Z7R"/>
+                <constraint firstItem="emb-21-Nco" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ten-QO-GbA"/>
+                <constraint firstItem="Gan-Rb-PR1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="bdb-h9-eKu"/>
+                <constraint firstItem="Jmz-Pg-GBq" firstAttribute="top" secondItem="Gan-Rb-PR1" secondAttribute="top" id="cUO-2Q-YeU"/>
+                <constraint firstItem="emb-21-Nco" firstAttribute="top" secondItem="Rvp-Te-pbj" secondAttribute="bottom" constant="30" id="eZs-U8-rI9"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="gXr-pq-M8e" secondAttribute="trailing" id="ocK-FY-8Xz"/>
+                <constraint firstItem="Rvp-Te-pbj" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qGI-wS-KMA"/>
+                <constraint firstItem="gXr-pq-M8e" firstAttribute="top" secondItem="emb-21-Nco" secondAttribute="bottom" constant="36" id="qUz-Do-NpS"/>
+                <constraint firstItem="70a-uo-V22" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tL2-70-gg1"/>
+                <constraint firstItem="Rvp-Te-pbj" firstAttribute="top" secondItem="Gan-Rb-PR1" secondAttribute="bottom" constant="30" id="u7B-Z7-r2P"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="138.75" y="152.11267605633802"/>
+        </view>
+    </objects>
+</document>

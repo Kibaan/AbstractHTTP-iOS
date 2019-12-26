@@ -62,9 +62,23 @@ open class Connection<ResponseModel>: ConnectionTask {
         self.onSuccess = onSuccess
     }
 
-    public func addListener(_ listener: ConnectionListener) { listeners.append(listener) }
-    public func addResponseListener(_ listener: ConnectionResponseListener) { responseListeners.append(listener) }
-    public func addErrorListener(_ listener: ConnectionErrorListener) { errorListeners.append(listener) }
+    @discardableResult
+    public func addListener(_ listener: ConnectionListener) -> Self {
+        listeners.append(listener)
+        return self
+    }
+
+    @discardableResult
+    public func addResponseListener(_ listener: ConnectionResponseListener) -> Self {
+        responseListeners.append(listener)
+        return self
+    }
+
+    @discardableResult
+    public func addErrorListener(_ listener: ConnectionErrorListener) -> Self {
+        errorListeners.append(listener)
+        return self
+    }
 
     public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
     public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
@@ -298,6 +312,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 }
 
+// TODO この参照方法は少し汚い
 public struct DefaultImplementation {
 
     public static var shared = DefaultImplementation()

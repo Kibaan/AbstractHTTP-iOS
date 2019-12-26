@@ -13,14 +13,14 @@ import UIKit
 /// 単純な表示/非表示の切り替えではなく、参照カウントを増減してカウントが0になったら非表示にする方式にする。
 public class ConnectionIndicator: ConnectionListener {
 
-    var referenceCount = 0
+    public private(set) var referenceCount = 0
 
     let view: UIView
-    let indicatorView: UIActivityIndicatorView?
+    let activityIndicatorView: UIActivityIndicatorView?
 
-    init(view: UIView, indicatorView: UIActivityIndicatorView? = nil) {
+    public init(view: UIView, activityIndicatorView: UIActivityIndicatorView? = nil) {
         self.view = view
-        self.indicatorView = indicatorView
+        self.activityIndicatorView = activityIndicatorView
     }
 
     public func onStart(connection: ConnectionTask, request: Request) {
@@ -42,9 +42,9 @@ public class ConnectionIndicator: ConnectionListener {
     func updateView() {
         view.isHidden = (referenceCount <= 0)
         if view.isHidden {
-            indicatorView?.stopAnimating()
-        } else if indicatorView?.isAnimating == false {
-            indicatorView?.startAnimating()
+            activityIndicatorView?.stopAnimating()
+        } else if activityIndicatorView?.isAnimating == false {
+            activityIndicatorView?.startAnimating()
         }
     }
 }
