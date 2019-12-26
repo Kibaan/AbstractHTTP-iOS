@@ -14,12 +14,9 @@ AbstractHTTP is abstract HTTP processing library.
 
 ## 基本の使い方 (Basic usages)
 
-`ConnectionSpec`プロトコル(※)を実装したクラス（以下Specクラス）を作り、リクエストとレスポンスの詳細を記載します。
-Specクラスは１つのAPIの仕様を表します。REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのが良いでしょう。
-
-ただし、リクエストパラメーターとレスポンスが同じようなAPIが複数あれば、まとめて１つのSpecクラスを作った方が便利かもしれません。
-
-※ `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
+まずは `ConnectionSpec`プロトコルを実装したクラス（以下Specクラス）を作ります。  
+Specクラスは１つのAPIの仕様を表し、リクエストとレスポンスの詳細を記載します。  
+REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのが良いでしょう。
 
 ```swift
 // 最小構成のシンプルなConnectionSpec実装
@@ -55,6 +52,8 @@ class SimplestSpec: ConnectionSpec {
 }
 ```
 
+通信の実行は `Connection` クラスを使って行います。  
+実装したSpecクラスと通信成功時のコールバック関数をイニシャライザに指定して、`start()` 関数を呼ぶと通信を開始します。
 
 ```swift
 let spec = SimplestSpec()
@@ -63,17 +62,35 @@ Connection(spec) { response in
 }.start()
 ```
 
+### URLにクエリパラメーターをつける
+
+URLにクエリパラメーターをつけるには `ConnectionSpec` の `urlQuery` プロパティを実装します。  
+`urlQuery` プロパティは `URLQuery` 型ですが `Dictionary` と同じ書き方で以下のように書くことができます。
+
+```swift
+var urlQuery: URLQuery? {
+    return [
+        "id": "123",
+        "name": "john",
+        "comment": "hello"
+    ]
+}
+```
+
 ## 最小構成の通信サンプル (The simplest example)
 
-最小構成の通信サンプルを `Simplest` 内に実装しています。
+最小構成の通信サンプルを `Simplest` ディレクトリ内に内に実装しています。
 
 ## JSON形式のAPIの読み込み
 
-アプリのデファクトスタンダードであるJSON形式のAPIの実装例を`GetJSON` 内に実装しています。
+アプリのデファクトスタンダードであるJSON形式のAPIの実装例を`GetJSON` ディレクトリ内に内に実装しています。
 
 ## リクエスト仕様の共通化
 
-ほとんどのプロジェクトでは、API全体で共通のUser-Agentを指定するなど、複数のAPIに共通のリクエスト仕様があります。
+ほとんどのプロジェクトでは、API全体で共通のUser-Agentを指定するなど、複数のAPIに共通のリクエスト仕様があります。  
+リクエスト仕様を共通化する一つの方法は `ConnectionSpec` の実装に共通の基底クラスを作り、基底クラスを継承して各APIを実装することです。
+
+`CommonRequestSpec` ディレクトリ内にリクエスト仕様の共通化の例を実装しています。
 
 
 ## 通信中にインジケーターを表示する
@@ -120,6 +137,10 @@ Connection(spec) { response in
 
 ネットワークエラーの場合はポーリングを行っていい
 
-# APIインスタンスを保持する
+## APIインスタンスを保持する
 
 リトライ、ポーリングなどのときも開放されないようにする
+
+## ConnectionSpecをリクエスト仕様とレスポンス仕様に分割する
+
+※ `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。

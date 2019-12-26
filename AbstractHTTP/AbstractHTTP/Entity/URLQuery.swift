@@ -34,6 +34,10 @@ public class URLQuery: ExpressibleByDictionaryLiteral {
         keyValues = elements.map { KeyValue(key: $0.0, value: $0.1) }
     }
 
+    public init(keyValuePairs: KeyValuePairs<String, String?>) {
+        self.keyValues = keyValuePairs.map { KeyValue(key: $0.key, value: $0.value) }
+    }
+
     public init(keyValues: [KeyValue]) {
         self.keyValues = keyValues
     }
