@@ -46,7 +46,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRow = indexPath
 
-        let vc = SimplestViewController()
+        let vc = exampleList[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
 }

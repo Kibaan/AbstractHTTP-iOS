@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import AbstractHTTP
 
 class SimplestViewController: UIViewController, ExampleItem {
     var displayTitle: String { return "最小構成" }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    @IBOutlet weak var textView: UITextView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.text = nil
     }
 
+    @IBAction func buttonAction(_ sender: Any) {
+        Connection(SimplestSpec()) { response in
+            self.textView.text = response
+        }.start()
+    }
 }

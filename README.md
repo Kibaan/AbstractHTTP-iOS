@@ -1,7 +1,5 @@
 # AbstractHTTP
 
-
-
 AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化したライブラリです。
 
 本ライブラリは大部分がプロトコルで、**通信の実装より設計や処理の流れを提供します**。
@@ -12,14 +10,12 @@ AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化し
 AbstractHTTP is abstract HTTP processing library.  
 ```
 
-# プログラミングガイド
+# プログラミングガイド (Programming guide)
 
+## 基本の使い方 (Basic usages)
 
-## 最小構成の通信サンプル (The simplest example)
-
-`ConnectionSpec`(※)を継承したクラス（以下Specクラス）を作成して、リクエストとレスポンスの詳細を記載します。
-
-Specクラスは１つのAPIの仕様を表します。REST通信であればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのが良いでしょう。
+`ConnectionSpec`プロトコル(※)を実装したクラス（以下Specクラス）を作り、リクエストとレスポンスの詳細を記載します。
+Specクラスは１つのAPIの仕様を表します。REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのが良いでしょう。
 
 ただし、リクエストパラメーターとレスポンスが同じようなAPIが複数あれば、まとめて１つのSpecクラスを作った方が便利かもしれません。
 
@@ -64,12 +60,18 @@ class SimplestSpec: ConnectionSpec {
 let spec = SimplestSpec()
 Connection(spec) { response in
     print(response)
-}
+}.start()
 ```
+
+## 最小構成の通信サンプル (The simplest example)
+
+最小構成の通信サンプルを `Simplest` 内に実装しています。
 
 ## JSON形式のREST APIの例
 
 APIのレスポンスには様々な形式がありますが、アプリにおいて一番メジャーなJSON形式のAPIの実装例を記載します。
+
+`GetJSON` 内に実装。
 
 ## リクエスト仕様の共通化
 

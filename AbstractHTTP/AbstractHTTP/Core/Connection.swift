@@ -45,39 +45,39 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     public weak var holder = ConnectionHolder.shared
 
-    init<T: ResponseSpec>(requestSpec: RequestSpec,
-                          responseSpec: T,
-                          onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
+    public init<T: ResponseSpec>(requestSpec: RequestSpec,
+                                 responseSpec: T,
+                                 onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
         self.requestSpec = requestSpec
         self.parseResponse = responseSpec.parseResponse
         self.isValidResponse = responseSpec.isValidResponse
         self.onSuccess = onSuccess
     }
 
-    init<T: ConnectionSpec>(_ connectionSpec: T,
-                            onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
+    public init<T: ConnectionSpec>(_ connectionSpec: T,
+                                   onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
         self.requestSpec = connectionSpec
         self.parseResponse = connectionSpec.parseResponse
         self.isValidResponse = connectionSpec.isValidResponse
         self.onSuccess = onSuccess
     }
 
-    func addListener(_ listener: ConnectionListener) { listeners.append(listener) }
-    func addResponseListener(_ listener: ConnectionResponseListener) { responseListeners.append(listener) }
-    func addErrorListener(_ listener: ConnectionErrorListener) { errorListeners.append(listener) }
+    public func addListener(_ listener: ConnectionListener) { listeners.append(listener) }
+    public func addResponseListener(_ listener: ConnectionResponseListener) { responseListeners.append(listener) }
+    public func addErrorListener(_ listener: ConnectionErrorListener) { errorListeners.append(listener) }
 
-    func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
-    func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
-    func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
+    public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
+    public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
+    public func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
 
     @discardableResult
-    func setOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
+    public func setOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
         self.onError = onError
         return self
     }
 
     @discardableResult
-    func setOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
+    public func setOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
         self.onEnd = onEnd
         return self
     }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4065359123B452ED00F3F69F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359023B452ED00F3F69F /* User.swift */; };
+		4065359623B456AF00F3F69F /* AlertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065359523B456AF00F3F69F /* AlertUtils.swift */; };
+		40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C8998423B44F9000CD9177 /* GetJSONSpec.swift */; };
 		40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885423B359FA000E5179 /* AppDelegate.swift */; };
 		40D7885923B359FA000E5179 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885823B359FA000E5179 /* ViewController.swift */; };
 		40D7885C23B359FA000E5179 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40D7885A23B359FA000E5179 /* Main.storyboard */; };
@@ -23,6 +26,7 @@
 		40D7887D23B367B6000E5179 /* CommonRequestSpecViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40D7887B23B367B6000E5179 /* CommonRequestSpecViewController.xib */; };
 		40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7887F23B36811000E5179 /* IndicatorViewController.swift */; };
 		40D7888223B36811000E5179 /* IndicatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40D7888023B36811000E5179 /* IndicatorViewController.xib */; };
+		40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7888323B44986000E5179 /* SimplestSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +44,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4065359023B452ED00F3F69F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4065359523B456AF00F3F69F /* AlertUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertUtils.swift; sourceTree = "<group>"; };
+		40C8998423B44F9000CD9177 /* GetJSONSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSONSpec.swift; sourceTree = "<group>"; };
 		40D7885123B359FA000E5179 /* AbstractHTTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbstractHTTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7885423B359FA000E5179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40D7885823B359FA000E5179 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +64,7 @@
 		40D7887B23B367B6000E5179 /* CommonRequestSpecViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommonRequestSpecViewController.xib; sourceTree = "<group>"; };
 		40D7887F23B36811000E5179 /* IndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		40D7888023B36811000E5179 /* IndicatorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndicatorViewController.xib; sourceTree = "<group>"; };
+		40D7888323B44986000E5179 /* SimplestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplestSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4065359223B4565100F3F69F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4065359523B456AF00F3F69F /* AlertUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		40D7884823B359FA000E5179 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +107,7 @@
 		40D7885323B359FA000E5179 /* AbstractHTTPExample */ = {
 			isa = PBXGroup;
 			children = (
+				4065359223B4565100F3F69F /* Utils */,
 				40D7887E23B367D1000E5179 /* Indicator */,
 				40D7887923B367A4000E5179 /* CommonRequestSpec */,
 				40D7887423B36689000E5179 /* GetJSON */,
@@ -117,6 +134,7 @@
 		40D7886D23B3635F000E5179 /* Simplest */ = {
 			isa = PBXGroup;
 			children = (
+				40D7888323B44986000E5179 /* SimplestSpec.swift */,
 				40D7886E23B36380000E5179 /* SimplestViewController.swift */,
 				40D7886F23B36380000E5179 /* SimplestViewController.xib */,
 			);
@@ -128,6 +146,8 @@
 			children = (
 				40D7887523B366A9000E5179 /* GetJSONViewController.swift */,
 				40D7887623B366A9000E5179 /* GetJSONViewController.xib */,
+				40C8998423B44F9000CD9177 /* GetJSONSpec.swift */,
+				4065359023B452ED00F3F69F /* User.swift */,
 			);
 			path = GetJSON;
 			sourceTree = "<group>";
@@ -227,11 +247,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D7885923B359FA000E5179 /* ViewController.swift in Sources */,
+				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
 				40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */,
+				40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */,
 				40D7887023B36380000E5179 /* SimplestViewController.swift in Sources */,
 				40D7887C23B367B6000E5179 /* CommonRequestSpecViewController.swift in Sources */,
 				40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */,
 				40D7887723B366A9000E5179 /* GetJSONViewController.swift in Sources */,
+				4065359623B456AF00F3F69F /* AlertUtils.swift in Sources */,
+				4065359123B452ED00F3F69F /* User.swift in Sources */,
 				40D7887323B36599000E5179 /* ExampleItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
