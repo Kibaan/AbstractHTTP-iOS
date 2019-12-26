@@ -1,6 +1,6 @@
 //
 //  Polling.swift
-//  TsushinKibaanProto
+//  AbstractHTTP
 //
 //  Created by Keita Yamamoto on 2019/10/30.
 //  Copyright © 2019 山本敬太. All rights reserved.

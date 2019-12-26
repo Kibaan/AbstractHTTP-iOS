@@ -1,6 +1,6 @@
 //
 //  ConnectionIndicator.swift
-//  TsushinKibaanProto
+//  AbstractHTTP
 //
 //  Created by 山本敬太 on 2019/10/22.
 //  Copyright © 2019 山本敬太. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  EventChain.swift
-//  TsushinKibaanProto
+//  AbstractHTTP
 //
 //  Created by Keita Yamamoto on 2019/12/25.
 //  Copyright © 2019 山本敬太. All rights reserved.

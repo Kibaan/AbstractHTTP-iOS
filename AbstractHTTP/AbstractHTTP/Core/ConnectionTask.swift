@@ -1,6 +1,6 @@
 //
 //  ConnectionTask.swift
-//  TsushinKibaanProto
+//  AbstractHTTP
 //
 //  Created by Keita Yamamoto on 2019/11/01.
 //  Copyright © 2019 山本敬太. All rights reserved.

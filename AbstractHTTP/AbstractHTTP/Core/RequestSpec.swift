@@ -1,6 +1,6 @@
 //
 //  RequestSpec.swift
-//  TsushinKibaanProto
+//  AbstractHTTP
 //
 //  Created by Yamamoto Keita on 2019/10/09.
 //  Copyright © 2019 Yamamoto Keita. All rights reserved.
