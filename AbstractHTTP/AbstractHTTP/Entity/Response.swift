@@ -10,7 +10,7 @@ import Foundation
 
 /// HTTPレスポンスの情報
 /// レスポンスボディの他、ステータスコード、ヘッダーの情報を持つ
-public struct Response {
+public class Response {
     /// レスポンスデータ
     public let data: Data
     /// HTTPステータスコード
@@ -18,6 +18,14 @@ public struct Response {
     /// レスポンスヘッダー
     public let headers: [String: String]
     /// ネイティブSDKのレスポンスオブジェクト。
-    /// iOSの場合、URLResponseが入る。
+    /// HTTPConnectorで任意のレスポンスオブジェクトをセットすることが出来る
+    /// 標準実装の場合、URLResponseが入る。
     public let nativeResponse: Any?
+    
+    public init(data: Data, statusCode: Int, headers: [String: String], nativeResponse: Any?) {
+        self.data = data
+        self.statusCode = statusCode
+        self.headers = headers
+        self.nativeResponse = nativeResponse
+    }
 }
