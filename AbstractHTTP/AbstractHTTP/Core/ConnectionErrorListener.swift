@@ -9,7 +9,7 @@
 import Foundation
 
 /// 通信エラーを受け取るリスナー。
-/// afterError以外のエラーコールバックは、Connecionに渡したエラーコールバックの実行前にバックグラウンドスレッドで呼ばれる。
+/// afterError以外のエラーコールバックは、Connectionに渡したエラーコールバックの実行前にバックグラウンドスレッドで呼ばれる。
 ///
 /// バックグラウンドスレッドから呼び出されるため、UIの操作を行う場合はメインスレッドに切り替える必要がある
 public protocol ConnectionErrorListener: class {
@@ -34,7 +34,8 @@ public protocol ConnectionErrorListener: class {
     /// - Parameters:
     ///   - connection: 通信オブジェクト
     ///   - response: HTTPレスポンスの情報
-    func onParseError(connection: ConnectionTask, response: Response) -> EventChain
+    ///   - error: エラー情報
+    func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain
 
     /// レスポンスモデルのバリデーションエラー時に呼ばれる。
     /// 具体的には、ConnectionResponseListener.onReceivedModel で `false` が返却された場合に呼ばれる

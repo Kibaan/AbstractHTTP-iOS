@@ -124,8 +124,8 @@ class ExampleListener: ConnectionListener, ConnectionResponseListener, Connectio
         print("onResponseError")
         return .proceed
     }
-
-    func onParseError(connection: ConnectionTask, response: Response) -> EventChain {
+    
+    func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain {
         print("onParseError")
         return .proceed
     }

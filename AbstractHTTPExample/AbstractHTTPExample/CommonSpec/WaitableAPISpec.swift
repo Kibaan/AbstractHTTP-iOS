@@ -39,6 +39,6 @@ class WaitableAPISpec: ConnectionSpec {
         if let string = String(bytes: response.data, encoding: .utf8) {
             return string
         }
-        throw ConnectionErrorType.parse
+        throw NSError()
     }
 }

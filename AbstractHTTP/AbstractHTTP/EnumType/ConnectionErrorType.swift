@@ -9,7 +9,7 @@
 import Foundation
 
 /// HTTP通信のエラー種別
-public enum ConnectionErrorType: Error {
+public enum ConnectionErrorType {
     /// 不正なURL
     case invalidURL
     /// オフライン、タイムアウトなどのネットワークエラー

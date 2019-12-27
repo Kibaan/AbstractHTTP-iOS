@@ -169,7 +169,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         do {
             responseModel = try parseResponse(response)
         } catch {
-            onParseError(response: response)
+            onParseError(response: response, error: error)
             return
         }
 
@@ -207,11 +207,11 @@ open class Connection<ResponseModel>: ConnectionTask {
         })
     }
 
-    func onParseError(response: Response) {
+    func onParseError(response: Response, error: Error) {
         controlError(callListener: {
-            return $0.onParseError(connection: self, response: response)
+            return $0.onParseError(connection: self, response: response, error: error)
         }, callError: {
-            self.handleError(.parse, response: response)
+            self.handleError(.parse, error: error, response: response)
         })
     }
 
