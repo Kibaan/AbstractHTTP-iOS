@@ -26,7 +26,7 @@
                             <rect key="frame" x="31.5" y="31.5" width="37" height="37"/>
                         </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="LuB-6l-u8p" firstAttribute="centerY" secondItem="70a-uo-V22" secondAttribute="centerY" id="9yL-BA-kFj"/>
                         <constraint firstAttribute="height" constant="100" id="Ish-qj-pV7"/>

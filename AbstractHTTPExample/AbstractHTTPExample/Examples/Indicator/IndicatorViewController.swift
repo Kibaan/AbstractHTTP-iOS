@@ -16,7 +16,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
     @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var textView: UITextView!
 
-    var indicator: ConnectionIndicator?
+    var indicator: ConnectionIndicator!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,6 @@ class IndicatorViewController: UIViewController, ExampleItem {
     }
 
     @IBAction func singleButtonAction(_ sender: Any) {
-        guard let indicator = indicator else { return }
-
         let spec = SlowResponseSpec()
         clear()
         pushLine("[START] \(spec.url)")
@@ -44,8 +42,6 @@ class IndicatorViewController: UIViewController, ExampleItem {
     }
 
     @IBAction func errorButtonAction(_ sender: Any) {
-        guard let indicator = indicator else { return }
-
         // APIで5秒待機するが1秒でタイムアウトさせる
         let spec = SlowResponseSpec(waitSeconds: 5)
         clear()
@@ -62,11 +58,52 @@ class IndicatorViewController: UIViewController, ExampleItem {
     }
     
     @IBAction func sequencialButtonAction(_ sender: Any) {
-
+        // 直列で複数の通信を実行。全ての通信が完了したらインジケーターが消える
+        clear()
+        sequencialRequest(max: 3)
     }
 
-    @IBAction func parallelButtonAction(_ sender: Any) {
+    private func sequencialRequest(max: Int, count: Int = 1) {
+        pushLine("[START] Request \(count)")
+        Connection(SlowResponseSpec(waitSeconds: 1))
+            .setOnEnd { response, model, error in
+                self.pushLine("[END  ] Request \(count)")
+                if count < max {
+                    self.sequencialRequest(max: max, count: count + 1)
+                }
+            }
+            .addListener(indicator)
+            .start()
+    }
 
+
+    @IBAction func parallelButtonAction(_ sender: Any) {
+        // 並列で複数の通信を実行。全ての通信が完了したらインジケーターが消える
+        clear()
+
+        pushLine("[START] Request 1")
+        Connection(SlowResponseSpec(waitSeconds: 1))
+            .setOnEnd { response, model, error in
+                self.pushLine("[END  ] Request 1")
+            }
+            .addListener(indicator)
+            .start()
+
+        pushLine("[START] Request 2")
+        Connection(SlowResponseSpec(waitSeconds: 2))
+            .setOnEnd { response, model, error in
+                self.pushLine("[END  ] Request 2")
+            }
+            .addListener(indicator)
+            .start()
+
+        pushLine("[START] Request 3")
+        Connection(SlowResponseSpec(waitSeconds: 3))
+            .setOnEnd { response, model, error in
+                self.pushLine("[END  ] Request 3")
+            }
+            .addListener(indicator)
+            .start()
     }
 
     // エラー
