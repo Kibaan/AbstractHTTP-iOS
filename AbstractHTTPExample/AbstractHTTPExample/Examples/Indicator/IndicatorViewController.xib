@@ -9,8 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IndicatorViewController" customModule="AbstractHTTPExample" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="LuB-6l-u8p" id="byy-9m-oTj"/>
-                <outlet property="indicatorBackgroundView" destination="70a-uo-V22" id="Bv0-iE-mhq"/>
+                <outlet property="indicatorView" destination="70a-uo-V22" id="Bv0-iE-mhq"/>
                 <outlet property="textView" destination="gXr-pq-M8e" id="hml-8N-mQF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

@@ -13,15 +13,14 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
     var displayTitle: String { return "通信インジケーターの表示" }
 
-    @IBOutlet weak var indicatorBackgroundView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var textView: UITextView!
 
     var indicator: ConnectionIndicator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        indicator = ConnectionIndicator(view: indicatorBackgroundView, activityIndicatorView: activityIndicator)
+        indicator = ConnectionIndicator(view: indicatorView)
     }
 
     override func viewWillAppear(_ animated: Bool) {

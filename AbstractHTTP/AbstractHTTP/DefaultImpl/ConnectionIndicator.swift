@@ -15,12 +15,26 @@ public class ConnectionIndicator: ConnectionListener {
 
     public private(set) var referenceCount = 0
 
-    let view: UIView
-    let activityIndicatorView: UIActivityIndicatorView?
+    public let view: UIView
+    public private(set) lazy var activityIndicatorView: UIActivityIndicatorView? = findActivityIndicatorView(view: view)
 
-    public init(view: UIView, activityIndicatorView: UIActivityIndicatorView? = nil) {
+    public init(view: UIView) {
         self.view = view
-        self.activityIndicatorView = activityIndicatorView
+    }
+
+    /// 引数のviewおよびそのsubviewから再帰的にUIActivityIndicatorViewを探す
+    private func findActivityIndicatorView(view: UIView) -> UIActivityIndicatorView? {
+        if let activityIndicatorView = view as? UIActivityIndicatorView {
+            return activityIndicatorView
+        }
+
+        for i in view.subviews.indices {
+            if let activityIndicatorView = findActivityIndicatorView(view: view.subviews[i]) {
+                return activityIndicatorView
+            }
+        }
+
+        return nil
     }
 
     public func onStart(connection: ConnectionTask, request: Request) {
