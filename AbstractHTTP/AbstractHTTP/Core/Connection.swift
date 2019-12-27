@@ -149,12 +149,12 @@ open class Connection<ResponseModel>: ConnectionTask {
             return
         }
 
-        var isValidResponse = true
+        var listenerValidationResult = true
         responseListeners.forEach {
-            isValidResponse = isValidResponse && $0.onReceived(connection: self, response: response)
+            listenerValidationResult = listenerValidationResult && $0.onReceived(connection: self, response: response)
         }
 
-        guard isValidResponse && self.isValidResponse(response) else {
+        guard listenerValidationResult && isValidResponse(response) else {
             onResponseError(response: response)
             return
         }
@@ -173,11 +173,11 @@ open class Connection<ResponseModel>: ConnectionTask {
             return
         }
 
-        var isValidResponse = true
+        var listenerValidationResult = true
         responseListeners.forEach {
-            isValidResponse = isValidResponse && $0.onReceivedModel(connection: self, responseModel: responseModel)
+            listenerValidationResult = listenerValidationResult && $0.onReceivedModel(connection: self, responseModel: responseModel)
         }
-        if !isValidResponse {
+        if !listenerValidationResult {
             onValidationError(response: response, responseModel: responseModel)
             return
         }
