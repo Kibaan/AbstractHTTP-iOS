@@ -16,7 +16,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         SimplestViewController(),
         GetJSONViewController(),
         CommonRequestSpecViewController(),
-        IndicatorViewController()
+        IndicatorViewController(),
+        ListenerViewController(),
+        RetryViewController(),
+        MockViewController(),
+        PollingViewController()
     ]
 
     var selectedRow: IndexPath?

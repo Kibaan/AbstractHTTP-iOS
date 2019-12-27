@@ -8,7 +8,9 @@
 
 import UIKit
 
-class RetryViewController: UIViewController {
+class RetryViewController: UIViewController, ExampleItem {
+
+    var displayTitle: String { return "通信のリトライ" }
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -19,7 +19,10 @@
 		406535B023B46C5E00F3F69F /* MockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 406535AE23B46C5E00F3F69F /* MockViewController.xib */; };
 		406535B423B46C9500F3F69F /* PollingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535B223B46C9500F3F69F /* PollingViewController.swift */; };
 		406535B523B46C9500F3F69F /* PollingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 406535B323B46C9500F3F69F /* PollingViewController.xib */; };
-		406535B723B47C2A00F3F69F /* SlowResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535B623B47C2A00F3F69F /* SlowResponseSpec.swift */; };
+		406535B723B47C2A00F3F69F /* WaitableAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535B623B47C2A00F3F69F /* WaitableAPISpec.swift */; };
+		406535BB23B5A3CE00F3F69F /* ListenerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535B923B5A3CE00F3F69F /* ListenerViewController.swift */; };
+		406535BC23B5A3CE00F3F69F /* ListenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */; };
+		406535BF23B5A6FE00F3F69F /* SimpleGetSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */; };
 		40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C8998423B44F9000CD9177 /* GetJSONSpec.swift */; };
 		40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885423B359FA000E5179 /* AppDelegate.swift */; };
 		40D7885923B359FA000E5179 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885823B359FA000E5179 /* ViewController.swift */; };
@@ -67,7 +70,10 @@
 		406535AE23B46C5E00F3F69F /* MockViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MockViewController.xib; sourceTree = "<group>"; };
 		406535B223B46C9500F3F69F /* PollingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollingViewController.swift; sourceTree = "<group>"; };
 		406535B323B46C9500F3F69F /* PollingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PollingViewController.xib; sourceTree = "<group>"; };
-		406535B623B47C2A00F3F69F /* SlowResponseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowResponseSpec.swift; sourceTree = "<group>"; };
+		406535B623B47C2A00F3F69F /* WaitableAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitableAPISpec.swift; sourceTree = "<group>"; };
+		406535B923B5A3CE00F3F69F /* ListenerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerViewController.swift; sourceTree = "<group>"; };
+		406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListenerViewController.xib; sourceTree = "<group>"; };
+		406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGetSpec.swift; sourceTree = "<group>"; };
 		40C8998423B44F9000CD9177 /* GetJSONSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSONSpec.swift; sourceTree = "<group>"; };
 		40D7885123B359FA000E5179 /* AbstractHTTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbstractHTTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7885423B359FA000E5179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 		406535A223B46BFE00F3F69F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				406535B823B5A3B300F3F69F /* Listener */,
 				406535B123B46C8500F3F69F /* Polling */,
 				406535AC23B46C5000F3F69F /* Mock */,
 				406535A323B46C1100F3F69F /* Retry */,
@@ -159,6 +166,24 @@
 			path = Polling;
 			sourceTree = "<group>";
 		};
+		406535B823B5A3B300F3F69F /* Listener */ = {
+			isa = PBXGroup;
+			children = (
+				406535B923B5A3CE00F3F69F /* ListenerViewController.swift */,
+				406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */,
+			);
+			path = Listener;
+			sourceTree = "<group>";
+		};
+		406535BD23B5A4AB00F3F69F /* CommonSpec */ = {
+			isa = PBXGroup;
+			children = (
+				406535B623B47C2A00F3F69F /* WaitableAPISpec.swift */,
+				406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */,
+			);
+			path = CommonSpec;
+			sourceTree = "<group>";
+		};
 		40D7884823B359FA000E5179 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +204,7 @@
 		40D7885323B359FA000E5179 /* AbstractHTTPExample */ = {
 			isa = PBXGroup;
 			children = (
+				406535BD23B5A4AB00F3F69F /* CommonSpec */,
 				406535A223B46BFE00F3F69F /* Examples */,
 				4065359D23B4617E00F3F69F /* Entity */,
 				4065359223B4565100F3F69F /* Utils */,
@@ -238,7 +264,6 @@
 			children = (
 				40D7887F23B36811000E5179 /* IndicatorViewController.swift */,
 				40D7888023B36811000E5179 /* IndicatorViewController.xib */,
-				406535B623B47C2A00F3F69F /* SlowResponseSpec.swift */,
 			);
 			path = Indicator;
 			sourceTree = "<group>";
@@ -312,6 +337,7 @@
 				406535A723B46C2D00F3F69F /* RetryViewController.xib in Resources */,
 				40D7887D23B367B6000E5179 /* CommonRequestSpecViewController.xib in Resources */,
 				40D7887123B36380000E5179 /* SimplestViewController.xib in Resources */,
+				406535BC23B5A3CE00F3F69F /* ListenerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				406535BB23B5A3CE00F3F69F /* ListenerViewController.swift in Sources */,
 				4065359C23B45FD400F3F69F /* Sub2RequestSpec.swift in Sources */,
 				40D7885923B359FA000E5179 /* ViewController.swift in Sources */,
 				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
@@ -338,7 +365,8 @@
 				40D7887723B366A9000E5179 /* GetJSONViewController.swift in Sources */,
 				4065359623B456AF00F3F69F /* AlertUtils.swift in Sources */,
 				4065359A23B45E5D00F3F69F /* Sub1RequestSpec.swift in Sources */,
-				406535B723B47C2A00F3F69F /* SlowResponseSpec.swift in Sources */,
+				406535BF23B5A6FE00F3F69F /* SimpleGetSpec.swift in Sources */,
+				406535B723B47C2A00F3F69F /* WaitableAPISpec.swift in Sources */,
 				40D7887323B36599000E5179 /* ExampleItem.swift in Sources */,
 				4065359823B45BF400F3F69F /* CommonRequestSpec.swift in Sources */,
 			);

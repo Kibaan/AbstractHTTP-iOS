@@ -29,7 +29,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
     }
 
     @IBAction func singleButtonAction(_ sender: Any) {
-        let spec = SlowResponseSpec()
+        let spec = WaitableAPISpec()
         clear()
         pushLine("[START] \(spec.url)")
         
@@ -43,7 +43,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
     @IBAction func errorButtonAction(_ sender: Any) {
         // APIで5秒待機するが1秒でタイムアウトさせる
-        let spec = SlowResponseSpec(waitSeconds: 5)
+        let spec = WaitableAPISpec(waitSeconds: 5)
         clear()
         pushLine("[START] \(spec.url)")
 
@@ -65,7 +65,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
     private func sequencialRequest(max: Int, count: Int = 1) {
         pushLine("[START] Request \(count)")
-        Connection(SlowResponseSpec(waitSeconds: 1))
+        Connection(WaitableAPISpec(waitSeconds: 1))
             .setOnEnd { response, model, error in
                 self.pushLine("[END  ] Request \(count)")
                 if count < max {
@@ -82,7 +82,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
         clear()
 
         pushLine("[START] Request 1")
-        Connection(SlowResponseSpec(waitSeconds: 1))
+        Connection(WaitableAPISpec(waitSeconds: 1))
             .setOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 1")
             }
@@ -90,7 +90,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
             .start()
 
         pushLine("[START] Request 2")
-        Connection(SlowResponseSpec(waitSeconds: 2))
+        Connection(WaitableAPISpec(waitSeconds: 2))
             .setOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 2")
             }
@@ -98,15 +98,13 @@ class IndicatorViewController: UIViewController, ExampleItem {
             .start()
 
         pushLine("[START] Request 3")
-        Connection(SlowResponseSpec(waitSeconds: 3))
+        Connection(WaitableAPISpec(waitSeconds: 3))
             .setOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 3")
             }
             .addListener(indicator)
             .start()
     }
-
-    // エラー
 
     private func clear() {
         textView.text = nil

@@ -10,7 +10,7 @@ import Foundation
 import AbstractHTTP
 
 /// サーバー側で指定した秒数待機するAPI
-class SlowResponseSpec: ConnectionSpec {
+class WaitableAPISpec: ConnectionSpec {
     typealias ResponseModel = String
 
     var url: String { return "https://apidemo.altonotes.co.jp/timeout-test" }
@@ -25,7 +25,7 @@ class SlowResponseSpec: ConnectionSpec {
 
     let waitSeconds: Int
 
-    init(waitSeconds: Int = 2) {
+    init(waitSeconds: Int = 1) {
         self.waitSeconds = waitSeconds
     }
 

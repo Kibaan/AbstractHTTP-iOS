@@ -8,7 +8,9 @@
 
 import UIKit
 
-class PollingViewController: UIViewController {
+class PollingViewController: UIViewController, ExampleItem {
+
+    var displayTitle: String { return "ポーリング（自動更新）" }
 
     override func viewDidLoad() {
         super.viewDidLoad()
