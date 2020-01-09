@@ -24,8 +24,8 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var responseListeners: [ConnectionResponseListener] = []
     public var errorListeners: [ConnectionErrorListener] = []
 
-    public var connector: HTTPConnector = DefaultImplementation.shared.httpConnector()
-    public var urlEncoder: URLEncoder = DefaultImplementation.shared.urlEncoder()
+    public var connector: HTTPConnector = DefaultHTTPConnector()
+    public var urlEncoder: URLEncoder = DefaultURLEncoder()
 
     /// キャンセルされたかどうか。このフラグが `true` だと通信終了してもコールバックが呼ばれない
     /// Cancel後の再通信は想定しない
@@ -309,19 +309,5 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
 
         return URL(string: urlStr)
-    }
-}
-
-// TODO この参照方法は少し汚い
-public struct DefaultImplementation {
-
-    public static var shared = DefaultImplementation()
-
-    public var urlEncoder: () -> URLEncoder = {
-        return DefaultURLEncoder()
-    }
-
-    public var httpConnector: () -> HTTPConnector = {
-        return DefaultHTTPConnector()
     }
 }
