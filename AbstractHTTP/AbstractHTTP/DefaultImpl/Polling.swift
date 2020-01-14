@@ -22,7 +22,7 @@ public class Polling: ConnectionListener {
     }
 
     public func onStart(connection: ConnectionTask, request: Request) {
-        self.connection?.cancel()
+        stop()
         self.connection = connection
     }
 
@@ -30,10 +30,12 @@ public class Polling: ConnectionListener {
         if error == nil || error?.type == ConnectionErrorType.network {
             timer = Timer.scheduledTimer(withTimeInterval: delaySeconds, repeats: false) { timer in
                 timer.invalidate()
+                self.timer = nil
                 self.callback()
             }
         } else if error?.type == ConnectionErrorType.canceled {
             timer?.invalidate()
+            timer = nil
         }
         self.connection = nil
     }
