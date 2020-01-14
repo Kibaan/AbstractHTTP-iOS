@@ -127,6 +127,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         // このインスタンスが通信完了まで開放されないよう保持する必要がある
         holder?.add(connection: self)
 
+        // TODO ログの有効無効を切り替えられるようにする
         print("[\(requestSpec.httpMethod.stringValue)] \(url)")
 
         // 通信する
