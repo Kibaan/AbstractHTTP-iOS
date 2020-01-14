@@ -52,4 +52,6 @@ public protocol ConnectionTask: class {
     ///     リスナーに通知せずこっそり再通信したい場合などに `false` を指定する。
     func restart(cloneRequest: Bool, shouldNotify: Bool)
 
+    // TODO 必ずcloneRequest、shouldNotifyを指定するのは面倒かも
+
 }

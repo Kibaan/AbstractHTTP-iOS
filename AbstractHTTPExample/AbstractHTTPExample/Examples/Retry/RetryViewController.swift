@@ -7,26 +7,40 @@
 //
 
 import UIKit
+import AbstractHTTP
 
 class RetryViewController: UIViewController, ExampleItem {
 
     var displayTitle: String { return "通信のリトライ" }
+    @IBOutlet weak var textView: UITextView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clear()
+    }
+    
+    @IBAction func executeButtonAction(_ sender: Any) {
+        clear()
 
-        // Do any additional setup after loading the view.
+        // タイムアウトさせる
+        let spec = WaitableAPISpec(waitSeconds: 3)
+        let connection = Connection(spec)
+        (connection.connector as? DefaultHTTPConnector)?.timeoutInterval = 1
+
+        let listener = ConnectionLogger(print: pushLine)
+        connection
+            .addListener(listener)
+            .addResponseListener(listener)
+            .addErrorListener(listener)
+            .addErrorListener(RetryRunner())
+            .start()
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func clear() {
+        textView.text = nil
     }
-    */
 
+    private func pushLine(_ text: String) {
+        textView.text += text + "\n"
+    }
 }

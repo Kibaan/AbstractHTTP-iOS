@@ -41,6 +41,8 @@
 		40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7887F23B36811000E5179 /* IndicatorViewController.swift */; };
 		40D7888223B36811000E5179 /* IndicatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40D7888023B36811000E5179 /* IndicatorViewController.xib */; };
 		40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7888323B44986000E5179 /* SimplestSpec.swift */; };
+		40EC910B23CD57680080C683 /* RetryRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910A23CD57680080C683 /* RetryRunner.swift */; };
+		40EC910D23CD63AE0080C683 /* ConnectionLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +95,8 @@
 		40D7887F23B36811000E5179 /* IndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		40D7888023B36811000E5179 /* IndicatorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndicatorViewController.xib; sourceTree = "<group>"; };
 		40D7888323B44986000E5179 /* SimplestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplestSpec.swift; sourceTree = "<group>"; };
+		40EC910A23CD57680080C683 /* RetryRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryRunner.swift; sourceTree = "<group>"; };
+		40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,7 @@
 			children = (
 				406535A423B46C2D00F3F69F /* RetryViewController.swift */,
 				406535A523B46C2D00F3F69F /* RetryViewController.xib */,
+				40EC910A23CD57680080C683 /* RetryRunner.swift */,
 			);
 			path = Retry;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 			children = (
 				406535B923B5A3CE00F3F69F /* ListenerViewController.swift */,
 				406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */,
+				40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */,
 			);
 			path = Listener;
 			sourceTree = "<group>";
@@ -357,9 +363,11 @@
 				40D7887023B36380000E5179 /* SimplestViewController.swift in Sources */,
 				406535AF23B46C5E00F3F69F /* MockViewController.swift in Sources */,
 				4065359F23B461A200F3F69F /* User.swift in Sources */,
+				40EC910D23CD63AE0080C683 /* ConnectionLogger.swift in Sources */,
 				40D7887C23B367B6000E5179 /* CommonRequestSpecViewController.swift in Sources */,
 				40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */,
 				406535A623B46C2D00F3F69F /* RetryViewController.swift in Sources */,
+				40EC910B23CD57680080C683 /* RetryRunner.swift in Sources */,
 				406535A123B461AE00F3F69F /* Post.swift in Sources */,
 				406535B423B46C9500F3F69F /* PollingViewController.swift in Sources */,
 				40D7887723B366A9000E5179 /* GetJSONViewController.swift in Sources */,
