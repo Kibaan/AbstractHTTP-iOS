@@ -35,7 +35,6 @@ class ListenerViewController: UIViewController, ExampleItem {
 
     // 通信タイムアウト
     @IBAction func timeoutAction(_ sender: Any) {
-        let listener = ConnectionLogger(print: pushLine)
 
         clear()
         let connection = Connection(WaitableAPISpec(waitSeconds: 3)) { response in
@@ -44,6 +43,7 @@ class ListenerViewController: UIViewController, ExampleItem {
 
         (connection.connector as? DefaultHTTPConnector)?.timeoutInterval = 1
 
+        let listener = ConnectionLogger(print: pushLine)
         connection
             .addListener(listener)
             .addResponseListener(listener)
@@ -53,12 +53,13 @@ class ListenerViewController: UIViewController, ExampleItem {
 
     // 通信キャンセル
     @IBAction func cancelAction(_ sender: Any) {
-        let listener = ConnectionLogger(print: pushLine)
 
         clear()
         let connection = Connection(WaitableAPISpec(waitSeconds: 3)) { response in
             self.pushLine("(SUCCESS callback)")
         }
+        
+        let listener = ConnectionLogger(print: pushLine)
         connection
             .addListener(listener)
             .addResponseListener(listener)

@@ -131,9 +131,9 @@
 		406535A223B46BFE00F3F69F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				406535B823B5A3B300F3F69F /* Listener */,
 				406535B123B46C8500F3F69F /* Polling */,
 				406535AC23B46C5000F3F69F /* Mock */,
+				406535B823B5A3B300F3F69F /* Listener */,
 				406535A323B46C1100F3F69F /* Retry */,
 				40D7887E23B367D1000E5179 /* Indicator */,
 				40D7887923B367A4000E5179 /* CommonRequestSpec */,
