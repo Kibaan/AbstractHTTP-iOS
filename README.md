@@ -2,7 +2,7 @@
 
 AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化したライブラリです。
 
-本ライブラリは大部分がプロトコルで構成されており、**通信の実装より設計や処理の流れを提供するものです**。
+本ライブラリは大部分がプロトコルで構成されており、**通信の実装ではなく通信処理の設計を提供するものです**。
 
 ※ 利便性のためプロトコルのデフォルト実装はいくつか含まれています
 
@@ -52,20 +52,25 @@ class SimplestSpec: ConnectionSpec {
 }
 ```
 
-通信の実行は `Connection` クラスを使って行います。  
-実装したSpecクラスと通信成功時のコールバック関数をイニシャライザに指定して、`start()` 関数を呼ぶと通信を開始します。
+### リクエストの定義
 
-```swift
-let spec = SimplestSpec()
-Connection(spec) { response in
-    print(response)
-}.start()
-```
+#### URL、HTTPメソッド
 
-### URLにクエリパラメーターをつける
+`url: String`、`httpMethod: HTTPMethod` プロパティでリクエストのURL、HTTPメソッドを決めます。
 
-URLにクエリパラメーターをつけるには `ConnectionSpec` の `urlQuery` プロパティを実装します。  
-`urlQuery` プロパティは `URLQuery` 型ですが `Dictionary` と同じ書き方で以下のように書くことができます。
+#### ヘッダー
+
+`headers: [String: String]` プロパティでリクエストヘッダーを決めます。  
+
+#### ポストデータ
+
+`func makePostData()` でポストデータを決めます。  
+ポストデータがない場合はこの関数で `nil` を返します。 
+
+#### クエリパラメーター
+
+`urlQuery: URLQuery?` プロパティでURLに付与するクエリパラメーターを決めます。  
+`URLQuery` 型は `Dictionary` と同じ書き方で以下のように書くことができます。
 
 ```swift
 var urlQuery: URLQuery? {
@@ -76,6 +81,19 @@ var urlQuery: URLQuery? {
     ]
 }
 ```
+
+### 通信の開始
+
+通信の実行は `Connection` クラスを使って行います。  
+実装したSpecクラスと通信成功時のコールバック関数をイニシャライザに指定して、`start()` 関数を呼ぶと通信を開始します。
+
+```swift
+let spec = SimplestSpec()
+Connection(spec) { response in
+    print(response)
+}.start()
+```
+
 
 ## 最小構成の通信サンプル (The simplest example)
 
@@ -130,11 +148,13 @@ TODO
 
 ## 通信実装のカスタマイズ
 
-本ライブラリには標準でURLSessionを使った通信実装 `DefaultHTTPConnector` が組み込まれていますが、`HTTPConnector` プロトコルを実装したクラスを作ることで通信処理をカスタマイズすることができます。
+本ライブラリには標準でURLSessionを使った通信実装 `DefaultHTTPConnector` が組み込まれていますが、`HTTPConnector` プロトコルを実装したクラスを作ることで通信処理を自由に実装することができます。
 
 ### 通信のモック化
 
-`HTTPConnector` プロトコルを独自実装することで、通信処理をモック化して実際には通信を行わないようにすることもできます。
+`HTTPConnector` プロトコルを独自実装することで、API処理を実際には通信を行わないモックにすることもできます。
+
+これによりユニットテストで任意のレスポンスを返却したり、リクエストパラメーターのアサーションをしたりすることができます。
 
 `Mock` ディレクトリ内に通信モックのサンプルを実装しています。
 
