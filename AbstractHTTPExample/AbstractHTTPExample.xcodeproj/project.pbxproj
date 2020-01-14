@@ -43,6 +43,8 @@
 		40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7888323B44986000E5179 /* SimplestSpec.swift */; };
 		40EC910B23CD57680080C683 /* RetryRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910A23CD57680080C683 /* RetryRunner.swift */; };
 		40EC910D23CD63AE0080C683 /* ConnectionLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */; };
+		40EC910F23CD70480080C683 /* MockHTTPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910E23CD70480080C683 /* MockHTTPConnector.swift */; };
+		40EC911123CD8F050080C683 /* FXRateListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC911023CD8F050080C683 /* FXRateListAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,6 +99,8 @@
 		40D7888323B44986000E5179 /* SimplestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplestSpec.swift; sourceTree = "<group>"; };
 		40EC910A23CD57680080C683 /* RetryRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryRunner.swift; sourceTree = "<group>"; };
 		40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLogger.swift; sourceTree = "<group>"; };
+		40EC910E23CD70480080C683 /* MockHTTPConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTPConnector.swift; sourceTree = "<group>"; };
+		40EC911023CD8F050080C683 /* FXRateListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXRateListAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,7 @@
 			children = (
 				406535AD23B46C5E00F3F69F /* MockViewController.swift */,
 				406535AE23B46C5E00F3F69F /* MockViewController.xib */,
+				40EC910E23CD70480080C683 /* MockHTTPConnector.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 			children = (
 				406535B623B47C2A00F3F69F /* WaitableAPISpec.swift */,
 				406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */,
+				40EC911023CD8F050080C683 /* FXRateListAPI.swift */,
 			);
 			path = CommonSpec;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
 				40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */,
 				40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */,
+				40EC911123CD8F050080C683 /* FXRateListAPI.swift in Sources */,
 				40D7887023B36380000E5179 /* SimplestViewController.swift in Sources */,
 				406535AF23B46C5E00F3F69F /* MockViewController.swift in Sources */,
 				4065359F23B461A200F3F69F /* User.swift in Sources */,
@@ -377,6 +384,7 @@
 				406535B723B47C2A00F3F69F /* WaitableAPISpec.swift in Sources */,
 				40D7887323B36599000E5179 /* ExampleItem.swift in Sources */,
 				4065359823B45BF400F3F69F /* CommonRequestSpec.swift in Sources */,
+				40EC910F23CD70480080C683 /* MockHTTPConnector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PollingViewController" customModule="AbstractHTTPExample" customModuleProvider="target">
             <connections>
+                <outlet property="tableView" destination="Wjv-Qj-dS2" id="XeS-lM-KEH"/>
+                <outlet property="timeLabel" destination="PCg-Rc-vxx" id="3Aj-rD-rMG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,8 +18,39 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更新日時" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnS-My-ddc">
+                    <rect key="frame" x="20" y="59" width="70" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99:99:99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCg-Rc-vxx">
+                    <rect key="frame" x="110" y="60" width="68.5" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wjv-Qj-dS2">
+                    <rect key="frame" x="0.0" y="95" width="414" height="767"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="wS6-RF-dRD"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Wjv-Qj-dS2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="SGU-Xn-QUL"/>
+                <constraint firstItem="pnS-My-ddc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="T2n-aC-Rn0"/>
+                <constraint firstItem="pnS-My-ddc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="bDd-Qb-QOt"/>
+                <constraint firstItem="PCg-Rc-vxx" firstAttribute="centerY" secondItem="pnS-My-ddc" secondAttribute="centerY" id="bYH-QJ-ldQ"/>
+                <constraint firstItem="Wjv-Qj-dS2" firstAttribute="top" secondItem="pnS-My-ddc" secondAttribute="bottom" constant="15" id="d7T-gH-TlW"/>
+                <constraint firstItem="Wjv-Qj-dS2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gPZ-jr-zZc"/>
+                <constraint firstItem="Wjv-Qj-dS2" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="hdG-a9-vmT"/>
+                <constraint firstItem="PCg-Rc-vxx" firstAttribute="leading" secondItem="pnS-My-ddc" secondAttribute="trailing" constant="20" id="yNj-CA-Sl8"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="153"/>
+            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
         </view>
     </objects>
 </document>
