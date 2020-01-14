@@ -2,9 +2,8 @@
 
 AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化したライブラリです。
 
-本ライブラリは大部分がプロトコルで構成されており、**通信の実装ではなく通信処理の設計を提供するものです**。
+本ライブラリは大部分がプロトコルで構成されており、**通信の実装ではなく通信周りの設計を提供するものです**。
 
-※ 利便性のためプロトコルのデフォルト実装はいくつか含まれています
 
 ```
 AbstractHTTP is abstract HTTP processing library.  
@@ -14,12 +13,12 @@ AbstractHTTP is abstract HTTP processing library.
 
 ## 基本の使い方 (Basic usages)
 
-まずは `ConnectionSpec`プロトコルを実装したクラス（以下Specクラス）を作ます。  
+通信を行うためには `ConnectionSpec` プロトコル（またはRequestSpecとResponseSpecプロトコル）を実装したクラス（以下Specクラス）を作る必要があります。  
 Specクラスは１つのAPIの仕様を表し、URLやパラメーターなどリクエストの詳細と、レスポンスのバリデーションとパース処理を記載します。  
 REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのがおすすめです。
 
 ```swift
-// 最小構成のシンプルなConnectionSpec実装
+// シンプルなConnectionSpec実装
 class SimplestSpec: ConnectionSpec {
     // 通信で受取るデータの型を定義する
     typealias ResponseModel = String
@@ -52,7 +51,7 @@ class SimplestSpec: ConnectionSpec {
 }
 ```
 
-### リクエストの定義
+### リクエストの仕様定義
 
 #### URL、HTTPメソッド
 
@@ -82,6 +81,32 @@ var urlQuery: URLQuery? {
 }
 ```
 
+### レスポンスの仕様定義
+
+#### データのバリデーション
+`isValidResponse(response: Response) -> Bool` 関数でデータのバリデーションを行います。ここでのバリデーションはデータパース前の簡易なチェックを想定しています。  
+典型的な例として以下のようにステータスコードのチェックを行うことができます。
+
+```swift
+func isValidResponse(response: Response) -> Bool {
+    // ステータスコード200以外はエラー扱いにする
+    return response.statusCode == 200
+}
+```
+
+特にバリデーションが不要な場合は固定で `true` を返しても問題ありません。
+
+#### パース
+
+まずは受け取るレスポンスの型を `typealias ResponseModel` で指定します。  
+次に `parseResponse(response: Response)` 関数でレスポンスデータを指定したレスポンスの型に変換して返します。  
+
+`typealias ResponseModel` の型は任意に指定することができ、`String` や 特定のJSONデータを表すクラスなどを指定することが想定されます。  
+`ResponseModel` を`Data` にしてレスポンスデータを変換せずそのまま返したり、`Void` にして何も返さないことも可能です。
+
+パースに失敗した場合、この関数で何らかのエラーを`throw`すると呼び出し元でパースエラーとして扱われます。
+ 
+
 ### 通信の開始
 
 通信の実行は `Connection` クラスを使って行います。  
@@ -94,6 +119,9 @@ Connection(spec) { response in
 }.start()
 ```
 
+### ConnectionSpecをリクエスト仕様とレスポンス仕様に分割する
+
+※ `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
 
 ## 最小構成の通信サンプル (The simplest example)
 
@@ -158,15 +186,6 @@ TODO
 
 `Mock` ディレクトリ内に通信モックのサンプルを実装しています。
 
-## 401エラーが発生したらアクセストークンをリフレッシュ
-再認証を組み込む
-
-## 404エラーを正常系として扱う
-
-データのリストを返すAPIが0件の場合に404エラーを返すことはたまにあります。
-
-## 通信のキャンセル
-画面の離脱時に実行していた通信を全てキャンセルする
 
 ## ポーリング（自動更新）
 通信が完了したら、N秒後に再度自動で通信を行う。
@@ -177,14 +196,23 @@ TODO
 
 ネットワークエラーの場合はポーリングを行っていい
 
-## APIインスタンスを保持する
+`Polling` ディレクトリ内に通信ポーリングのサンプルを実装しています。
+
+## Connectionインスタンスのライフサイクル
 
 リトライ、ポーリングなどのときも開放されないようにする
+
+## 401エラーが発生したらアクセストークンをリフレッシュ
+再認証を組み込む
+
+## 404エラーを正常系として扱う
+
+データのリストを返すAPIが0件の場合に404エラーを返すことはたまにあります。
+
+## 通信のキャンセル
+画面の離脱時に実行していた通信を全てキャンセルする
+
 
 ## URLエンコード処理のカスタマイズ
 
 本ライブラリには標準のURLエンコード実装、`DefaultURLEncoder` が組み込まれていますが、URLエンコードの方法をカスタマイズしたい場合 `URLEncoder` プロトコルを実装したカスタムクラスを作ることでカスタマイズすることができます。
-
-## ConnectionSpecをリクエスト仕様とレスポンス仕様に分割する
-
-※ `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
