@@ -284,6 +284,8 @@ open class Connection<ResponseModel>: ConnectionTask {
         errorListeners.forEach { $0.onCanceled(connection: self) }
         let error = ConnectionError(type: .canceled, nativeError: nil)
         end(response: nil, responseModel: nil, error: error)
+
+        // TODO 通信完了前にキャンセルするとホルダーからConnectionが削除されない
     }
 
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
