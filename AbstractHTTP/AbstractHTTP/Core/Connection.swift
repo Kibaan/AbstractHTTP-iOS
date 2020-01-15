@@ -292,6 +292,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         end(response: nil, responseModel: nil, error: error)
 
         // TODO 通信完了前にキャンセルするとホルダーからConnectionが削除されない
+        holder?.remove(connection: self)
     }
 
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
