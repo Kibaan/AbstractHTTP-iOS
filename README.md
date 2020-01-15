@@ -261,7 +261,7 @@ override func viewWillDisappear(_ animated: Bool) {
 }
 ```
 
-画面の離脱時に実行していた通信を全てキャンセルする
+`Cancel` ディレクトリ内にキャンセルのサンプルを実装しています。
 
 ## 404エラーを正常系として扱う
 

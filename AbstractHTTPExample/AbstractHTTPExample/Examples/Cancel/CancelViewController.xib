@@ -16,6 +16,44 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4A-Z8-itJ">
+                    <rect key="frame" x="172" y="64" width="70" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="通信開始"/>
+                    <connections>
+                        <action selector="startConnection:" destination="-1" eventType="touchUpInside" id="h09-B4-x4e"/>
+                    </connections>
+                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="56" translatesAutoresizingMaskIntoConstraints="NO" id="RCm-vI-0uf">
+                    <rect key="frame" x="5" y="127" width="404" height="33"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbv-Kg-s4s">
+                            <rect key="frame" x="0.0" y="0.0" width="174" height="33"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="一括キャンセル"/>
+                            <connections>
+                                <action selector="allCancel:" destination="-1" eventType="touchUpInside" id="SAQ-lu-yZc"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rN1-l2-aeu">
+                            <rect key="frame" x="230" y="0.0" width="174" height="33"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="直近のみキャンセル"/>
+                            <connections>
+                                <action selector="singleCancel:" destination="-1" eventType="touchUpInside" id="VgW-Ze-HwZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RCm-vI-0uf" secondAttribute="trailing" constant="5" id="6aS-yf-BrQ"/>
+                <constraint firstItem="t4A-Z8-itJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DNi-Te-Eth"/>
+                <constraint firstItem="RCm-vI-0uf" firstAttribute="top" secondItem="t4A-Z8-itJ" secondAttribute="bottom" constant="30" id="aYE-ZQ-IzA"/>
+                <constraint firstItem="RCm-vI-0uf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="5" id="j2V-N0-o1Q"/>
+                <constraint firstItem="t4A-Z8-itJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="pDR-HW-W1a"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="153"/>
         </view>
