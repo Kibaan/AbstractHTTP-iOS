@@ -106,9 +106,9 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// 通信処理を開始する
     ///
     /// - Parameters:
-    ///   - shouldNotify: 通信開始のコールバックを呼び出す場合は `true`。リスナーに通知せず再通信したい場合に `false` を指定する。
+    ///   - implicitly: 通信開始のコールバックを呼ばずに通信する場合は `true` を指定する。
     ///
-    private func connect(request: Request? = nil, shouldNotify: Bool = true) {
+    private func connect(request: Request? = nil, implicitly: Bool = false) {
         guard let url = makeURL(baseURL: requestSpec.url, query: requestSpec.urlQuery, encoder: urlEncoder) else {
             handleError(.invalidURL)
             return
@@ -120,7 +120,7 @@ open class Connection<ResponseModel>: ConnectionTask {
                                          body: requestSpec.makePostData(),
                                          headers: requestSpec.headers)
 
-        if shouldNotify {
+        if !implicitly {
             listeners.forEach {
                 $0.onStart(connection: self, request: request)
             }
@@ -276,9 +276,13 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 
     /// 通信を再実行する
-    open func restart(cloneRequest: Bool, shouldNotify: Bool) {
-        let request = cloneRequest ? latestRequest : nil
-        connect(request: request, shouldNotify: shouldNotify)
+    open func restart(implicitly: Bool) {
+        connect(implicitly: implicitly)
+    }
+
+    /// 直近のリクエストを再送信する
+    open func repeatRequest(implicitly: Bool) {
+        connect(request: latestRequest, implicitly: implicitly)
     }
 
     /// 通信をキャンセルする

@@ -46,15 +46,18 @@ public protocol ConnectionTask: class {
     ///
     func cancel()
 
-    /// 通信を再実行する
+    /// 通信を再実行する。リクエスト内容は再構築される。
     ///
     /// - Parameters:
-    ///   - cloneRequest: 直前のリクエストと全く同じリクエストをする場合は `true`。リクエスト内容を再構築する場合 `false` を指定する。
-    ///     例えばリクエストパラメーターに現在時刻を動的に含める場合、`true` では前回リクエストと同時刻になるが、 `false` では新しい時刻が設定される。
-    ///   - shouldNotify: 通信開始のコールバックを呼ぶ場合は `true`。
-    ///     リスナーに通知せずこっそり再通信したい場合などに `false` を指定する。
-    func restart(cloneRequest: Bool, shouldNotify: Bool)
+    ///   - implicitly: 通信開始のコールバックを呼ばずに再通信する場合は `true` を指定する。
+    func restart(implicitly: Bool)
 
-    // TODO 必ずcloneRequest、shouldNotifyを指定するのは面倒かも
+    /// 直近のリクエストを再送信する。
+    /// `restart` に近いふるまいになるが、リクエスト内容を再構築するか直近と全く同じリクエスト内容を使うかが異なる。
+    /// 例えばリクエストパラメーターに現在時刻を動的に含める場合、`repeatRequest` では前回リクエストと同時刻になるが `restart` では新しい時刻が設定される。
+    ///
+    /// - Parameters:
+    ///   - implicitly: 通信開始のコールバックを呼ばずに再通信する場合は `true` を指定する。
+    func repeatRequest(implicitly: Bool)
 
 }

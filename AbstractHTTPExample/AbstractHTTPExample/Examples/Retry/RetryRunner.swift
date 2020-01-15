@@ -24,7 +24,7 @@ class RetryRunner: ConnectionErrorListener {
     }
 
     func retry(_ connection: ConnectionTask) {
-        connection.restart(cloneRequest: false, shouldNotify: true)
+        connection.restart(implicitly: false)
     }
 
     func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
