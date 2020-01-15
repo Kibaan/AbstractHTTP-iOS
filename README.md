@@ -138,6 +138,30 @@ Kotlin (Java)にはそのような制約はなく、ワイルドカードでジ�
 
 (*) 厳密には変数や引数もジェネリクスにすれば可能です
 
+## 各種イベントの呼び出し順序
+
+### 全体の流れ
+
+1. ConnectionListener.onStart
+2. (ネットワークエラーの場合 -> onNetworkErrorへ)
+3. ConnectionResponseListener.onReceived (エラーの場合 -> onResponseErrorへ)
+4. ResponseSpec.isValidResponse (エラーの場合 -> onResponseErrorへ)
+5. ResponseSpec.parseResponse  (エラーの場合 -> onParseErrorへ)
+6. ConnectionResponseListener.onReceivedModel (エラーの場合 -> onValidationErrorへ)
+7. Connection.onSuccess
+8. ConnectionResponseListener.afterSuccess
+9. ConnectionListener.onEnd
+10. Connection.onEnd
+
+### エラー時の流れ
+
+ConnectionErrorListenerの対応するエラー関数（onNetworkErrorなど）が呼び出された後、以下の順番でイベントが実行されます。
+
+1. Connection.onError
+2. ConnectionErrorListener.afterError
+3. ConnectionListener.onEnd
+
+
 ## 最小構成の通信サンプル (The simplest example)
 
 最小構成の通信サンプルを `Simplest` ディレクトリ内に内に実装しています。
