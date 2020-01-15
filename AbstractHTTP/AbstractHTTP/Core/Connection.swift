@@ -132,8 +132,9 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         // 通信する
         connector.execute(request: request, complete: { [weak self] (response, error) in
-            self?.complete(response: response, error: error)
-            self?.holder?.remove(connection: self)
+            guard let sSelf = self else { return }
+            sSelf.complete(response: response, error: error)
+            sSelf.holder?.remove(connection: sSelf)
         })
 
         latestRequest = request

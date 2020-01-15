@@ -15,6 +15,13 @@ public class ConnectionHolder {
 
     public var connections: [ConnectionTask] = []
 
+    private var listeners: [ConnectionHolderListener] = []
+
+    /// 保持する通信オブジェクトの数
+    public var count: Int {
+        return connections.count
+    }
+
     /// 通信オブジェクトを追加する。
     /// 既に同じものが保持されている場合は何もしない
     ///
@@ -23,6 +30,9 @@ public class ConnectionHolder {
     public func add(connection: ConnectionTask) {
         if !contains(connection: connection) {
             connections.append(connection)
+            listeners.forEach {
+                $0.onAdded(connection: connection, count: connections.count)
+            }
         }
     }
 
@@ -30,8 +40,11 @@ public class ConnectionHolder {
     ///
     /// - Parameters:
     ///   - connection: 削除する通信オブジェクト
-    public func remove(connection: ConnectionTask?) {
+    public func remove(connection: ConnectionTask) {
         connections.removeAll { $0 === connection }
+        listeners.forEach {
+            $0.onRemoved(connection: connection, count: connections.count)
+        }
     }
 
     /// 指定した通信オブジェクトを保持しているか判定する
@@ -43,15 +56,27 @@ public class ConnectionHolder {
         return connections.contains { $0 === connection }
     }
 
-    /// 保持する全ての通信オブジェクトを削除する。
-    public func removeAll() {
-        connections.removeAll()
-    }
-
     /// 保持する全ての通信をキャンセルする
     public func cancelAll() {
         connections.forEach {
             $0.cancel()
         }
     }
+
+    /// リスナーを追加する
+    public func addListener(listener: ConnectionHolderListener) {
+        if !listeners.contains(where: { $0 === listener }) {
+            listeners.append(listener)
+        }
+    }
+
+    /// リスナーを削除する
+    public func removeListener(listener: ConnectionHolderListener) {
+        listeners.removeAll { $0 === listener }
+    }
+}
+
+public protocol ConnectionHolderListener: class {
+    func onAdded(connection: ConnectionTask, count: Int)
+    func onRemoved(connection: ConnectionTask, count: Int)
 }
