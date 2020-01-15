@@ -52,7 +52,7 @@ class ConnectionLogger: ConnectionListener, ConnectionResponseListener, Connecti
     }
 
     func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
-        print("onResponseError")
+        print("onResponseError \(response.statusCode)")
         return .proceed
     }
 

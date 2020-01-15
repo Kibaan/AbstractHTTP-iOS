@@ -47,7 +47,9 @@ class TokenRefreshViewController: UIViewController, ExampleItem {
     }
 
     private func pushLine(_ text: String) {
-        textView.text += text + "\n"
+        DispatchQueue.main.async {
+            self.textView.text += text + "\n"
+        }
     }
 }
 
@@ -75,7 +77,7 @@ class TokenRefresher: ConnectionErrorListener {
             connection.restart(implicitly: true)
         }.start()
 
-        return .stop
+        return .stopImmediately
     }
 
     func onNetworkError(connection: ConnectionTask, error: Error?) -> EventChain { return .proceed }

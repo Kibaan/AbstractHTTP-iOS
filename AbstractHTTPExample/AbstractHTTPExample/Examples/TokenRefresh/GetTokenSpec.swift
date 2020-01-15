@@ -9,7 +9,7 @@
 import Foundation
 import AbstractHTTP
 
-/// このAPIで取得したトークンは一回使うとサーバー側で無効化され、次回のアクセスでは401エラーが発生する
+/// このAPIで取得したトークンは有効期限が15秒で、期限が切れると401エラーが発生する
 class GetTokenSpec: ConnectionSpec {
     typealias ResponseModel = String
 
