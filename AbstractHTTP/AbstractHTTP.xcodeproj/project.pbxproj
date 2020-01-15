@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		406E033523CED5C10023E8C8 /* ConnectionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033423CED5C10023E8C8 /* ConnectionConfig.swift */; };
 		40D7880F23B356C5000E5179 /* AbstractHTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D7880D23B356C5000E5179 /* AbstractHTTP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40D7883123B358A1000E5179 /* DefaultHTTPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881723B358A0000E5179 /* DefaultHTTPConnector.swift */; };
 		40D7883223B358A1000E5179 /* ConnectionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881823B358A0000E5179 /* ConnectionIndicator.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		406E033423CED5C10023E8C8 /* ConnectionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionConfig.swift; sourceTree = "<group>"; };
 		40D7880A23B356C5000E5179 /* AbstractHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AbstractHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7880D23B356C5000E5179 /* AbstractHTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbstractHTTP.h; sourceTree = "<group>"; };
 		40D7880E23B356C5000E5179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				40D7882423B358A0000E5179 /* ConnectionTask.swift */,
 				40D7882523B358A0000E5179 /* URLEncoder.swift */,
 				40D7882623B358A0000E5179 /* ConnectionSpec.swift */,
+				406E033423CED5C10023E8C8 /* ConnectionConfig.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				40D7884723B358A1000E5179 /* URLQuery.swift in Sources */,
 				40D7884423B358A1000E5179 /* ConnectionError.swift in Sources */,
 				40D7883323B358A1000E5179 /* DefaultURLEncoder.swift in Sources */,
+				406E033523CED5C10023E8C8 /* ConnectionConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

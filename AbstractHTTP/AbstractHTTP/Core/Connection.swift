@@ -24,10 +24,10 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var responseListeners: [ConnectionResponseListener] = []
     public var errorListeners: [ConnectionErrorListener] = []
 
-    public var connector: HTTPConnector = DefaultHTTPConnector()
-    public var urlEncoder: URLEncoder = DefaultURLEncoder()
+    public var connector: HTTPConnector = ConnectionConfig.shared.httpConnector()
+    public var urlEncoder: URLEncoder = ConnectionConfig.shared.urlEncoder()
 
-    public var isLogEnabled = true
+    public var isLogEnabled = ConnectionConfig.shared.isLogEnabled
 
     /// キャンセルされたかどうか。このフラグが `true` だと通信終了してもコールバックが呼ばれない
     /// Cancel後の再通信は想定しない
