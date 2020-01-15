@@ -18,11 +18,7 @@ class PollingViewController: UIViewController, ExampleItem, UITableViewDataSourc
 
     var rateList: FXRateList?
 
-    lazy var polling = {
-        Polling(delaySeconds: 1.0, callback: {
-            self.request()
-        })
-    }()
+    lazy var polling = Polling(delaySeconds: 1.0, callback: request)
 
     override func viewDidLoad() {
         super.viewDidLoad()
