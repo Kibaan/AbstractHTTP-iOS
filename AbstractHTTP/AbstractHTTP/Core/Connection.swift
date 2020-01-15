@@ -135,9 +135,7 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         // 通信する
         connector.execute(request: request, complete: { [weak self] (response, error) in
-            guard let sSelf = self else { return }
-            sSelf.complete(response: response, error: error)
-            sSelf.holder?.remove(connection: sSelf)
+            self?.complete(response: response, error: error)
         })
 
         latestRequest = request
@@ -294,14 +292,12 @@ open class Connection<ResponseModel>: ConnectionTask {
         errorListeners.forEach { $0.onCanceled(connection: self) }
         let error = ConnectionError(type: .canceled, nativeError: nil)
         end(response: nil, responseModel: nil, error: error)
-
-        // TODO 通信完了前にキャンセルするとホルダーからConnectionが削除されない
-        holder?.remove(connection: self)
     }
 
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
         listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
         onEnd?(response, responseModel, error)
+        holder?.remove(connection: self)
     }
 
     open func callback(_ function: @escaping () -> Void) {
