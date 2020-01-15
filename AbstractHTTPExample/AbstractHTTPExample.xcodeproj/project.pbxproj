@@ -23,6 +23,8 @@
 		406535BB23B5A3CE00F3F69F /* ListenerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535B923B5A3CE00F3F69F /* ListenerViewController.swift */; };
 		406535BC23B5A3CE00F3F69F /* ListenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */; };
 		406535BF23B5A6FE00F3F69F /* SimpleGetSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */; };
+		406E033723CEF67F0023E8C8 /* ExampleAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033623CEF67F0023E8C8 /* ExampleAPISpec.swift */; };
+		406E033B23CEFAE60023E8C8 /* GetTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033A23CEFAE60023E8C8 /* GetTokenSpec.swift */; };
 		40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C8998423B44F9000CD9177 /* GetJSONSpec.swift */; };
 		40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885423B359FA000E5179 /* AppDelegate.swift */; };
 		40D7885923B359FA000E5179 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885823B359FA000E5179 /* ViewController.swift */; };
@@ -82,6 +84,8 @@
 		406535B923B5A3CE00F3F69F /* ListenerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerViewController.swift; sourceTree = "<group>"; };
 		406535BA23B5A3CE00F3F69F /* ListenerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListenerViewController.xib; sourceTree = "<group>"; };
 		406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGetSpec.swift; sourceTree = "<group>"; };
+		406E033623CEF67F0023E8C8 /* ExampleAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAPISpec.swift; sourceTree = "<group>"; };
+		406E033A23CEFAE60023E8C8 /* GetTokenSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTokenSpec.swift; sourceTree = "<group>"; };
 		40C8998423B44F9000CD9177 /* GetJSONSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSONSpec.swift; sourceTree = "<group>"; };
 		40D7885123B359FA000E5179 /* AbstractHTTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbstractHTTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7885423B359FA000E5179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -304,6 +308,8 @@
 			children = (
 				40EC911823CEB1FB0080C683 /* TokenRefreshViewController.swift */,
 				40EC911923CEB1FB0080C683 /* TokenRefreshViewController.xib */,
+				406E033623CEF67F0023E8C8 /* ExampleAPISpec.swift */,
+				406E033A23CEFAE60023E8C8 /* GetTokenSpec.swift */,
 			);
 			path = TokenRefresh;
 			sourceTree = "<group>";
@@ -394,6 +400,7 @@
 				4065359C23B45FD400F3F69F /* Sub2RequestSpec.swift in Sources */,
 				40D7885923B359FA000E5179 /* ViewController.swift in Sources */,
 				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
+				406E033723CEF67F0023E8C8 /* ExampleAPISpec.swift in Sources */,
 				40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */,
 				40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */,
 				40EC911523CEB1BF0080C683 /* CancelViewController.swift in Sources */,
@@ -407,6 +414,7 @@
 				40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */,
 				406535A623B46C2D00F3F69F /* RetryViewController.swift in Sources */,
 				40EC910B23CD57680080C683 /* RetryRunner.swift in Sources */,
+				406E033B23CEFAE60023E8C8 /* GetTokenSpec.swift in Sources */,
 				406535A123B461AE00F3F69F /* Post.swift in Sources */,
 				406535B423B46C9500F3F69F /* PollingViewController.swift in Sources */,
 				40D7887723B366A9000E5179 /* GetJSONViewController.swift in Sources */,

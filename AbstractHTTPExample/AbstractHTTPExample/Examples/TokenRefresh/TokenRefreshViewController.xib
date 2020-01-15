@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TokenRefreshViewController" customModule="AbstractHTTPExample" customModuleProvider="target">
             <connections>
+                <outlet property="textView" destination="T1v-yb-K5d" id="lv9-3u-ghB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,13 +18,41 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87J-eT-fe1">
-                    <rect key="frame" x="120" y="127" width="174" height="33"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87J-eT-fe1">
+                    <rect key="frame" x="155" y="54" width="104" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="TEST"/>
+                    <state key="normal" title="トークン取得"/>
+                    <connections>
+                        <action selector="getTokenAction:" destination="-1" eventType="touchUpInside" id="2XF-g6-vnt"/>
+                    </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSI-DV-zN8">
+                    <rect key="frame" x="159.5" y="117" width="95" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="API呼び出し"/>
+                    <connections>
+                        <action selector="callAPIAction:" destination="-1" eventType="touchUpInside" id="j5E-bb-urs"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="T1v-yb-K5d">
+                    <rect key="frame" x="10" y="170" width="394" height="682"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
+            <constraints>
+                <constraint firstItem="lSI-DV-zN8" firstAttribute="top" secondItem="87J-eT-fe1" secondAttribute="bottom" constant="30" id="7cU-4W-uNp"/>
+                <constraint firstItem="T1v-yb-K5d" firstAttribute="top" secondItem="lSI-DV-zN8" secondAttribute="bottom" constant="20" id="8NM-X6-MAT"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="T1v-yb-K5d" secondAttribute="bottom" constant="10" id="LqJ-sw-BPf"/>
+                <constraint firstItem="T1v-yb-K5d" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="Oxb-ht-654"/>
+                <constraint firstItem="87J-eT-fe1" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="RKL-r1-fFX"/>
+                <constraint firstItem="87J-eT-fe1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TPh-K6-mXP"/>
+                <constraint firstItem="lSI-DV-zN8" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sp6-aX-n3d"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="T1v-yb-K5d" secondAttribute="trailing" constant="10" id="vRB-We-yN0"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="153"/>
         </view>
