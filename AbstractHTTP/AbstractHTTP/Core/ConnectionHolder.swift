@@ -64,14 +64,14 @@ public class ConnectionHolder {
     }
 
     /// リスナーを追加する
-    public func addListener(listener: ConnectionHolderListener) {
+    public func addListener(_ listener: ConnectionHolderListener) {
         if !listeners.contains(where: { $0 === listener }) {
             listeners.append(listener)
         }
     }
 
     /// リスナーを削除する
-    public func removeListener(listener: ConnectionHolderListener) {
+    public func removeListener(_ listener: ConnectionHolderListener) {
         listeners.removeAll { $0 === listener }
     }
 }
