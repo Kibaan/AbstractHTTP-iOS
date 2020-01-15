@@ -45,6 +45,10 @@
 		40EC910D23CD63AE0080C683 /* ConnectionLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */; };
 		40EC910F23CD70480080C683 /* MockHTTPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC910E23CD70480080C683 /* MockHTTPConnector.swift */; };
 		40EC911123CD8F050080C683 /* FXRateListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC911023CD8F050080C683 /* FXRateListAPI.swift */; };
+		40EC911523CEB1BF0080C683 /* CancelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC911323CEB1BF0080C683 /* CancelViewController.swift */; };
+		40EC911623CEB1BF0080C683 /* CancelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC911423CEB1BF0080C683 /* CancelViewController.xib */; };
+		40EC911A23CEB1FB0080C683 /* TokenRefreshViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC911823CEB1FB0080C683 /* TokenRefreshViewController.swift */; };
+		40EC911B23CEB1FB0080C683 /* TokenRefreshViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EC911923CEB1FB0080C683 /* TokenRefreshViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +105,10 @@
 		40EC910C23CD63AE0080C683 /* ConnectionLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLogger.swift; sourceTree = "<group>"; };
 		40EC910E23CD70480080C683 /* MockHTTPConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTPConnector.swift; sourceTree = "<group>"; };
 		40EC911023CD8F050080C683 /* FXRateListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXRateListAPI.swift; sourceTree = "<group>"; };
+		40EC911323CEB1BF0080C683 /* CancelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelViewController.swift; sourceTree = "<group>"; };
+		40EC911423CEB1BF0080C683 /* CancelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CancelViewController.xib; sourceTree = "<group>"; };
+		40EC911823CEB1FB0080C683 /* TokenRefreshViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshViewController.swift; sourceTree = "<group>"; };
+		40EC911923CEB1FB0080C683 /* TokenRefreshViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TokenRefreshViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +143,8 @@
 		406535A223B46BFE00F3F69F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				40EC911723CEB1E80080C683 /* TokenRefresh */,
+				40EC911223CEB1AA0080C683 /* Cancel */,
 				406535B123B46C8500F3F69F /* Polling */,
 				406535AC23B46C5000F3F69F /* Mock */,
 				406535B823B5A3B300F3F69F /* Listener */,
@@ -280,6 +290,24 @@
 			path = Indicator;
 			sourceTree = "<group>";
 		};
+		40EC911223CEB1AA0080C683 /* Cancel */ = {
+			isa = PBXGroup;
+			children = (
+				40EC911323CEB1BF0080C683 /* CancelViewController.swift */,
+				40EC911423CEB1BF0080C683 /* CancelViewController.xib */,
+			);
+			path = Cancel;
+			sourceTree = "<group>";
+		};
+		40EC911723CEB1E80080C683 /* TokenRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				40EC911823CEB1FB0080C683 /* TokenRefreshViewController.swift */,
+				40EC911923CEB1FB0080C683 /* TokenRefreshViewController.xib */,
+			);
+			path = TokenRefresh;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -339,8 +367,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40EC911B23CEB1FB0080C683 /* TokenRefreshViewController.xib in Resources */,
 				406535B523B46C9500F3F69F /* PollingViewController.xib in Resources */,
 				40D7886123B359FC000E5179 /* LaunchScreen.storyboard in Resources */,
+				40EC911623CEB1BF0080C683 /* CancelViewController.xib in Resources */,
 				40D7887823B366A9000E5179 /* GetJSONViewController.xib in Resources */,
 				40D7885E23B359FC000E5179 /* Assets.xcassets in Resources */,
 				406535B023B46C5E00F3F69F /* MockViewController.xib in Resources */,
@@ -366,6 +396,8 @@
 				40D7888423B44986000E5179 /* SimplestSpec.swift in Sources */,
 				40D7888123B36811000E5179 /* IndicatorViewController.swift in Sources */,
 				40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */,
+				40EC911523CEB1BF0080C683 /* CancelViewController.swift in Sources */,
+				40EC911A23CEB1FB0080C683 /* TokenRefreshViewController.swift in Sources */,
 				40EC911123CD8F050080C683 /* FXRateListAPI.swift in Sources */,
 				40D7887023B36380000E5179 /* SimplestViewController.swift in Sources */,
 				406535AF23B46C5E00F3F69F /* MockViewController.swift in Sources */,
