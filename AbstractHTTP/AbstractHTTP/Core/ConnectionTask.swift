@@ -35,6 +35,9 @@ public protocol ConnectionTask: class {
     /// 直近のリクエスト内容
     var latestRequest: Request? { get }
 
+    /// ログ出力が有効か
+    var isLogEnabled: Bool { get set }
+
     /// 通信を開始する
     ///
     func start()

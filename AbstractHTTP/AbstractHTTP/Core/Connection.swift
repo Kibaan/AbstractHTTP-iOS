@@ -27,6 +27,8 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var connector: HTTPConnector = DefaultHTTPConnector()
     public var urlEncoder: URLEncoder = DefaultURLEncoder()
 
+    public var isLogEnabled = true
+
     /// キャンセルされたかどうか。このフラグが `true` だと通信終了してもコールバックが呼ばれない
     /// Cancel後の再通信は想定しない
     public private(set) var isCancelled = false
@@ -127,8 +129,9 @@ open class Connection<ResponseModel>: ConnectionTask {
         // このインスタンスが通信完了まで開放されないよう保持する必要がある
         holder?.add(connection: self)
 
-        // TODO ログの有効無効を切り替えられるようにする
-        print("[\(requestSpec.httpMethod.stringValue)] \(url)")
+        if isLogEnabled {
+            print("[\(requestSpec.httpMethod.stringValue)] \(url)")
+        }
 
         // 通信する
         connector.execute(request: request, complete: { [weak self] (response, error) in
@@ -254,8 +257,10 @@ open class Connection<ResponseModel>: ConnectionTask {
                           response: Response? = nil,
                           responseModel: ResponseModel? = nil) {
 
-        let message = error?.localizedDescription ?? ""
-        print("[ConnectionError] Type= \(type.description), NativeMessage=\(message)")
+        if isLogEnabled {
+            let message = error?.localizedDescription ?? ""
+            print("[ConnectionError] Type= \(type.description), NativeMessage=\(message)")
+        }
 
         let connectionError = ConnectionError(type: type, nativeError: error)
         onError?(connectionError, response, responseModel)
