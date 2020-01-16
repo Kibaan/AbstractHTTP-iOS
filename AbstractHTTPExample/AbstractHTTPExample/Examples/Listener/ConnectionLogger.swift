@@ -44,24 +44,20 @@ class ConnectionLogger: ConnectionListener, ConnectionResponseListener, Connecti
         print("afterSuccess")
     }
 
-    func onNetworkError(connection: ConnectionTask, error: Error?) -> EventChain {
+    func onNetworkError(connection: ConnectionTask, error: Error?) {
         print("onNetworkError")
-        return .proceed
     }
 
-    func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
+    func onResponseError(connection: ConnectionTask, response: Response) {
         print("onResponseError \(response.statusCode)")
-        return .proceed
     }
 
-    func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain {
+    func onParseError(connection: ConnectionTask, response: Response, error: Error) {
         print("onParseError")
-        return .proceed
     }
 
-    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) -> EventChain {
+    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) {
         print("onValidationError")
-        return .proceed
     }
 
     func afterError(connection: ConnectionTask, response: Response?, responseModel: Any?, error: ConnectionError) {

@@ -26,8 +26,8 @@ public protocol ConnectionTask: class {
     /// クエリパラメーターのURLエンコード処理
     var urlEncoder: URLEncoder { get }
 
-    /// キャンセルされたか
-    var isCancelled: Bool { get }
+    /// 実行ID
+    var executionId: ExecutionId? { get }
 
     /// コールバックをメインスレッドで呼び出すか
     var callbackInMainThread: Bool { get }
@@ -39,12 +39,13 @@ public protocol ConnectionTask: class {
     var isLogEnabled: Bool { get set }
 
     /// 通信を開始する
-    ///
     func start()
 
     /// 通信をキャンセルする
-    ///
     func cancel()
+
+    /// コールバックイベントを中断する
+    func interrupt()
 
     /// 通信を再実行する。リクエスト内容は再構築される。
     ///

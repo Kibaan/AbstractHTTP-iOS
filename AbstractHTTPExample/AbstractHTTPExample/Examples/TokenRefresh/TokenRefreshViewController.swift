@@ -70,9 +70,9 @@ class TokenRefresher: ConnectionErrorListener {
         self.printFunc = print
     }
     
-    func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
+    func onResponseError(connection: ConnectionTask, response: Response) {
         guard response.statusCode == 401 else {
-            return .proceed
+            return
         }
 
         printFunc("401エラー発生。トークン再取得。")
@@ -83,13 +83,17 @@ class TokenRefresher: ConnectionErrorListener {
             connection.restart(implicitly: true)
         }.start()
 
-        return .stopImmediately
+        connection.interrupt()
     }
 
-    func onNetworkError(connection: ConnectionTask, error: Error?) -> EventChain { return .proceed }
-    func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain { return .proceed }
-    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) -> EventChain { return .proceed }
+    func onNetworkError(connection: ConnectionTask, error: Error?) {}
+
+    func onParseError(connection: ConnectionTask, response: Response, error: Error) {}
+
+    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) {}
+
     func afterError(connection: ConnectionTask, response: Response?, responseModel: Any?, error: ConnectionError) {}
+
     func onCanceled(connection: ConnectionTask) {}
 }
 

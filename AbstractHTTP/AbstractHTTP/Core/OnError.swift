@@ -17,24 +17,20 @@ public class OnError<ResponseModel>: ConnectionErrorListener {
         self.onError = onError
     }
 
-    public func onNetworkError(connection: ConnectionTask, error: Error?) -> EventChain {
+    public func onNetworkError(connection: ConnectionTask, error: Error?) {
         callError(type: .network, nativeError: error)
-        return .proceed
     }
 
-    public func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
+    public func onResponseError(connection: ConnectionTask, response: Response) {
         callError(type: .invalidResponse, response: response)
-        return .proceed
     }
 
-    public func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain {
+    public func onParseError(connection: ConnectionTask, response: Response, error: Error) {
         callError(type: .parse, nativeError: error, response: response)
-        return .proceed
     }
 
-    public func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) -> EventChain {
+    public func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) {
         callError(type: .validation, response: response, responseModel: responseModel)
-        return .proceed
     }
 
     public func onCanceled(connection: ConnectionTask) {

@@ -11,7 +11,7 @@ import AbstractHTTP
 
 class RetryRunner: ConnectionErrorListener {
 
-    func onNetworkError(connection: ConnectionTask, error: Error?) -> EventChain {
+    func onNetworkError(connection: ConnectionTask, error: Error?) {
         DispatchQueue.main.async {
             AlertUtils.show(title: "通信エラー",
                             message: "通信に失敗しました。リトライしますか？",
@@ -20,28 +20,19 @@ class RetryRunner: ConnectionErrorListener {
                             cancelLabel: "キャンセル",
                             cancelHandler: nil)
         }
-        return .proceed
     }
 
     func retry(_ connection: ConnectionTask) {
         connection.restart(implicitly: false)
     }
 
-    func onResponseError(connection: ConnectionTask, response: Response) -> EventChain {
-        return .proceed
-    }
+    func onResponseError(connection: ConnectionTask, response: Response) {}
 
-    func onParseError(connection: ConnectionTask, response: Response, error: Error) -> EventChain {
-        return .proceed
-    }
+    func onParseError(connection: ConnectionTask, response: Response, error: Error) {}
 
-    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) -> EventChain {
-        return .proceed
-    }
+    func onValidationError(connection: ConnectionTask, response: Response, responseModel: Any) {}
 
-    func afterError(connection: ConnectionTask, response: Response?, responseModel: Any?, error: ConnectionError) {
-    }
+    func afterError(connection: ConnectionTask, response: Response?, responseModel: Any?, error: ConnectionError) {}
 
-    func onCanceled(connection: ConnectionTask) {
-    }
+    func onCanceled(connection: ConnectionTask) {}
 }

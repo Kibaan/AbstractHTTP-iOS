@@ -77,6 +77,22 @@ class ListenerViewController: UIViewController, ExampleItem {
         }
     }
 
+    @IBAction func interruptAction(_ sender: Any) {
+        clear()
+
+        let connection = Connection(WaitableAPISpec(waitSeconds: 1)) { response in
+            self.pushLine("(SUCCESS callback)")
+        }
+
+        let logger = ConnectionLogger(print: pushLine)
+        connection
+            .addListener(logger)
+            .addResponseListener(logger)
+            .addErrorListener(logger)
+            .addResponseListener(ResponseInterruptor())
+            .start()
+    }
+
     private func clear() {
         textView.text = nil
     }
@@ -86,4 +102,18 @@ class ListenerViewController: UIViewController, ExampleItem {
             self.textView.text += text + "\n"
         }
     }
+}
+
+class ResponseInterruptor: ConnectionResponseListener {
+
+    func onReceived(connection: ConnectionTask, response: Response) -> Bool {
+        connection.interrupt()
+        return true
+    }
+
+    func onReceivedModel(connection: ConnectionTask, responseModel: Any) -> Bool {
+        return true
+    }
+
+    func afterSuccess(connection: ConnectionTask, responseModel: Any) {}
 }

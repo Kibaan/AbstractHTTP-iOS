@@ -29,10 +29,6 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// ログ出力を有効にするか
     public var isLogEnabled = ConnectionConfig.shared.isLogEnabled
 
-    /// キャンセルされたかどうか。このフラグが `true` だと通信終了してもコールバックが呼ばれない
-    /// Cancel後の再通信は想定しない
-    public private(set) var isCancelled = false
-
     /// コールバックをメインスレッドで呼び出すか
     public var callbackInMainThread = true
 
@@ -44,6 +40,9 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     /// 実行中の通信オブジェクトを保持するコンテナ
     public weak var holder = ConnectionHolder.shared
+
+    /// 実行ID
+    public private(set) var executionId: ExecutionId?
 
     public init<T: ResponseSpec>(requestSpec: RequestSpec,
                                  responseSpec: T,
@@ -117,8 +116,11 @@ open class Connection<ResponseModel>: ConnectionTask {
     ///   - implicitly: 通信開始のコールバックを呼ばずに通信する場合は `true` を指定する。
     ///
     private func connect(request: Request? = nil, implicitly: Bool = false) {
+        let executionId = ExecutionId()
+        self.executionId = executionId
+
         guard let url = makeURL(baseURL: requestSpec.url, query: requestSpec.urlQuery, encoder: urlEncoder) else {
-            onInvalidURLError()
+            onInvalidURLError(executionId: executionId)
             return
         }
 
@@ -143,53 +145,54 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         // 通信する
         httpConnector.execute(request: request, complete: { [weak self] (response, error) in
-            self?.complete(response: response, error: error)
+            self?.complete(response: response, error: error, executionId: executionId)
         })
 
         latestRequest = request
     }
 
     /// 通信完了時の処理
-    private func complete(response: Response?, error: Error?) {
-        if isCancelled {
-            return
-        }
+    private func complete(response: Response?, error: Error?, executionId: ExecutionId) {
+        if executionId !== self.executionId { return }
 
         guard let response = response, error == nil else {
-            onNetworkError(error: error)
+            onNetworkError(error: error, executionId: executionId)
             return
         }
 
-        var listenerValidationResult = true
-        responseListeners.forEach {
-            listenerValidationResult = listenerValidationResult && $0.onReceived(connection: self, response: response)
+        var listenerResult = true
+        for i in responseListeners.indices {
+            listenerResult = listenerResult && responseListeners[i].onReceived(connection: self, response: response)
+            if executionId !== self.executionId { return }
         }
 
-        guard listenerValidationResult && isValidResponse(response) else {
-            onResponseError(response: response)
+        guard listenerResult && isValidResponse(response) else {
+            onResponseError(response: response, executionId: executionId)
             return
         }
 
-        handleResponse(response: response)
+        handleResponse(response: response, executionId: executionId)
     }
 
-    open func handleResponse(response: Response) {
+    open func handleResponse(response: Response, executionId: ExecutionId) {
 
         let responseModel: ResponseModel
 
         do {
             responseModel = try parseResponse(response)
         } catch {
-            onParseError(response: response, error: error)
+            onParseError(response: response, error: error, executionId: executionId)
             return
         }
 
-        var listenerValidationResult = true
-        responseListeners.forEach {
-            listenerValidationResult = listenerValidationResult && $0.onReceivedModel(connection: self, responseModel: responseModel)
+        var listenerResult = true
+        for i in responseListeners.indices {
+            listenerResult = listenerResult && responseListeners[i].onReceivedModel(connection: self, responseModel: responseModel)
+            if executionId !== self.executionId { return }
         }
-        if !listenerValidationResult {
-            onValidationError(response: response, responseModel: responseModel)
+
+        if !listenerResult {
+            onValidationError(response: response, responseModel: responseModel, executionId: executionId)
             return
         }
 
@@ -202,33 +205,39 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
     }
 
-    func onInvalidURLError() {
-        handleError(.invalidURL) {
+    func onInvalidURLError(executionId: ExecutionId) {
+        handleError(.invalidURL, executionId: executionId) {
             return $0.onNetworkError(connection: self, error: nil)
         }
     }
 
-    func onNetworkError(error: Error?) {
-        handleError(.network, error: error) {
+    func onNetworkError(error: Error?, executionId: ExecutionId) {
+        handleError(.network, error: error, executionId: executionId) {
             return $0.onNetworkError(connection: self, error: error)
         }
     }
 
-    func onResponseError(response: Response) {
-        handleError(.invalidResponse, response: response) {
+    func onResponseError(response: Response, executionId: ExecutionId) {
+        handleError(.invalidResponse, response: response, executionId: executionId) {
             return $0.onResponseError(connection: self, response: response)
         }
     }
 
-    func onParseError(response: Response, error: Error) {
-        handleError(.parse, error: error, response: response) {
+    func onParseError(response: Response, error: Error, executionId: ExecutionId) {
+        handleError(.parse, error: error, response: response, executionId: executionId) {
             return $0.onParseError(connection: self, response: response, error: error)
         }
     }
 
-    func onValidationError(response: Response, responseModel: ResponseModel) {
-        handleError(.validation, response: response, responseModel: responseModel) {
+    func onValidationError(response: Response, responseModel: ResponseModel, executionId: ExecutionId) {
+        handleError(.validation, response: response, responseModel: responseModel, executionId: executionId) {
             return $0.onValidationError(connection: self, response: response, responseModel: responseModel)
+        }
+    }
+
+    func onCancel(executionId: ExecutionId) {
+        handleError(.canceled, executionId: executionId) {
+            return $0.onCanceled(connection: self)
         }
     }
 
@@ -237,7 +246,8 @@ open class Connection<ResponseModel>: ConnectionTask {
                              error: Error? = nil,
                              response: Response? = nil,
                              responseModel: ResponseModel? = nil,
-                             callListener: @escaping (ConnectionErrorListener) -> EventChain) {
+                             executionId: ExecutionId,
+                             callListener: @escaping (ConnectionErrorListener) -> Void) {
         // エラーログ出力
         if isLogEnabled {
             let message = error?.localizedDescription ?? ""
@@ -245,7 +255,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
 
         callback {
-            self.errorProcess(type, error, response, responseModel, callListener)
+            self.errorProcess(type, error, response, responseModel, executionId, callListener)
         }
     }
 
@@ -253,32 +263,13 @@ open class Connection<ResponseModel>: ConnectionTask {
                               _ error: Error? = nil,
                               _ response: Response? = nil,
                               _ responseModel: ResponseModel? = nil,
-                              _ callListener: (ConnectionErrorListener) -> EventChain) {
-
-        var stopNext = false
+                              _ executionId: ExecutionId,
+                              _ callListener: (ConnectionErrorListener) -> Void) {
 
         for i in errorListeners.indices {
-            let result = callListener(errorListeners[i])
-            if result == .stopImmediately {
-                return
-            }
-            if result == .stop {
-                stopNext = true
-            }
+            callListener(errorListeners[i])
+            if executionId !== self.executionId { return }
         }
-
-        if stopNext {
-            return
-        }
-
-        afterError(type, error: error, response: response, responseModel: responseModel)
-    }
-
-    /// エラー後の処理
-    private func afterError(_ type: ConnectionErrorType,
-                            error: Error? = nil,
-                            response: Response? = nil,
-                            responseModel: ResponseModel? = nil) {
 
         let connectionError = ConnectionError(type: type, nativeError: error)
         errorListeners.forEach {
@@ -292,8 +283,9 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
-        listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
         holder?.remove(connection: self)
+        executionId = nil
+        listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
     }
 
     /// 通信を再実行する
@@ -308,14 +300,19 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     /// 通信をキャンセルする
     open func cancel() {
-        // TODO 既に通信コールバックが走っている場合何もしない。
-        // 通信コールバック内でキャンセルした場合に、onEndが二重で呼ばれないようにする必要がある
-        isCancelled = true
-        httpConnector.cancel()
+        // 既に実行完了している場合何もしない
+        guard let executionId = executionId else {
+            return
+        }
 
-        errorListeners.forEach { $0.onCanceled(connection: self) }
-        let error = ConnectionError(type: .canceled, nativeError: nil)
-        end(response: nil, responseModel: nil, error: error)
+        onCancel(executionId: executionId)
+        httpConnector.cancel()
+    }
+
+    /// コールバック処理の実行を中断する
+    open func interrupt() {
+        executionId = nil
+        holder?.remove(connection: self)
     }
 
     open func callback(_ function: @escaping () -> Void) {
@@ -339,3 +336,5 @@ open class Connection<ResponseModel>: ConnectionTask {
         return URL(string: urlStr)
     }
 }
+
+public class ExecutionId {}
