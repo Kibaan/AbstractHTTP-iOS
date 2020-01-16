@@ -88,7 +88,11 @@ open class Connection<ResponseModel>: ConnectionTask {
         return self
     }
 
+    /// 終了処理を追加する。
+    /// 終了処理は `ConnectionListener` として登録され、このプロトコルを経由して引数の`onEnd`が実行される
     ///
+    /// - Parameters:
+    ///   - onEnd: 終了処理
     @discardableResult
     public func addOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
         addListener(OnEnd(onEnd))
