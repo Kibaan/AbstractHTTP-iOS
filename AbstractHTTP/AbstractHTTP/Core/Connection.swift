@@ -106,7 +106,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         holder?.remove(connection: self)
     }
 
-    /// 中断を終える
+    /// `interrupt()`による中断を終了する
     /// キャンセル扱いになり、キャンセル時と同じコールバックが呼ばれる
     open func breakInterruption() {
         guard executionId = nil, let interruptedId = interruptedId else {
