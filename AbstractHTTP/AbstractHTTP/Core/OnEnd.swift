@@ -20,6 +20,6 @@ public class OnEnd: ConnectionListener {
     public func onStart(connection: ConnectionTask, request: Request) {}
 
     public func onEnd(connection: ConnectionTask, response: Response?, responseModel: Any?, error: ConnectionError?) {
-        self.onEndFunc(response, responseModel, error)
+        onEndFunc(response, responseModel, error)
     }
 }
