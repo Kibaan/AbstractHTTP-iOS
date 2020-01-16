@@ -34,7 +34,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
         pushLine("[START] \(spec.url)")
         
         Connection(spec)
-            .setOnEnd { response, model, error in
+            .addOnEnd { response, model, error in
                 self.pushLine("[END  ] \(spec.url)")
             }
             .addListener(indicator)
@@ -50,7 +50,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
         let connection = Connection(spec)
         (connection.httpConnector as? DefaultHTTPConnector)?.timeoutInterval = 1
 
-        connection.setOnEnd { response, model, error in
+        connection.addOnEnd { response, model, error in
             self.pushLine("[END  ] \(spec.url)")
         }
         .addListener(indicator)
@@ -66,7 +66,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
     private func sequencialRequest(max: Int, count: Int = 1) {
         pushLine("[START] Request \(count)")
         Connection(WaitableAPISpec(waitSeconds: 1))
-            .setOnEnd { response, model, error in
+            .addOnEnd { response, model, error in
                 self.pushLine("[END  ] Request \(count)")
                 if count < max {
                     self.sequencialRequest(max: max, count: count + 1)
@@ -83,7 +83,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
         pushLine("[START] Request 1")
         Connection(WaitableAPISpec(waitSeconds: 1))
-            .setOnEnd { response, model, error in
+            .addOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 1")
             }
             .addListener(indicator)
@@ -91,7 +91,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
         pushLine("[START] Request 2")
         Connection(WaitableAPISpec(waitSeconds: 2))
-            .setOnEnd { response, model, error in
+            .addOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 2")
             }
             .addListener(indicator)
@@ -99,7 +99,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
 
         pushLine("[START] Request 3")
         Connection(WaitableAPISpec(waitSeconds: 3))
-            .setOnEnd { response, model, error in
+            .addOnEnd { response, model, error in
                 self.pushLine("[END  ] Request 3")
             }
             .addListener(indicator)

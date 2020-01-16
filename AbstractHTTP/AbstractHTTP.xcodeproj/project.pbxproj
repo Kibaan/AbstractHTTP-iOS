@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		406E033523CED5C10023E8C8 /* ConnectionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033423CED5C10023E8C8 /* ConnectionConfig.swift */; };
 		406E033F23D003770023E8C8 /* OnError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033E23D003770023E8C8 /* OnError.swift */; };
+		406E034123D00C010023E8C8 /* OnEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E034023D00C010023E8C8 /* OnEnd.swift */; };
 		40D7880F23B356C5000E5179 /* AbstractHTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D7880D23B356C5000E5179 /* AbstractHTTP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40D7883123B358A1000E5179 /* DefaultHTTPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881723B358A0000E5179 /* DefaultHTTPConnector.swift */; };
 		40D7883223B358A1000E5179 /* ConnectionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881823B358A0000E5179 /* ConnectionIndicator.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		406E033423CED5C10023E8C8 /* ConnectionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionConfig.swift; sourceTree = "<group>"; };
 		406E033E23D003770023E8C8 /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
+		406E034023D00C010023E8C8 /* OnEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnEnd.swift; sourceTree = "<group>"; };
 		40D7880A23B356C5000E5179 /* AbstractHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AbstractHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7880D23B356C5000E5179 /* AbstractHTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbstractHTTP.h; sourceTree = "<group>"; };
 		40D7880E23B356C5000E5179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				40D7882623B358A0000E5179 /* ConnectionSpec.swift */,
 				406E033423CED5C10023E8C8 /* ConnectionConfig.swift */,
 				406E033E23D003770023E8C8 /* OnError.swift */,
+				406E034023D00C010023E8C8 /* OnEnd.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				40D7883B23B358A1000E5179 /* ConnectionResponseListener.swift in Sources */,
 				40D7883823B358A1000E5179 /* ConnectionErrorListener.swift in Sources */,
 				40D7884323B358A1000E5179 /* KeyValue.swift in Sources */,
+				406E034123D00C010023E8C8 /* OnEnd.swift in Sources */,
 				40D7883723B358A1000E5179 /* ConnectionHolder.swift in Sources */,
 				40D7883923B358A1000E5179 /* ResponseSpec.swift in Sources */,
 				40D7883123B358A1000E5179 /* DefaultHTTPConnector.swift in Sources */,

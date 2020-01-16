@@ -35,11 +35,8 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// コールバックをメインスレッドで呼び出すか
     public var callbackInMainThread = true
 
+    /// 通信成功時のコールバック
     var onSuccess: ((ResponseModel) -> Void)?
-
-    /// 終了コールバック
-    /// (response: Response?, responseModel: Any?, error: ConnectionError?) -> Void
-    var onEnd: ((Response?, Any?, ConnectionError?) -> Void)?
 
     public private(set) var latestRequest: Request?
 
@@ -93,8 +90,8 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     ///
     @discardableResult
-    public func setOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
-        self.onEnd = onEnd
+    public func addOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
+        addListener(OnEnd(onEnd))
         return self
     }
 
@@ -289,7 +286,6 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
         listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
-        onEnd?(response, responseModel, error)
         holder?.remove(connection: self)
     }
 

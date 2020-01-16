@@ -13,7 +13,7 @@ public class OnError<ResponseModel>: ConnectionErrorListener {
 
     let onError: (ConnectionError, Response?, ResponseModel?) -> Void
 
-    init(_ onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) {
+    public init(_ onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) {
         self.onError = onError
     }
 
