@@ -82,10 +82,6 @@ open class Connection<ResponseModel>: ConnectionTask {
         return self
     }
 
-    public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
-    public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
-    public func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
-
     @discardableResult
     public func setOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
         self.onError = onError
@@ -97,6 +93,10 @@ open class Connection<ResponseModel>: ConnectionTask {
         self.onEnd = onEnd
         return self
     }
+
+    public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
+    public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
+    public func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
 
     /// 処理を開始する
     public func start() {
