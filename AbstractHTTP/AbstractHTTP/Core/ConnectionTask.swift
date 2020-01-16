@@ -14,11 +14,11 @@ public protocol ConnectionTask: class {
     var requestSpec: RequestSpec { get }
 
     /// 通信開始、終了のリスナー
-    var listeners: [ConnectionListener] { get }
+    var listeners: [ConnectionListener] { get set }
     /// 通信レスポンスのリスナー
-    var responseListeners: [ConnectionResponseListener] { get }
+    var responseListeners: [ConnectionResponseListener] { get set }
     /// 通信エラー、キャンセルのリスナー
-    var errorListeners: [ConnectionErrorListener] { get }
+    var errorListeners: [ConnectionErrorListener] { get set }
 
     /// HTTP通信の実行処理
     var httpConnector: HTTPConnector { get }
@@ -30,7 +30,7 @@ public protocol ConnectionTask: class {
     var executionId: ExecutionId? { get }
 
     /// コールバックをメインスレッドで呼び出すか
-    var callbackInMainThread: Bool { get }
+    var callbackInMainThread: Bool { get set }
 
     /// 直近のリクエスト内容
     var latestRequest: Request? { get }

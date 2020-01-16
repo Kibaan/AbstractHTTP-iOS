@@ -15,15 +15,28 @@ import Foundation
 ///
 open class Connection<ResponseModel>: ConnectionTask {
 
+    /// HTTPリクエストの仕様
     public let requestSpec: RequestSpec
-    public let parseResponse: (Response) throws -> ResponseModel
+
+    /// レスポンスデータの正当性を検証する
     public let isValidResponse: (Response) -> Bool
 
+    /// 通信レスポンスをデータモデルに変換する
+    public let parseResponse: (Response) throws -> ResponseModel
+
+    /// 通信開始と終了のリスナー
     public var listeners: [ConnectionListener] = []
+
+    /// 通信レスポンス処理のリスナー
     public var responseListeners: [ConnectionResponseListener] = []
+
+    /// エラーのリスナー
     public var errorListeners: [ConnectionErrorListener] = []
 
+    /// HTTP通信処理
     public var httpConnector: HTTPConnector = ConnectionConfig.shared.httpConnector()
+
+    /// URLエンコード処理
     public var urlEncoder: URLEncoder = ConnectionConfig.shared.urlEncoder()
 
     /// ログ出力を有効にするか
@@ -92,7 +105,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         executionId = nil
         holder?.remove(connection: self)
     }
-    
+
     /// 通信処理を開始する
     ///
     /// - Parameters:
@@ -242,7 +255,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
     }
 
-    /// エラー処理をする
+    /// エラー処理の実行
     private func errorProcess(_ type: ConnectionErrorType,
                               _ error: Error? = nil,
                               _ response: Response? = nil,
