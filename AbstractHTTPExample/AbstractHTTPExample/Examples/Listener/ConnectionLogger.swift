@@ -19,9 +19,7 @@ class ConnectionLogger: ConnectionListener, ConnectionResponseListener, Connecti
     }
 
     private func print(_ text: String) {
-        DispatchQueue.main.async {
-            self.printFunc(text)
-        }
+        self.printFunc(text)
     }
 
     func onStart(connection: ConnectionTask, request: Request) {

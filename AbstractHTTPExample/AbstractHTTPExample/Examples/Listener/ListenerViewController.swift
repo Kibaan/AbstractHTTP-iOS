@@ -47,7 +47,13 @@ class ListenerViewController: UIViewController, ExampleItem {
         connection
             .addListener(listener)
             .addResponseListener(listener)
+            .addOnError {_, _, _ in
+                self.pushLine("OnError before error listener")
+            }
             .addErrorListener(listener)
+            .addOnError {_, _, _ in
+                self.pushLine("OnError after error listener")
+            }
             .start()
     }
 
@@ -76,6 +82,8 @@ class ListenerViewController: UIViewController, ExampleItem {
     }
 
     private func pushLine(_ text: String) {
-        textView.text += text + "\n"
+        DispatchQueue.main.async {
+            self.textView.text += text + "\n"
+        }
     }
 }

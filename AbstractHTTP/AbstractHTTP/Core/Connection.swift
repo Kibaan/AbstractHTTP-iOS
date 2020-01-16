@@ -13,7 +13,6 @@ import Foundation
 ///
 /// The lifecycle of a HTTP connection.
 ///
-///
 open class Connection<ResponseModel>: ConnectionTask {
 
     public let requestSpec: RequestSpec
@@ -37,7 +36,6 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var callbackInMainThread = true
 
     var onSuccess: ((ResponseModel) -> Void)?
-    var onError: ((ConnectionError, Response?, ResponseModel?) -> Void)?
 
     /// 終了コールバック
     /// (response: Response?, responseModel: Any?, error: ConnectionError?) -> Void
@@ -82,12 +80,18 @@ open class Connection<ResponseModel>: ConnectionTask {
         return self
     }
 
+    /// エラー処理を追加する。
+    /// エラー処理は `ConnectionErrorListener` として登録され、このプロトコルを経由して引数の`onError`が実行される
+    ///
+    /// - Parameters:
+    ///   - onError: エラー処理
     @discardableResult
-    public func setOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
-        self.onError = onError
+    public func addOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
+        addErrorListener(OnError(onError))
         return self
     }
 
+    ///
     @discardableResult
     public func setOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
         self.onEnd = onEnd
@@ -110,7 +114,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     ///
     private func connect(request: Request? = nil, implicitly: Bool = false) {
         guard let url = makeURL(baseURL: requestSpec.url, query: requestSpec.urlQuery, encoder: urlEncoder) else {
-            handleError(.invalidURL)
+            afterError(.invalidURL)
             return
         }
 
@@ -195,39 +199,52 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 
     func onNetworkError(error: Error?) {
-        controlError(callListener: {
+        handleError(.network, error: error) {
             return $0.onNetworkError(connection: self, error: error)
-        }, callError: {
-            self.handleError(.network, error: error)
-        })
+        }
     }
 
     func onResponseError(response: Response) {
-        controlError(callListener: {
+        handleError(.invalidResponse, response: response) {
             return $0.onResponseError(connection: self, response: response)
-        }, callError: {
-            self.handleError(.invalidResponse, response: response)
-        })
+        }
     }
 
     func onParseError(response: Response, error: Error) {
-        controlError(callListener: {
+        handleError(.parse, error: error, response: response) {
             return $0.onParseError(connection: self, response: response, error: error)
-        }, callError: {
-            self.handleError(.parse, error: error, response: response)
-        })
+        }
     }
 
     func onValidationError(response: Response, responseModel: ResponseModel) {
-        controlError(callListener: {
+        handleError(.validation, response: response, responseModel: responseModel) {
             return $0.onValidationError(connection: self, response: response, responseModel: responseModel)
-        }, callError: {
-            self.handleError(.validation, response: response, responseModel: responseModel)
-        })
+        }
     }
 
     /// エラーを処理する
-    private func controlError(callListener: (ConnectionErrorListener) -> EventChain, callError: @escaping () -> Void) {
+    private func handleError(_ type: ConnectionErrorType,
+                             error: Error? = nil,
+                             response: Response? = nil,
+                             responseModel: ResponseModel? = nil,
+                             callListener: @escaping (ConnectionErrorListener) -> EventChain) {
+        // エラーログ出力
+        if isLogEnabled {
+            let message = error?.localizedDescription ?? ""
+            print("[ConnectionError] Type= \(type.description), NativeMessage=\(message)")
+        }
+
+        callback {
+            self.errorProcess(type, error, response, responseModel, callListener)
+        }
+    }
+
+    private func errorProcess(_ type: ConnectionErrorType,
+                              _ error: Error? = nil,
+                              _ response: Response? = nil,
+                              _ responseModel: ResponseModel? = nil,
+                              _ callListener: (ConnectionErrorListener) -> EventChain) {
+
         var stopNext = false
 
         for i in errorListeners.indices {
@@ -244,25 +261,16 @@ open class Connection<ResponseModel>: ConnectionTask {
             return
         }
 
-        callback {
-            callError()
-        }
+        afterError(type, error: error, response: response, responseModel: responseModel)
     }
 
-    /// エラーを処理する
-    open func handleError(_ type: ConnectionErrorType,
-                          error: Error? = nil,
-                          response: Response? = nil,
-                          responseModel: ResponseModel? = nil) {
-
-        if isLogEnabled {
-            let message = error?.localizedDescription ?? ""
-            print("[ConnectionError] Type= \(type.description), NativeMessage=\(message)")
-        }
+    /// エラー後の処理
+    private func afterError(_ type: ConnectionErrorType,
+                            error: Error? = nil,
+                            response: Response? = nil,
+                            responseModel: ResponseModel? = nil) {
 
         let connectionError = ConnectionError(type: type, nativeError: error)
-        onError?(connectionError, response, responseModel)
-
         errorListeners.forEach {
             $0.afterError(connection: self,
                           response: response,
@@ -271,6 +279,12 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
 
         end(response: response, responseModel: responseModel, error: connectionError)
+    }
+
+    private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
+        listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
+        onEnd?(response, responseModel, error)
+        holder?.remove(connection: self)
     }
 
     /// 通信を再実行する
@@ -292,12 +306,6 @@ open class Connection<ResponseModel>: ConnectionTask {
         errorListeners.forEach { $0.onCanceled(connection: self) }
         let error = ConnectionError(type: .canceled, nativeError: nil)
         end(response: nil, responseModel: nil, error: error)
-    }
-
-    private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
-        listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
-        onEnd?(response, responseModel, error)
-        holder?.remove(connection: self)
     }
 
     open func callback(_ function: @escaping () -> Void) {
