@@ -61,6 +61,8 @@ class TokenRefreshViewController: UIViewController, ExampleItem {
 
 /// 401エラーが発生したらトークンを取得して自動リトライする
 class TokenRefresher: ConnectionErrorListener {
+    // 無限ループ防止のためのカウンター
+    var errorCount = 0
 
     let tokenContainer: TokenContainer
     let printFunc: (String) -> Void
@@ -71,19 +73,23 @@ class TokenRefresher: ConnectionErrorListener {
     }
     
     func onResponseError(connection: ConnectionTask, response: Response) {
-        guard response.statusCode == 401 else {
+        guard response.statusCode == 401, errorCount < 3 else {
             return
         }
 
+        errorCount += 1
+
         printFunc("401エラー発生。トークン再取得。")
+        
+        connection.interrupt()
 
         Connection(GetTokenSpec()) { token in
             self.printFunc("トークン取得完了。再通信。")
             self.tokenContainer.token = token
             connection.restart(implicitly: true)
+        }.addOnError {_, _, _ in
+            // TODO interruptしているので、何もしないとonEndなどが呼ばれない
         }.start()
-
-        connection.interrupt()
     }
 
     func onNetworkError(connection: ConnectionTask, error: Error?) {}
