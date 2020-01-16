@@ -121,7 +121,7 @@ Connection(spec) { response in
 
 ### ConnectionSpecをリクエスト仕様とレスポンス仕様に分割する
 
-※ `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
+`ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
 
 ## ConnectionTask (iOS only)
 
@@ -160,7 +160,67 @@ ConnectionErrorListenerの対応するエラー関数（onNetworkErrorなど）�
 1. Connection.onError
 2. ConnectionErrorListener.afterError
 3. ConnectionListener.onEnd
+4. Connection.onEnd
 
+## 通信処理のカスタマイズ
+
+本ライブラリには標準でURLSessionを使った通信実装 `DefaultHTTPConnector` が組み込まれていますが、`HTTPConnector` プロトコルを実装したクラスを作ることで通信処理を自由に実装することができます。
+
+### 標準実装のカスタマイズ
+
+標準の通信実装 `DefaultHTTPConnector` に設定できる項目は以下の2点だけです。
+
+- timeoutInterval (タイムアウト秒数)
+- isRedirectEnabled (自動でリダイレクトを行うか)
+
+設定を変更する１つの方法は、以下のように`Connection.httpConnector` を `DefaultHTTPConnector` にキャストして直接プロパティを書き換えることです。
+
+```swift
+let connection = Connection(ExampleAPISpec()) 
+// 通信タイムアウトの時間を60秒に変更する
+(connection.httpConnector as? DefaultHTTPConnector)?.timeoutInterval = 60
+```
+また、全てのConnectionの通信設定をまとめて変更したい場合は、以下のように `ConnectionConfig.shared.httpConnector` を書き換えます。
+
+```swift
+ConnectionConfig.shared.httpConnector = {
+    let connector = DefaultHTTPConnector()
+    connector.timeoutInterval = 60
+    return connector
+}
+```
+
+### 通信処理の独自実装
+
+上記以上通信処理のカスタマイズを行いたい場合は `HTTPConnector` プロトコルを独自実装し、以下のように`ConnectionConfig.shared.httpConnector` により標準のhttpConnectorに設定してください。
+
+```swift
+ConnectionConfig.shared.httpConnector = {
+    return YourOriginalHTTPConnector()
+}
+```
+
+### 通信のモック化
+
+`HTTPConnector` プロトコルを独自実装することで、API処理を実際には通信を行わないモックにすることもできます。  
+これによりユニットテストで任意のレスポンスを返却したり、リクエストパラメーターのアサーションをしたりすることができます。
+
+`Mock` ディレクトリ内に通信モックのサンプルを実装しています。
+
+## 通信設定の一括変更
+
+`ConnectionConfig.shared`のプロパティを書き換えることにより、全ての`Connection`の以下のプロパティをまとめて変更することができます。
+
+- httpConnector HTTP通信処理
+- urlEncoder URLエンコード処理
+- isLogEnabled ログ出力を行うか
+
+```swift
+// 全てのConnectonのログ出力を無効化する
+ConnectionConfig.shared.isLogEnabled = false
+```
+
+ただし、`ConnectionConfig.shared` が決定するのはプロパティの初期値なので、`Connection` インスタンス作成後に個別にさらに別の値に書き換えることは可能です。
 
 ## 最小構成の通信サンプル (The simplest example)
 
@@ -220,25 +280,13 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 
 ## リトライ
 
-`ConnectionTask.restart(cloneRequest:, shouldNotify: )` 関数により通信をリトライすることができます。
+`Connection.restart(implicitly:)` または `Connection.repeatRequest(implicitly:)`関数により通信をリトライすることができます。
 
-リトライは `cloneRequest` 引数により、直前のリクエストのコピーを送信するか、もう一度リクエストを作り直すかを選べます。
+`restart`と`repeatRequest`の違いは、リクエストを作り直すか直前のリクエストのコピーを送信するかです。
 
-例えばリクエストパラメーターに現在時刻を含める場合、`cloneRequest = true` ではリトライ時のリクエストパラメーターに前回と同じ時刻が含まれますが、`cloneRequest = false` の場合はリトライ時の現在時刻に変わります。
+例えばリクエストパラメーターに動的に現在時刻を含める場合、`restart ` ではリトライ時の時刻がパラメーターに含まれますが、`repeatRequest`では前回送信したリクエストと同じ時刻になります。
 
 `Retry` ディレクトリ内にリトライのサンプルを実装しています。
-
-## 通信実装のカスタマイズ（モック化）
-
-本ライブラリには標準でURLSessionを使った通信実装 `DefaultHTTPConnector` が組み込まれていますが、`HTTPConnector` プロトコルを実装したクラスを作ることで通信処理を自由に実装することができます。
-
-### 通信のモック化
-
-`HTTPConnector` プロトコルを独自実装することで、API処理を実際には通信を行わないモックにすることもできます。  
-これによりユニットテストで任意のレスポンスを返却したり、リクエストパラメーターのアサーションをしたりすることができます。
-
-`Mock` ディレクトリ内に通信モックのサンプルを実装しています。
-
 
 ## ポーリング（自動更新）
 
@@ -309,12 +357,27 @@ func parseResponse(response: Response) throws -> ResponseModel {
 
 今まで説明した機能の組み合わせで、通信で401エラーが発生したらアクセストークンのリフレッシュを行い、トークンリフレッシュに成功したら、同じ通信をリトライする機能を実装できます。
 
-まず、HTTPステータスコード401のハンドリング方法はいくつかあります。
+まず、HTTPステータスコード401のハンドリングは以下の2箇所のどちらかで行なえます。
 
-`ConnectionResponseListener.onReceived`
-`ResponseSpec.isValidResponse`
+- `ConnectionResponseListener.onReceived`
+- `ConnectionErrorListener.onResponseError`
 
-**TODO** 
+`ConnectionErrorListener.onResponseError`で401エラーのハンドリングを行う場合は、まず401ステータスをレスポンスエラー扱いにする必要があり、`ConnectionResponseListener.onReceived`または`ResponseSpec.isValidResponse`でHTTPステータスが401の場合に `false` を返すようにします。
+
+```swift
+func isValidResponse(response: Response) -> Bool {
+    // ステータスコード401はエラーにする
+    return response.statusCode != 401
+}
+```
+
+次に`onReceived`または`onResponseError`ではステータスコードが401の場合にトークンのリフレッシュ処理を行い、リフレッシュが完了したら引数で渡された`connection`を`restart`により再通信させます。
+
+このときrestartの引数を`implicitly: true` にすることで、再通信時はConnectionListenerの `onStart` が呼ばれないようにすることができます。
+
+また、再通信を行うと、401エラーが発生した最初の通信と再通信で2回 `onEnd` が呼ばれてしまいますが、これを回避するには`onReceived`または`onResponseError`で `EventChain.stop`か`.stopImmediately`を返します。
+
+`.stop` などを返すことで、一度目の通信は`onReceived`または`onResponseError`まででイベントが中断するようになります。
 
 `TokenRefresh` ディレクトリ内にトークンリフレッシュのサンプルを実装しています。
 
