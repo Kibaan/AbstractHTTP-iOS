@@ -10,7 +10,7 @@ import Foundation
 
 /// 通信のコンフィグ
 /// `Connection` オブジェクトの各種初期値を決める
-class ConnectionConfig {
+public class ConnectionConfig {
 
     /// 共有オブジェクト
     public static var shared = ConnectionConfig()
@@ -19,12 +19,12 @@ class ConnectionConfig {
     public var isLogEnabled = true
 
     /// 標準のHTTPConnector
-    public func httpConnector() -> HTTPConnector {
+    public var httpConnector: () -> HTTPConnector = {
         return DefaultHTTPConnector()
     }
 
     /// 標準のURLEncoder
-    public func urlEncoder() -> URLEncoder {
+    public var urlEncoder: () -> URLEncoder = {
         return DefaultURLEncoder()
     }
 }
