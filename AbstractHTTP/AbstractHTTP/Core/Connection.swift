@@ -26,6 +26,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var httpConnector: HTTPConnector = ConnectionConfig.shared.httpConnector()
     public var urlEncoder: URLEncoder = ConnectionConfig.shared.urlEncoder()
 
+    /// ログ出力を有効にするか
     public var isLogEnabled = ConnectionConfig.shared.isLogEnabled
 
     /// キャンセルされたかどうか。このフラグが `true` だと通信終了してもコールバックが呼ばれない
@@ -38,8 +39,10 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// 通信成功時のコールバック
     var onSuccess: ((ResponseModel) -> Void)?
 
+    /// 直近のリクエスト
     public private(set) var latestRequest: Request?
 
+    /// 実行中の通信オブジェクトを保持するコンテナ
     public weak var holder = ConnectionHolder.shared
 
     public init<T: ResponseSpec>(requestSpec: RequestSpec,
@@ -305,7 +308,8 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     /// 通信をキャンセルする
     open func cancel() {
-        // TODO 既に通信コールバックが走っている場合何もしない。通信コールバック内でキャンセルした場合に、onEndが二重で呼ばれないようにする必要がある
+        // TODO 既に通信コールバックが走っている場合何もしない。
+        // 通信コールバック内でキャンセルした場合に、onEndが二重で呼ばれないようにする必要がある
         isCancelled = true
         httpConnector.cancel()
 
