@@ -151,16 +151,13 @@ Kotlin (Java)にはそのような制約はなく、ワイルドカードでジ�
 7. Connection.onSuccess
 8. ConnectionResponseListener.afterSuccess
 9. ConnectionListener.onEnd
-10. Connection.onEnd
 
 ### エラー時の流れ
 
 ConnectionErrorListenerの対応するエラー関数（onNetworkErrorなど）が呼び出された後、以下の順番でイベントが実行されます。
 
-1. Connection.onError
-2. ConnectionErrorListener.afterError
-3. ConnectionListener.onEnd
-4. Connection.onEnd
+1. ConnectionErrorListener.afterError
+2. ConnectionListener.onEnd
 
 ## 通信処理のカスタマイズ
 
@@ -288,6 +285,24 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 
 `Retry` ディレクトリ内にリトライのサンプルを実装しています。
 
+### リトライ時のコールバックの流れ
+
+`ConnectionResponseListener.onReceived` などのコールバック関数で通信のリトライをする場合、コールバック関数の呼び出しの流れは以下の2パターンを実装できます。
+
+#### onEndまで実行した後、再通信する
+
+アラートのボタンを押した後に再通信する場合など、コールバック関数内でただちに再通信を行わずスレッドを明け渡してから再通信する場合、コールバック関数は一度最後の `onEnd` まで全て実行され、その後もう一度最初から一連のコールバック関数が呼び出されます。
+
+このケースでは2回通信が行われたようにコールバックが呼び出され、`onEnd` は合計2回呼び出されます。
+
+#### コールバックの途中で再通信する
+
+コールバック関数内でただちに再通信を行った場合、1度目の通信のコールバック呼び出しは再通信を実行した時点で中断されます。
+
+このケースでは2回通信を行いますが `onEnd` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
+
+また、コールバック内から一度スレッドを明け渡した後に再通信を行うケースで`onEnd` を1回しか呼び出したくない場合は、再通信の前に `Connection.interrupt()`を実行すると、一度目の通信のコールバック呼び出しが中断されます。
+
 ## ポーリング（自動更新）
 
 `Polling` クラスを使って、通信のポーリング（定期的な自動更新）を行うことができます。  
@@ -335,6 +350,16 @@ override func viewWillDisappear(_ animated: Bool) {
 
 `Cancel` ディレクトリ内にキャンセルのサンプルを実装しています。
 
+### キャンセル時のコールバック呼び出し
+
+`Connection.cancel()` 関数を実行すると、正常系のコールバック呼び出しはスキップされ、以下のコールバック関数が実行されます。
+
+1. ConnectionErrorListener.onCanceled
+2. ConnectionErrorListener.afterError
+3. ConnectionListener.onEnd
+
+`ConnectionResponseListener.onReceived` 一連の正常系のコールバックの途中でキャンセルした場合も、以降の正常系のコールバック呼び出しがスキップされ、上記のコールバックが呼び出されます。
+
 ## 404エラーを正常系として扱う
 
 レスポンスデータのパース処理は、多くの場合バイナリデータを文字列にしたりJSONデータをオブジェクトにマッピングしたりといった規則的なマッピングになりますが、実装内容は自由なので、特定の条件で例外的なパースを行うこともできます。
@@ -362,7 +387,7 @@ func parseResponse(response: Response) throws -> ResponseModel {
 - `ConnectionResponseListener.onReceived`
 - `ConnectionErrorListener.onResponseError`
 
-`ConnectionErrorListener.onResponseError`で401エラーのハンドリングを行う場合は、まず401ステータスをレスポンスエラー扱いにする必要があり、`ConnectionResponseListener.onReceived`または`ResponseSpec.isValidResponse`でHTTPステータスが401の場合に `false` を返すようにします。
+`ConnectionErrorListener.onResponseError`で401エラーのハンドリングを行う場合は、401ステータスをレスポンスエラー扱いにする必要があり、`ConnectionResponseListener.onReceived`または`ResponseSpec.isValidResponse`でHTTPステータスが401の場合に `false` を返すようにします。
 
 ```swift
 func isValidResponse(response: Response) -> Bool {
@@ -371,13 +396,11 @@ func isValidResponse(response: Response) -> Bool {
 }
 ```
 
-次に`onReceived`または`onResponseError`ではステータスコードが401の場合にトークンのリフレッシュ処理を行い、リフレッシュが完了したら引数で渡された`connection`を`restart`により再通信させます。
+次に`onReceived`または`onResponseError`でステータスコードが401の場合にトークンのリフレッシュ処理を行い、リフレッシュが完了したら引数で渡された`connection`を`restart`により再通信させます。
 
 このときrestartの引数を`implicitly: true` にすることで、再通信時はConnectionListenerの `onStart` が呼ばれないようにすることができます。
 
-また、再通信を行うと、401エラーが発生した最初の通信と再通信で2回 `onEnd` が呼ばれてしまいますが、これを回避するには`onReceived`または`onResponseError`で `EventChain.stop`か`.stopImmediately`を返します。
-
-`.stop` などを返すことで、一度目の通信は`onReceived`または`onResponseError`まででイベントが中断するようになります。
+また、再通信を行うと、401エラーが発生した最初の通信と再通信で `onEnd` が2回呼ばれてしまいますが、これを回避するために再通信を行う前に `Connection.interrupt` を実行します。
 
 `TokenRefresh` ディレクトリ内にトークンリフレッシュのサンプルを実装しています。
 
