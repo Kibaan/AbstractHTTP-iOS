@@ -114,7 +114,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     ///
     private func connect(request: Request? = nil, implicitly: Bool = false) {
         guard let url = makeURL(baseURL: requestSpec.url, query: requestSpec.urlQuery, encoder: urlEncoder) else {
-            afterError(.invalidURL)
+            onInvalidURLError()
             return
         }
 
@@ -195,6 +195,12 @@ open class Connection<ResponseModel>: ConnectionTask {
                 $0.afterSuccess(connection: self, responseModel: responseModel)
             }
             self.end(response: response, responseModel: responseModel, error: nil)
+        }
+    }
+
+    func onInvalidURLError() {
+        handleError(.invalidURL) {
+            return $0.onNetworkError(connection: self, error: nil)
         }
     }
 
