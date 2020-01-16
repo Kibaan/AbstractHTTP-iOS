@@ -61,53 +61,36 @@ open class Connection<ResponseModel>: ConnectionTask {
         self.onSuccess = onSuccess
     }
 
-    @discardableResult
-    public func addListener(_ listener: ConnectionListener) -> Self {
-        listeners.append(listener)
-        return self
-    }
-
-    @discardableResult
-    public func addResponseListener(_ listener: ConnectionResponseListener) -> Self {
-        responseListeners.append(listener)
-        return self
-    }
-
-    @discardableResult
-    public func addErrorListener(_ listener: ConnectionErrorListener) -> Self {
-        errorListeners.append(listener)
-        return self
-    }
-
-    /// エラー処理を追加する。
-    /// エラー処理は `ConnectionErrorListener` として登録され、このプロトコルを経由して引数の`onError`が実行される
-    ///
-    /// - Parameters:
-    ///   - onError: エラー処理
-    @discardableResult
-    public func addOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
-        addErrorListener(OnError(onError))
-        return self
-    }
-
-    /// 終了処理を追加する。
-    /// 終了処理は `ConnectionListener` として登録され、このプロトコルを経由して引数の`onEnd`が実行される
-    ///
-    /// - Parameters:
-    ///   - onEnd: 終了処理
-    @discardableResult
-    public func addOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
-        addListener(OnEnd(onEnd))
-        return self
-    }
-
-    public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
-    public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
-    public func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
-
-    /// 処理を開始する
+    /// 通信を開始する
     public func start() {
         connect()
+    }
+
+    /// 通信を再実行する
+    open func restart(implicitly: Bool) {
+        connect(implicitly: implicitly)
+    }
+
+    /// 直近のリクエストを再送信する
+    open func repeatRequest(implicitly: Bool) {
+        connect(request: latestRequest, implicitly: implicitly)
+    }
+
+    /// 通信をキャンセルする
+    open func cancel() {
+        // 既に実行完了している場合何もしない
+        guard let executionId = executionId else {
+            return
+        }
+
+        onCancel(executionId: executionId)
+        httpConnector.cancel()
+    }
+
+    /// コールバック処理の実行を中断する
+    open func interrupt() {
+        executionId = nil
+        holder?.remove(connection: self)
     }
     
     /// 通信処理を開始する
@@ -289,32 +272,49 @@ open class Connection<ResponseModel>: ConnectionTask {
         listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
     }
 
-    /// 通信を再実行する
-    open func restart(implicitly: Bool) {
-        connect(implicitly: implicitly)
+    @discardableResult
+    public func addListener(_ listener: ConnectionListener) -> Self {
+        listeners.append(listener)
+        return self
     }
 
-    /// 直近のリクエストを再送信する
-    open func repeatRequest(implicitly: Bool) {
-        connect(request: latestRequest, implicitly: implicitly)
+    @discardableResult
+    public func addResponseListener(_ listener: ConnectionResponseListener) -> Self {
+        responseListeners.append(listener)
+        return self
     }
 
-    /// 通信をキャンセルする
-    open func cancel() {
-        // 既に実行完了している場合何もしない
-        guard let executionId = executionId else {
-            return
-        }
-
-        onCancel(executionId: executionId)
-        httpConnector.cancel()
+    @discardableResult
+    public func addErrorListener(_ listener: ConnectionErrorListener) -> Self {
+        errorListeners.append(listener)
+        return self
     }
 
-    /// コールバック処理の実行を中断する
-    open func interrupt() {
-        executionId = nil
-        holder?.remove(connection: self)
+    /// エラー処理を追加する。
+    /// エラー処理は `ConnectionErrorListener` として登録され、このプロトコルを経由して引数の`onError`が実行される
+    ///
+    /// - Parameters:
+    ///   - onError: エラー処理
+    @discardableResult
+    public func addOnError(onError: @escaping (ConnectionError, Response?, ResponseModel?) -> Void) -> Self {
+        addErrorListener(OnError(onError))
+        return self
     }
+
+    /// 終了処理を追加する。
+    /// 終了処理は `ConnectionListener` として登録され、このプロトコルを経由して引数の`onEnd`が実行される
+    ///
+    /// - Parameters:
+    ///   - onEnd: 終了処理
+    @discardableResult
+    public func addOnEnd(onEnd: @escaping (Response?, Any?, ConnectionError?) -> Void) -> Self {
+        addListener(OnEnd(onEnd))
+        return self
+    }
+
+    public func removeListener(_ listener: ConnectionListener) { listeners.removeAll { $0 === listener } }
+    public func removeResponseListener(_ listener: ConnectionResponseListener) { responseListeners.removeAll { $0 === listener } }
+    public func removeErrorListener(_ listener: ConnectionErrorListener) { errorListeners.removeAll { $0 === listener } }
 
     open func callback(_ function: @escaping () -> Void) {
         if callbackInMainThread {
