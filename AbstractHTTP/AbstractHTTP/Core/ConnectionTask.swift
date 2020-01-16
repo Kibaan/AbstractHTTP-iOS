@@ -21,7 +21,7 @@ public protocol ConnectionTask: class {
     var errorListeners: [ConnectionErrorListener] { get }
 
     /// HTTP通信の実行処理
-    var connector: HTTPConnector { get }
+    var httpConnector: HTTPConnector { get }
 
     /// クエリパラメーターのURLエンコード処理
     var urlEncoder: URLEncoder { get }

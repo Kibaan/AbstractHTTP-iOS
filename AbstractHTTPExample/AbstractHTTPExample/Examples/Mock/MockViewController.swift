@@ -29,7 +29,7 @@ class MockViewController: UIViewController, ExampleItem {
         let connection = Connection(spec) { response in
             self.textView.text = response
         }
-        connection.connector = mockHTTPConnector
+        connection.httpConnector = mockHTTPConnector
         connection.start()
     }
 

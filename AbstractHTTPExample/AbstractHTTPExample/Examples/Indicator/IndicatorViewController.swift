@@ -48,7 +48,7 @@ class IndicatorViewController: UIViewController, ExampleItem {
         pushLine("[START] \(spec.url)")
 
         let connection = Connection(spec)
-        (connection.connector as? DefaultHTTPConnector)?.timeoutInterval = 1
+        (connection.httpConnector as? DefaultHTTPConnector)?.timeoutInterval = 1
 
         connection.setOnEnd { response, model, error in
             self.pushLine("[END  ] \(spec.url)")

@@ -41,7 +41,7 @@ class ListenerViewController: UIViewController, ExampleItem {
             self.pushLine("(SUCCESS callback)")
         }
 
-        (connection.connector as? DefaultHTTPConnector)?.timeoutInterval = 1
+        (connection.httpConnector as? DefaultHTTPConnector)?.timeoutInterval = 1
 
         let listener = ConnectionLogger(print: pushLine)
         connection

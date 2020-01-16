@@ -24,6 +24,12 @@ class TokenRefreshViewController: UIViewController, ExampleItem {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         clear()
+
+        ConnectionConfig.shared.httpConnector = {
+            let connector = DefaultHTTPConnector()
+            connector.timeoutInterval = 60
+            return connector
+        }
     }
 
     @IBAction func getTokenAction(_ sender: Any) {

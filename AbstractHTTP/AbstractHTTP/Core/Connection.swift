@@ -24,7 +24,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     public var responseListeners: [ConnectionResponseListener] = []
     public var errorListeners: [ConnectionErrorListener] = []
 
-    public var connector: HTTPConnector = ConnectionConfig.shared.httpConnector()
+    public var httpConnector: HTTPConnector = ConnectionConfig.shared.httpConnector()
     public var urlEncoder: URLEncoder = ConnectionConfig.shared.urlEncoder()
 
     public var isLogEnabled = ConnectionConfig.shared.isLogEnabled
@@ -134,7 +134,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
 
         // 通信する
-        connector.execute(request: request, complete: { [weak self] (response, error) in
+        httpConnector.execute(request: request, complete: { [weak self] (response, error) in
             self?.complete(response: response, error: error)
         })
 
@@ -287,7 +287,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     open func cancel() {
         // TODO 既に通信コールバックが走っている場合何もしない。通信コールバック内でキャンセルした場合に、onEndが二重で呼ばれないようにする必要がある
         isCancelled = true
-        connector.cancel()
+        httpConnector.cancel()
 
         errorListeners.forEach { $0.onCanceled(connection: self) }
         let error = ConnectionError(type: .canceled, nativeError: nil)

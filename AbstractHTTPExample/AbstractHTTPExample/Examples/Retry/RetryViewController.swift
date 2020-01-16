@@ -25,7 +25,7 @@ class RetryViewController: UIViewController, ExampleItem {
         // タイムアウトさせる
         let spec = WaitableAPISpec(waitSeconds: 3)
         let connection = Connection(spec)
-        (connection.connector as? DefaultHTTPConnector)?.timeoutInterval = 1
+        (connection.httpConnector as? DefaultHTTPConnector)?.timeoutInterval = 1
 
         let listener = ConnectionLogger(print: pushLine)
         connection
