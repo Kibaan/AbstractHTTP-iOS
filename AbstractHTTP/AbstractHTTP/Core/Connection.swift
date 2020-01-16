@@ -259,6 +259,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
     }
 
+    /// エラー処理をする
     private func errorProcess(_ type: ConnectionErrorType,
                               _ error: Error? = nil,
                               _ response: Response? = nil,
