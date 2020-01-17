@@ -20,6 +20,9 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
     /// 自動でリダイレクトするか
     public var isRedirectEnabled = true
 
+    /// キャッシュポリシー
+    public var cachePolicy: NSURLRequest.CachePolicy?
+
     public func execute(request: Request, complete: @escaping (Response?, Error?) -> Void) {
         let config = URLSessionConfiguration.default
         config.urlCache = nil // この指定がないとHTTPSでも平文でレスポンスが端末にキャッシュされてしまう
@@ -68,7 +71,9 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
 
     private func makeURLRequest(request: Request) -> URLRequest {
         let urlRequest = NSMutableURLRequest(url: request.url)
-        urlRequest.cachePolicy = .reloadIgnoringCacheData
+        if let cachePolicy = cachePolicy {
+            urlRequest.cachePolicy = cachePolicy
+        }
         urlRequest.httpMethod = request.method.stringValue
         urlRequest.httpBody = request.body
 
