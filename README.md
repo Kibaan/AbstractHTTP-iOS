@@ -123,6 +123,16 @@ Connection(spec) { response in
 
 `ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
 
+```swift
+// ConnectionSpecを使用する例
+Connection(FooConnectionSpec())
+```
+
+```swift
+// RequestSpecとResponseSpecを使用する例
+Connection(requestSpec: BarRequestSpec(), responseSpec: BazResponseSpec())
+```
+
 ## ConnectionTask (iOS only)
 
 `Connection`はジェネリック型ですが、Swiftではジェネリック型を変数に保持したり、引数に渡すことができないため(*)
@@ -293,12 +303,12 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 
 アラートを表示してリトライボタンを押した後に再通信する場合など、コールバック関数内でただちに再通信を行わずスレッドを明け渡してから再通信する場合、コールバック関数は一度最後の `ConnectionListener.onEnd` まで全て実行され、その後再通信によりもう一度最初からコールバック関数が呼び出されます。
 
-このケースでは `ConnectionListener.onEnd ` は合計2回実行されます。
+このケースでは `ConnectionListener.onEnd` は合計2回実行されます。
 
 #### コールバックの途中で再通信する
 
 コールバック関数内でただちに再通信を行った場合、1度目の通信のコールバック呼び出しは再通信を実行した時点で中断されます。  
-このケースでは2回通信を行いますが `ConnectionListener.onEnd ` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
+このケースでは2回通信を行いますが `ConnectionListener.onEnd` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
 
 また、コールバック内で一度スレッドを明け渡した後に再通信を行う場合に `ConnectionListener.onEnd ` を1回しか呼び出したくないケースでは、再通信の前に `Connection.interrupt()` を実行すると、一度目の通信のコールバック呼び出しが中断されます。  
 
