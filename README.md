@@ -175,10 +175,11 @@ ConnectionErrorListenerの対応するエラー関数（onNetworkErrorなど）�
 
 ### 標準実装のカスタマイズ
 
-標準の通信実装 `DefaultHTTPConnector` に設定できる項目は以下の2点だけです。
+標準の通信実装 `DefaultHTTPConnector` は以下のプロパティを変更することができます。
 
 - timeoutInterval (タイムアウト秒数)
 - isRedirectEnabled (自動でリダイレクトを行うか)
+- cachePolicy (キャッシュの設定)
 
 設定を変更する１つの方法は、以下のように`Connection.httpConnector` を `DefaultHTTPConnector` にキャストして直接プロパティを書き換えることです。
 
