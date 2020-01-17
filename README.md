@@ -423,10 +423,22 @@ func isValidResponse(response: Response) -> Bool {
 
 Specクラスを実装せず簡易に通信するためのインターフェース`HTTP`を用意しています。
 
-このクラスは `Connection`と`ConnectionSpec`をラップしてメソッド経由で様々な指定ができるようにしたもので、`Connection` でできることは全てこちらのインターフェースでもできます。
+このクラスは `Connection`と`ConnectionSpec`をラップしてメソッド経由で様々な指定ができるようにしたもので、`Connection` でできることはこちらのインターフェースでもできます。
 
 `Convenient` ディレクトリ内に簡易インターフェースのサンプルを実装しています。
 
+### 使い方
+
+1. イニシャライザでURLを指定して`HTTP`オブジェクトを作ります。
+2. `ConnectionSpec`に定義する各種リクエストの情報、レスポンスの処理および、`Connection`の書き換え可能なプロパティは`HTTP`のメソッドを使って設定します。
+3. 最後に`HTTP`の以下の`as`始まりのメソッドでレスポンスデータを取得します。
+	- asString String型で取得します。文字コードを指定可能です
+	- asData Data型で取得します
+	- asResponse Response型で取得します
+	- asDecodable Decodableの型を指定して、その型にJSONをマッピングし取得します
+	- asModel 任意の型とその型への変換処理を指定してデータを取得します
+
+	
 ### 最も簡単なGET通信の例
 
 ```swift
@@ -444,9 +456,11 @@ HTTP("https://foo.net”)
     .urlQuery(["key": "value"])
     .body(data)
     .addListener(listener)
-    .addResponseListener(responseListenr)
-    .addErrorListener(errorListenr)
     .asModel(User.self) { user in
     	print(user.name)
     }
 ```
+
+### DefaultHTTPConnectorの設定
+
+`httpConnector` に標準の`DefaultHTTPConnector`を使用している場合、`HTTP.setupDefaultHTTPConnector` メソッドで`DefaultHTTPConnector`のプロパティを書き換えることができます。
