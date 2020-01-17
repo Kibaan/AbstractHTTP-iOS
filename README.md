@@ -370,7 +370,7 @@ override func viewWillDisappear(_ animated: Bool) {
 2. ConnectionErrorListener.afterError
 3. ConnectionListener.onEnd
 
-`ConnectionResponseListener.onReceived` 一連の正常系のコールバックの途中でキャンセルした場合も、以降の正常系のコールバック呼び出しがスキップされ、上記のコールバックが呼び出されます。
+`ConnectionResponseListener.onReceived` など正常系のコールバックの途中でキャンセルした場合も、以降の正常系のコールバック呼び出しがスキップされ、上記のコールバックが呼び出されます。
 
 ## 404エラーを正常系として扱う
 
@@ -457,7 +457,7 @@ HTTP("https://foo.net”)
     .urlQuery(["key": "value"])
     .body(data)
     .addListener(listener)
-    .asModel(User.self) { user in
+    .asDecodable(User.self) { user in
     	print(user.name)
     }
 ```
