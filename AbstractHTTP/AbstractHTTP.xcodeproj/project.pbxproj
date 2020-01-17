@@ -10,6 +10,7 @@
 		406E033523CED5C10023E8C8 /* ConnectionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033423CED5C10023E8C8 /* ConnectionConfig.swift */; };
 		406E033F23D003770023E8C8 /* OnError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033E23D003770023E8C8 /* OnError.swift */; };
 		406E034123D00C010023E8C8 /* OnEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E034023D00C010023E8C8 /* OnEnd.swift */; };
+		406E034423D15E7A0023E8C8 /* ConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E034323D15E7A0023E8C8 /* ConnectionBuilder.swift */; };
 		40D7880F23B356C5000E5179 /* AbstractHTTP.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D7880D23B356C5000E5179 /* AbstractHTTP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40D7883123B358A1000E5179 /* DefaultHTTPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881723B358A0000E5179 /* DefaultHTTPConnector.swift */; };
 		40D7883223B358A1000E5179 /* ConnectionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7881823B358A0000E5179 /* ConnectionIndicator.swift */; };
@@ -39,6 +40,7 @@
 		406E033423CED5C10023E8C8 /* ConnectionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionConfig.swift; sourceTree = "<group>"; };
 		406E033E23D003770023E8C8 /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
 		406E034023D00C010023E8C8 /* OnEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnEnd.swift; sourceTree = "<group>"; };
+		406E034323D15E7A0023E8C8 /* ConnectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionBuilder.swift; sourceTree = "<group>"; };
 		40D7880A23B356C5000E5179 /* AbstractHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AbstractHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7880D23B356C5000E5179 /* AbstractHTTP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbstractHTTP.h; sourceTree = "<group>"; };
 		40D7880E23B356C5000E5179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		406E034223D15E5F0023E8C8 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				406E034323D15E7A0023E8C8 /* ConnectionBuilder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
 		40D7880023B356C5000E5179 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +106,7 @@
 		40D7880C23B356C5000E5179 /* AbstractHTTP */ = {
 			isa = PBXGroup;
 			children = (
+				406E034223D15E5F0023E8C8 /* Builder */,
 				40D7881B23B358A0000E5179 /* Core */,
 				40D7881623B358A0000E5179 /* DefaultImpl */,
 				40D7882B23B358A1000E5179 /* Entity */,
@@ -285,6 +296,7 @@
 				40D7884423B358A1000E5179 /* ConnectionError.swift in Sources */,
 				40D7883323B358A1000E5179 /* DefaultURLEncoder.swift in Sources */,
 				406E033523CED5C10023E8C8 /* ConnectionConfig.swift in Sources */,
+				406E034423D15E7A0023E8C8 /* ConnectionBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
