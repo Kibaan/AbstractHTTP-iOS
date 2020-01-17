@@ -2,7 +2,7 @@
 
 AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化したライブラリです。
 
-本ライブラリは大部分がプロトコルで構成されており、**通信の実装ではなく通信周りの設計を提供するものです**。
+本ライブラリは大部分がプロトコルで構成されており、**通信処理の実装より通信処理の設計を提供するものです**。
 
 
 ```
@@ -189,7 +189,7 @@ ConnectionConfig.shared.httpConnector = {
 
 ### 通信処理の独自実装
 
-上記以上通信処理のカスタマイズを行いたい場合は `HTTPConnector` プロトコルを独自実装し、以下のように`ConnectionConfig.shared.httpConnector` により標準のhttpConnectorに設定してください。
+さらなる通信処理のカスタマイズを行いたい場合は `HTTPConnector` プロトコルを独自実装し、以下のように`ConnectionConfig.shared.httpConnector` により標準のhttpConnectorに設定してください。
 
 ```swift
 ConnectionConfig.shared.httpConnector = {
