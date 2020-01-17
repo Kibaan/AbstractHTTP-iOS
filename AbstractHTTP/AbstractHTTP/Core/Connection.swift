@@ -57,6 +57,9 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// 実行ID
     public private(set) var executionId: ExecutionId?
 
+    /// 中断中の実行ID
+    public private(set) var interruptedId: ExecutionId?
+
     public init<T: ResponseSpec>(requestSpec: RequestSpec,
                                  responseSpec: T,
                                  onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
@@ -102,6 +105,7 @@ open class Connection<ResponseModel>: ConnectionTask {
 
     /// コールバック処理の実行を中断する
     open func interrupt() {
+        interruptedId = executionId
         executionId = nil
         holder?.remove(connection: self)
     }
@@ -109,12 +113,13 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// `interrupt()`による中断を終了する
     /// キャンセル扱いになり、キャンセル時と同じコールバックが呼ばれる
     open func breakInterruption() {
-        guard executionId = nil, let interruptedId = interruptedId else {
+        guard executionId == nil, let interruptedId = interruptedId else {
             return
         }
-        executionId = interruptedId
+
+        self.executionId = interruptedId
+        self.interruptedId = nil
         onCancel(executionId: interruptedId)
-        interruptedId = nil
     }
 
     /// 通信処理を開始する
@@ -125,6 +130,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     private func connect(request: Request? = nil, implicitly: Bool = false) {
         let executionId = ExecutionId()
         self.executionId = executionId
+        self.interruptedId = nil
 
         guard let url = makeURL(baseURL: requestSpec.url, query: requestSpec.urlQuery, encoder: urlEncoder) else {
             onInvalidURLError(executionId: executionId)
@@ -293,6 +299,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     private func end(response: Response?, responseModel: Any?, error: ConnectionError?) {
         holder?.remove(connection: self)
         executionId = nil
+        interruptedId = nil
         listeners.forEach { $0.onEnd(connection: self, response: response, responseModel: responseModel, error: error) }
     }
 

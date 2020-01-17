@@ -47,6 +47,9 @@ public protocol ConnectionTask: class {
     /// コールバックイベントを中断する
     func interrupt()
 
+    /// `interrupt()`による中断を終了する。キャンセル扱いになる
+    func breakInterruption()
+
     /// 通信を再実行する。リクエスト内容は再構築される。
     ///
     /// - Parameters:
