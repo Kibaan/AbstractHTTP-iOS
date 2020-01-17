@@ -22,7 +22,7 @@ class SimpleGetSpec: ConnectionSpec {
         self.url = url
     }
 
-    func makePostData() -> Data? { return nil }
+    func makeBody() -> Data? { return nil }
 
     func isValidResponse(response: Response) -> Bool {
         return true

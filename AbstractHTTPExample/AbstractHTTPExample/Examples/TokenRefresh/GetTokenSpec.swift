@@ -33,7 +33,7 @@ class GetTokenSpec: ConnectionSpec {
         self.fail = fail
     }
 
-    func makePostData() -> Data? { return nil }
+    func makeBody() -> Data? { return nil }
 
     func isValidResponse(response: Response) -> Bool { return true }
 

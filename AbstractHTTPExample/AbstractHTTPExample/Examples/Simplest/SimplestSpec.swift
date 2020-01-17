@@ -28,7 +28,7 @@ class SimplestSpec: ConnectionSpec {
     var urlQuery: URLQuery? { return nil }
 
     // ポストするデータ（リクエストボディ）。不要な場合はnil。
-    func makePostData() -> Data? { return nil }
+    func makeBody() -> Data? { return nil }
 
     // ステータスコードの正常判定
     func isValidResponse(response: Response) -> Bool {

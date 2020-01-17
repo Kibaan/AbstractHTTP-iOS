@@ -29,7 +29,7 @@ class WaitableAPISpec: ConnectionSpec {
         self.waitSeconds = waitSeconds
     }
 
-    func makePostData() -> Data? { return nil }
+    func makeBody() -> Data? { return nil }
 
     func isValidResponse(response: Response) -> Bool {
         return true

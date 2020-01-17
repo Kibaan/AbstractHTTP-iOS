@@ -24,6 +24,6 @@ public protocol RequestSpec {
     /// URLに付与するクエリパラメーター
     var urlQuery: URLQuery? { get }
 
-    /// POSTデータを作成する
-    func makePostData() -> Data?
+    /// リクエストボディを作成する
+    func makeBody() -> Data?
 }

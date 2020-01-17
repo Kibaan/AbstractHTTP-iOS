@@ -21,7 +21,7 @@ class FXRateListAPI: ConnectionSpec {
 
     var urlQuery: URLQuery? { return nil }
 
-    func makePostData() -> Data? {
+    func makeBody() -> Data? {
         return nil
     }
 
