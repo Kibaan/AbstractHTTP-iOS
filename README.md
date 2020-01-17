@@ -35,8 +35,8 @@ class SimplestSpec: ConnectionSpec {
     // URLに付けるクエリパラメーター（URL末尾の`?`以降につけるkey=value形式のパラメーター）
     var urlQuery: URLQuery? { return nil }
 
-    // ポストするデータ（リクエストボディ）。GET通信など不要な場合はnilにする
-    func makePostData() -> Data? { return nil }
+    // リクエストボディ（ポストするデータ）。GET通信など不要な場合はnilにする
+    func makeBody() -> Data? { return nil }
     
     // レスポンスデータのパース前のバリデーション
     func isValidResponse(response: Response) -> Bool { return true }
@@ -61,10 +61,10 @@ class SimplestSpec: ConnectionSpec {
 
 `headers: [String: String]` プロパティでリクエストヘッダーを決めます。  
 
-#### ポストデータ
+#### リクエストボディ
 
-`func makePostData()` でポストデータを決めます。  
-ポストデータがない場合はこの関数で `nil` を返します。 
+`func makeBody()` でリクエストボディ（ポストデータ）を決めます。  
+ボディがない場合はこの関数で `nil` を返します。 
 
 #### クエリパラメーター
 
