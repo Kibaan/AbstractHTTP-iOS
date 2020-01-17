@@ -48,7 +48,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fW2-V7-lrg">
                             <rect key="frame" x="310.5" y="0.0" width="103.5" height="40"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" title="イベント中断"/>
+                            <state key="normal" title="中断"/>
                             <connections>
                                 <action selector="interruptAction:" destination="-1" eventType="touchUpInside" id="vSk-Us-fRj"/>
                             </connections>
@@ -67,6 +67,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="qzc-Mo-Foc" secondAttribute="bottom" id="5MV-eS-fkx"/>
                 <constraint firstItem="qzc-Mo-Foc" firstAttribute="top" secondItem="BcV-Y3-Rdj" secondAttribute="bottom" constant="8" symbolic="YES" id="Ar8-uE-F3p"/>

@@ -43,6 +43,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="lSI-DV-zN8" firstAttribute="top" secondItem="87J-eT-fe1" secondAttribute="bottom" constant="30" id="7cU-4W-uNp"/>
                 <constraint firstItem="T1v-yb-K5d" firstAttribute="top" secondItem="lSI-DV-zN8" secondAttribute="bottom" constant="20" id="8NM-X6-MAT"/>

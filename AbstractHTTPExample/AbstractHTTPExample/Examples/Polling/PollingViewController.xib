@@ -39,6 +39,7 @@
                     </connections>
                 </tableView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Wjv-Qj-dS2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="SGU-Xn-QUL"/>
                 <constraint firstItem="pnS-My-ddc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="T2n-aC-Rn0"/>
