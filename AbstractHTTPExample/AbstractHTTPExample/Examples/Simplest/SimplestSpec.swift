@@ -16,7 +16,7 @@ class SimplestSpec: ConnectionSpec {
     typealias ResponseModel = String
 
     // リクエスト先のURL
-    var url: String { return "https://altonotes.co.jp/md/coding_guideline.md" }
+    var url: String { return "https://reqres.in/api/users/2" }
 
     // リクエストのHTTPメソッド
     var httpMethod: HTTPMethod { return .get }

@@ -23,7 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         MockViewController(),
         PollingViewController(),
         CancelViewController(),
-        TokenRefreshViewController()
+        TokenRefreshViewController(),
+        ConvenientViewController()
     ]
 
     var selectedRow: IndexPath?

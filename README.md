@@ -425,11 +425,13 @@ Specクラスを実装せず簡易に通信するためのインターフェー�
 
 このクラスは `Connection`と`ConnectionSpec`をラップしてメソッド経由で様々な指定ができるようにしたもので、`Connection` でできることは全てこちらのインターフェースでもできます。
 
+`Convenient` ディレクトリ内に簡易インターフェースのサンプルを実装しています。
+
 ### 最も簡単なGET通信の例
 
 ```swift
-HTTP("https://foo.net”).asString { string in
-	print(string)
+HTTP("https://foo.net”).asString {
+	print($0)
 }
 ```
 

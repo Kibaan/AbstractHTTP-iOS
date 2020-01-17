@@ -25,6 +25,8 @@
 		406535BF23B5A6FE00F3F69F /* SimpleGetSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */; };
 		406E033723CEF67F0023E8C8 /* ExampleAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033623CEF67F0023E8C8 /* ExampleAPISpec.swift */; };
 		406E033B23CEFAE60023E8C8 /* GetTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E033A23CEFAE60023E8C8 /* GetTokenSpec.swift */; };
+		406E034A23D1B3570023E8C8 /* ConvenientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E034823D1B3570023E8C8 /* ConvenientViewController.swift */; };
+		406E034B23D1B3570023E8C8 /* ConvenientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 406E034923D1B3570023E8C8 /* ConvenientViewController.xib */; };
 		40C8998523B44F9000CD9177 /* GetJSONSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C8998423B44F9000CD9177 /* GetJSONSpec.swift */; };
 		40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885423B359FA000E5179 /* AppDelegate.swift */; };
 		40D7885923B359FA000E5179 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D7885823B359FA000E5179 /* ViewController.swift */; };
@@ -86,6 +88,8 @@
 		406535BE23B5A6FE00F3F69F /* SimpleGetSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGetSpec.swift; sourceTree = "<group>"; };
 		406E033623CEF67F0023E8C8 /* ExampleAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAPISpec.swift; sourceTree = "<group>"; };
 		406E033A23CEFAE60023E8C8 /* GetTokenSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTokenSpec.swift; sourceTree = "<group>"; };
+		406E034823D1B3570023E8C8 /* ConvenientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenientViewController.swift; sourceTree = "<group>"; };
+		406E034923D1B3570023E8C8 /* ConvenientViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConvenientViewController.xib; sourceTree = "<group>"; };
 		40C8998423B44F9000CD9177 /* GetJSONSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSONSpec.swift; sourceTree = "<group>"; };
 		40D7885123B359FA000E5179 /* AbstractHTTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbstractHTTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40D7885423B359FA000E5179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 		406535A223B46BFE00F3F69F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				406E034723D1B3420023E8C8 /* Convenient */,
 				40EC911723CEB1E80080C683 /* TokenRefresh */,
 				40EC911223CEB1AA0080C683 /* Cancel */,
 				406535B123B46C8500F3F69F /* Polling */,
@@ -208,6 +213,15 @@
 				40EC911023CD8F050080C683 /* FXRateListAPI.swift */,
 			);
 			path = CommonSpec;
+			sourceTree = "<group>";
+		};
+		406E034723D1B3420023E8C8 /* Convenient */ = {
+			isa = PBXGroup;
+			children = (
+				406E034823D1B3570023E8C8 /* ConvenientViewController.swift */,
+				406E034923D1B3570023E8C8 /* ConvenientViewController.xib */,
+			);
+			path = Convenient;
 			sourceTree = "<group>";
 		};
 		40D7884823B359FA000E5179 = {
@@ -382,6 +396,7 @@
 				406535B023B46C5E00F3F69F /* MockViewController.xib in Resources */,
 				40D7885C23B359FA000E5179 /* Main.storyboard in Resources */,
 				40D7888223B36811000E5179 /* IndicatorViewController.xib in Resources */,
+				406E034B23D1B3570023E8C8 /* ConvenientViewController.xib in Resources */,
 				406535A723B46C2D00F3F69F /* RetryViewController.xib in Resources */,
 				40D7887D23B367B6000E5179 /* CommonRequestSpecViewController.xib in Resources */,
 				40D7887123B36380000E5179 /* SimplestViewController.xib in Resources */,
@@ -413,6 +428,7 @@
 				40D7887C23B367B6000E5179 /* CommonRequestSpecViewController.swift in Sources */,
 				40D7885523B359FA000E5179 /* AppDelegate.swift in Sources */,
 				406535A623B46C2D00F3F69F /* RetryViewController.swift in Sources */,
+				406E034A23D1B3570023E8C8 /* ConvenientViewController.swift in Sources */,
 				40EC910B23CD57680080C683 /* RetryRunner.swift in Sources */,
 				406E033B23CEFAE60023E8C8 /* GetTokenSpec.swift in Sources */,
 				406535A123B461AE00F3F69F /* Post.swift in Sources */,
