@@ -13,13 +13,25 @@ import AbstractHTTP
 class GetTokenSpec: ConnectionSpec {
     typealias ResponseModel = String
 
-    var url: String { return "https://apidemo.altonotes.co.jp/token" }
+    var url: String {
+        if fail {
+            // fail = trueの場合は存在しないURLにして通信失敗させる
+            return "https://sonzaishinaidomain.com"
+        }
+        return "https://apidemo.altonotes.co.jp/token"
+    }
 
     var httpMethod: HTTPMethod { return .get }
 
     var headers: [String: String] { return [:] }
 
     var urlQuery: URLQuery? { return nil }
+
+    let fail: Bool
+
+    init(fail: Bool = false) {
+        self.fail = fail
+    }
 
     func makePostData() -> Data? { return nil }
 

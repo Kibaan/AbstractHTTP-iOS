@@ -17,6 +17,8 @@ class TokenRefreshViewController: UIViewController, ExampleItem {
 
     lazy var tokenRefresher = TokenRefresher(tokenContainer: tokenContainer, print: pushLine)
 
+    lazy var badTokenRefresher = TokenRefresher(tokenContainer: tokenContainer, fail: true, print: pushLine)
+
     lazy var logger = ConnectionLogger(print: pushLine)
 
     @IBOutlet weak var textView: UITextView!
@@ -24,24 +26,22 @@ class TokenRefreshViewController: UIViewController, ExampleItem {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         clear()
-
-        ConnectionConfig.shared.httpConnector = {
-            let connector = DefaultHTTPConnector()
-            connector.timeoutInterval = 60
-            return connector
-        }
-    }
-
-    @IBAction func getTokenAction(_ sender: Any) {
-        Connection(GetTokenSpec()) { token in
-            self.tokenContainer.token = token
-        }.start()
     }
 
     @IBAction func callAPIAction(_ sender: Any) {
         clear()
         Connection(ExampleAPISpec(tokenContainer: tokenContainer))
             .addErrorListener(tokenRefresher)
+            .addListener(logger)
+            .addResponseListener(logger)
+            .addErrorListener(logger)
+            .start()
+    }
+
+    @IBAction func failRefreshAction(_ sender: Any) {
+        clear()
+        Connection(ExampleAPISpec(tokenContainer: tokenContainer))
+            .addErrorListener(badTokenRefresher)
             .addListener(logger)
             .addResponseListener(logger)
             .addErrorListener(logger)
@@ -66,9 +66,11 @@ class TokenRefresher: ConnectionErrorListener {
 
     let tokenContainer: TokenContainer
     let printFunc: (String) -> Void
+    let fail: Bool
 
-    init(tokenContainer: TokenContainer, print: @escaping (String) -> Void) {
+    init(tokenContainer: TokenContainer, fail: Bool = false, print: @escaping (String) -> Void) {
         self.tokenContainer = tokenContainer
+        self.fail = fail
         self.printFunc = print
     }
     
@@ -79,16 +81,17 @@ class TokenRefresher: ConnectionErrorListener {
 
         errorCount += 1
 
-        printFunc("401エラー発生。トークン再取得。")
+        printFunc("401エラー発生、トークン再取得。")
         
         connection.interrupt()
 
-        Connection(GetTokenSpec()) { token in
-            self.printFunc("トークン取得完了。再通信。")
+        Connection(GetTokenSpec(fail: fail)) { token in
+            self.printFunc("トークン取得完了、再通信。")
             self.tokenContainer.token = token
             connection.restart(implicitly: true)
         }.addOnError {_, _, _ in
-            // TODO interruptしているので、何もしないとonEndなどが呼ばれない
+            self.printFunc("トークン取得失敗")
+            connection.breakInterruption()
         }.start()
     }
 

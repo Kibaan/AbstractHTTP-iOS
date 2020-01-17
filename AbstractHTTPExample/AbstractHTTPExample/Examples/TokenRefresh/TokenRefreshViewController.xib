@@ -19,19 +19,19 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87J-eT-fe1">
-                    <rect key="frame" x="155" y="54" width="104" height="33"/>
+                    <rect key="frame" x="176.5" y="54" width="61" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="トークン取得"/>
+                    <state key="normal" title="API実行"/>
                     <connections>
-                        <action selector="getTokenAction:" destination="-1" eventType="touchUpInside" id="2XF-g6-vnt"/>
+                        <action selector="callAPIAction:" destination="-1" eventType="touchUpInside" id="yoJ-wb-1YG"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSI-DV-zN8">
-                    <rect key="frame" x="159.5" y="117" width="95" height="33"/>
+                    <rect key="frame" x="103" y="117" width="208" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="API呼び出し"/>
+                    <state key="normal" title="トークンリフレッシュ失敗"/>
                     <connections>
-                        <action selector="callAPIAction:" destination="-1" eventType="touchUpInside" id="j5E-bb-urs"/>
+                        <action selector="failRefreshAction:" destination="-1" eventType="touchUpInside" id="SV2-Iw-v5q"/>
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="T1v-yb-K5d">
