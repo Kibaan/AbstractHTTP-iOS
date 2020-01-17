@@ -300,8 +300,9 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 コールバック関数内でただちに再通信を行った場合、1度目の通信のコールバック呼び出しは再通信を実行した時点で中断されます。  
 このケースでは2回通信を行いますが `ConnectionListener.onEnd ` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
 
-また、コールバック内から一度スレッドを明け渡した後に再通信を行うケースで `ConnectionListener.onEnd ` を1回しか呼び出したくない場合は、再通信の前に `Connection.interrupt()` を実行すると、一度目の通信のコールバック呼び出しが中断されます。  
-ただし`Connection.interrupt()` を実行すると、その後`restart`などにより再通信を行わないと、`ConnectionListener.onEnd`が実行されないので注意してください。
+また、コールバック内で一度スレッドを明け渡した後に再通信を行う場合に `ConnectionListener.onEnd ` を1回しか呼び出したくないケースでは、再通信の前に `Connection.interrupt()` を実行すると、一度目の通信のコールバック呼び出しが中断されます。  
+
+ただし`Connection.interrupt()` を実行すると、その後`restart`か`repeatRequest`により再通信を行うか、`Connection.breakInterruption()` を行わないと、`ConnectionListener.onEnd`が実行されないので注意してください。
 
 ## ポーリング（自動更新）
 
