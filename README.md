@@ -408,3 +408,33 @@ func isValidResponse(response: Response) -> Bool {
 ## URLエンコード処理のカスタマイズ
 
 本ライブラリには標準のURLエンコード実装、`DefaultURLEncoder` が組み込まれていますが、URLエンコードの方法をカスタマイズしたい場合 `URLEncoder` プロトコルを実装したカスタムクラスを作ることでカスタマイズすることができます。
+
+## 簡易インターフェース (Convenient interface)
+
+Specクラスを実装せず簡易に通信するためのインターフェース`HTTP`を用意しています。
+
+このクラスは `Connection`と`ConnectionSpec`をラップしてメソッド経由で様々な指定ができるようにしたもので、`Connection` でできることは全てこちらのインターフェースでもできます。
+
+### 最も簡単なGET通信の例
+
+```swift
+HTTP("https://foo.net”).asString { string in
+	print(string)
+}
+```
+
+### 各種設定を行ったPOST通信の例
+
+```swift
+HTTP("https://foo.net”)
+    .httpMethod(.post)
+    .headers(["Content-Type": "application/json"])
+    .urlQuery(["key": "value"])
+    .body(data)
+    .addListener(listener)
+    .addResponseListener(responseListenr)
+    .addErrorListener(errorListenr)
+    .asModel(User.self) { user in
+    	print(user.name)
+    }
+```

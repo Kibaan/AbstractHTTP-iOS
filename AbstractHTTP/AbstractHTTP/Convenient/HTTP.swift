@@ -111,35 +111,3 @@ public class HTTP {
 
     // TODO httpConnector、URLEncoder、isLogEnabledの書き換え
 }
-
-class CustomConnectionSpec<T>: ConnectionSpec {
-    typealias ResponseModel = T
-
-    let url: String
-    let httpMethod: HTTPMethod
-    let headers: [String: String]
-    let urlQuery: URLQuery?
-    let body: Data?
-    let parse: (Response) throws -> T
-
-    init(url: String, httpMethod: HTTPMethod, headers: [String: String], urlQuery: URLQuery?, body: Data?, parse: @escaping (Response) throws -> T) {
-        self.url = url
-        self.httpMethod = httpMethod
-        self.headers = headers
-        self.urlQuery = urlQuery
-        self.body = body
-        self.parse = parse
-    }
-
-    func makeBody() -> Data? {
-        return body
-    }
-
-    func isValidResponse(response: Response) -> Bool {
-        return true
-    }
-
-    func parseResponse(response: Response) throws -> T {
-        return try parse(response)
-    }
-}
