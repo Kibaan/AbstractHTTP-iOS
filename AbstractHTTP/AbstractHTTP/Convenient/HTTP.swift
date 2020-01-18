@@ -99,7 +99,7 @@ public class HTTP {
     @discardableResult
     public func asDecodable<T: Decodable>(type: T.Type, _ callback: @escaping (T) -> Void) -> Connection<T> {
         return start(parse: { response in
-            return try JSONDecoder().decode(type.self, from: response.data)
+            return try JSONDecoder().decode(type, from: response.data)
         }, callback: callback)
     }
 
