@@ -23,7 +23,7 @@ class RetryRunner: ConnectionErrorListener {
     }
 
     func retry(_ connection: ConnectionTask) {
-        connection.restart(implicitly: false)
+        connection.restart()
     }
 
     func onResponseError(connection: ConnectionTask, response: Response) {}

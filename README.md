@@ -288,7 +288,7 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 
 ## リトライ
 
-`Connection.restart(implicitly:)` または `Connection.repeatRequest(implicitly:)`関数により通信をリトライすることができます。
+`Connection.restart()` または `Connection.repeatRequest()`関数により通信をリトライすることができます。
 
 `restart`と`repeatRequest`の違いは、リクエストを作り直すか直前のリクエストのコピーを送信するかです。
 
@@ -302,14 +302,14 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 
 #### onEndまで呼び出された後に再通信する
 
-アラートを表示してリトライボタンを押した後に再通信する場合など、コールバック関数内でただちに再通信を行わずスレッドを明け渡してから再通信する場合、コールバック関数は一度最後の `ConnectionListener.onEnd` まで全て実行され、その後再通信によりもう一度最初からコールバック関数が呼び出されます。
+アラートを表示してリトライボタンを押した後に再通信する場合など、コールバック関数内でただちに再通信を行わずスレッドを明け渡してから再通信する場合、コールバック関数は一度最後の `ConnectionListener.onEnd` まで全て実行され、その後再通信によりもう一度最初（onStart）からコールバック関数が呼び出されます。
 
 このケースでは `ConnectionListener.onEnd` は合計2回実行されます。
 
 #### コールバックの途中で再通信する
 
 コールバック関数内でただちに再通信を行った場合、1度目の通信のコールバック呼び出しは再通信を実行した時点で中断されます。  
-このケースでは2回通信を行いますが `ConnectionListener.onEnd` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
+このケースでは2回通信を行いますが `ConnectionListener.onStart` `ConnectionListener.onEnd` は1回しか呼び出されず、リスナーに対しては1回しか通信が行われていないようにふるまいます。
 
 また、コールバック内で一度スレッドを明け渡した後に再通信を行う場合に `ConnectionListener.onEnd ` を1回しか呼び出したくないケースでは、再通信の前に `Connection.interrupt()` を実行すると、一度目の通信のコールバック呼び出しが中断されます。  
 
@@ -409,8 +409,6 @@ func validate(response: Response) -> Bool {
 ```
 
 次に`onReceived`または`onResponseError`でステータスコードが401の場合にトークンのリフレッシュ処理を行い、リフレッシュが完了したら引数で渡された`connection`を`restart`により再通信させます。
-
-このときrestartの引数を`implicitly: true` にすることで、再通信時はConnectionListenerの `onStart` が呼ばれないようにすることができます。
 
 また、再通信を行うと、401エラーが発生した最初の通信と再通信で `onEnd` が2回呼ばれてしまいますが、これを回避するために再通信を行う前に `Connection.interrupt` を実行します。
 

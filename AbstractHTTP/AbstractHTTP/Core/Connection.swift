@@ -83,13 +83,13 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 
     /// 通信を再実行する
-    open func restart(implicitly: Bool) {
-        connect(implicitly: implicitly)
+    open func restart() {
+        connect()
     }
 
     /// 直近のリクエストを再送信する
-    open func repeatRequest(implicitly: Bool) {
-        connect(request: latestRequest, implicitly: implicitly)
+    open func repeatRequest() {
+        connect(request: latestRequest)
     }
 
     /// 通信をキャンセルする
@@ -125,9 +125,10 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// 通信処理を開始する
     ///
     /// - Parameters:
-    ///   - implicitly: 通信開始のコールバックを呼ばずに通信する場合は `true` を指定する。
     ///
-    private func connect(request: Request? = nil, implicitly: Bool = false) {
+    private func connect(request: Request? = nil) {
+        let callOnStart = (self.executionId == nil && self.interruptedId == nil)
+        
         let executionId = ExecutionId()
         self.executionId = executionId
         self.interruptedId = nil
@@ -143,7 +144,7 @@ open class Connection<ResponseModel>: ConnectionTask {
                                          body: requestSpec.makeBody(),
                                          headers: requestSpec.headers)
 
-        if !implicitly {
+        if callOnStart {
             listeners.forEach {
                 $0.onStart(connection: self, request: request)
             }

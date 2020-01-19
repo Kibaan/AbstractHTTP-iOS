@@ -52,16 +52,12 @@ public protocol ConnectionTask: class {
 
     /// 通信を再実行する。リクエスト内容は再構築される。
     ///
-    /// - Parameters:
-    ///   - implicitly: 通信開始のコールバックを呼ばずに再通信する場合は `true` を指定する。
-    func restart(implicitly: Bool)
+    func restart()
 
     /// 直近のリクエストを再送信する。
     /// `restart` に近いふるまいになるが、リクエスト内容を再構築するか直近と全く同じリクエスト内容を使うかが異なる。
     /// 例えばリクエストパラメーターに現在時刻を動的に含める場合、`repeatRequest` では前回リクエストと同時刻になるが `restart` では新しい時刻が設定される。
     ///
-    /// - Parameters:
-    ///   - implicitly: 通信開始のコールバックを呼ばずに再通信する場合は `true` を指定する。
-    func repeatRequest(implicitly: Bool)
+    func repeatRequest()
 
 }
