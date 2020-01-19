@@ -24,7 +24,7 @@ class SimpleGetSpec: ConnectionSpec {
 
     func makeBody() -> Data? { return nil }
 
-    func isValidResponse(response: Response) -> Bool {
+    func validate(response: Response) -> Bool {
         return true
     }
 

@@ -18,7 +18,7 @@ public class HTTP {
     var headers: [String: String] = [:]
     var urlQuery: URLQuery?
     var body: Data?
-    var isValidResponse: ((Response) -> Bool)?
+    var validate: ((Response) -> Bool)?
 
     var listeners: [ConnectionListener] = []
     var responseListeners: [ConnectionResponseListener] = []
@@ -56,8 +56,8 @@ public class HTTP {
         return self
     }
 
-    public func isValidResponse(_ isValidResponse: @escaping (Response) -> Bool) -> HTTP {
-        self.isValidResponse = isValidResponse
+    public func validate(_ validate: @escaping (Response) -> Bool) -> HTTP {
+        self.validate = validate
         return self
     }
 
@@ -142,7 +142,7 @@ public class HTTP {
                                         headers: headers,
                                         urlQuery: urlQuery,
                                         body: body,
-                                        isValidResponse: isValidResponse,
+                                        validate: validate,
                                         parse: parse)
         
         let connection = Connection(spec, onSuccess: callback)

@@ -16,7 +16,7 @@ class CustomConnectionSpec<T>: ConnectionSpec {
     let headers: [String: String]
     let urlQuery: URLQuery?
     let body: Data?
-    let isValidResponse: ((Response) -> Bool)?
+    let validate: ((Response) -> Bool)?
     let parse: (Response) throws -> T
 
     init(url: String,
@@ -24,7 +24,7 @@ class CustomConnectionSpec<T>: ConnectionSpec {
          headers: [String: String],
          urlQuery: URLQuery?,
          body: Data?,
-         isValidResponse: ((Response) -> Bool)?,
+         validate: ((Response) -> Bool)?,
          parse: @escaping (Response) throws -> T) {
 
         self.url = url
@@ -32,7 +32,7 @@ class CustomConnectionSpec<T>: ConnectionSpec {
         self.headers = headers
         self.urlQuery = urlQuery
         self.body = body
-        self.isValidResponse = isValidResponse
+        self.validate = validate
         self.parse = parse
     }
 
@@ -40,8 +40,8 @@ class CustomConnectionSpec<T>: ConnectionSpec {
         return body
     }
 
-    func isValidResponse(response: Response) -> Bool {
-        return isValidResponse?(response) ?? true
+    func validate(response: Response) -> Bool {
+        return validate?(response) ?? true
     }
 
     func parseResponse(response: Response) throws -> T {

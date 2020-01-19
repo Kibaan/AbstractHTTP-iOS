@@ -35,7 +35,7 @@ class GetTokenSpec: ConnectionSpec {
 
     func makeBody() -> Data? { return nil }
 
-    func isValidResponse(response: Response) -> Bool { return true }
+    func validate(response: Response) -> Bool { return true }
 
     func parseResponse(response: Response) throws -> ResponseModel {
         if let string = String(bytes: response.data, encoding: .utf8) {

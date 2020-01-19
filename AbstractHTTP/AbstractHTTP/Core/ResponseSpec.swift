@@ -22,7 +22,7 @@ public protocol ResponseSpec {
     /// - Parameters:
     ///   - response: HTTPのレスポンス情報
     /// - Returns: レスポンスデータが正常の場合 `true`、エラーの場合 `false`
-    func isValidResponse(response: Response) -> Bool
+    func validate(response: Response) -> Bool
 
     /// HTTPレスポンスをassociated typeに指定した型に変換する
     /// 変換に失敗した場合、何らかのErrorをthrowするとパースエラーとして扱われる

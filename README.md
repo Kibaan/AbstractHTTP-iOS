@@ -39,7 +39,7 @@ class SimplestSpec: ConnectionSpec {
     func makeBody() -> Data? { return nil }
     
     // レスポンスデータのパース前のバリデーション
-    func isValidResponse(response: Response) -> Bool { return true }
+    func validate(response: Response) -> Bool { return true }
 
     // 通信レスポンスをデータモデルに変換する
     func parseResponse(response: Response) throws -> ResponseModel {
@@ -84,11 +84,11 @@ var urlQuery: URLQuery? {
 ### レスポンスの仕様定義
 
 #### レスポンスのバリデーション
-`isValidResponse(response: Response) -> Bool` 関数でレスポンスのバリデーションを行います。ここでのバリデーションはレスポンスデータパース前の簡易なチェックを想定しています。  
+`validate(response: Response) -> Bool` 関数でレスポンスのバリデーションを行います。ここでのバリデーションはレスポンスデータパース前の簡易なチェックを想定しています。  
 典型的な例として以下のようにステータスコードのチェックを行うことができます。
 
 ```swift
-func isValidResponse(response: Response) -> Bool {
+func validate(response: Response) -> Bool {
     // ステータスコード200以外はエラー扱いにする
     return response.statusCode == 200
 }
@@ -155,7 +155,7 @@ Kotlin (Java)にはそのような制約はなく、ワイルドカードでジ�
 1. ConnectionListener.onStart
 2. (ネットワークエラーの場合 -> onNetworkErrorへ)
 3. ConnectionResponseListener.onReceived (エラーの場合 -> onResponseErrorへ)
-4. ResponseSpec.isValidResponse (エラーの場合 -> onResponseErrorへ)
+4. ResponseSpec.validate (エラーの場合 -> onResponseErrorへ)
 5. ResponseSpec.parseResponse  (エラーの場合 -> onParseErrorへ)
 6. ConnectionResponseListener.onReceivedModel (エラーの場合 -> onValidationErrorへ)
 7. Connection.onSuccess
@@ -399,10 +399,10 @@ func parseResponse(response: Response) throws -> ResponseModel {
 - `ConnectionResponseListener.onReceived`
 - `ConnectionErrorListener.onResponseError`
 
-`ConnectionErrorListener.onResponseError`で401エラーのハンドリングを行う場合は、401ステータスをレスポンスエラー扱いにする必要があり、`ConnectionResponseListener.onReceived`または`ResponseSpec.isValidResponse`でHTTPステータスが401の場合に `false` を返すようにします。
+`ConnectionErrorListener.onResponseError`で401エラーのハンドリングを行う場合は、401ステータスをレスポンスエラー扱いにする必要があり、`ConnectionResponseListener.onReceived`または`ResponseSpec.validate`でHTTPステータスが401の場合に `false` を返すようにします。
 
 ```swift
-func isValidResponse(response: Response) -> Bool {
+func validate(response: Response) -> Bool {
     // ステータスコード401はエラーにする
     return response.statusCode != 401
 }

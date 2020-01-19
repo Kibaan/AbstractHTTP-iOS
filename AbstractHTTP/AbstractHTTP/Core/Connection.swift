@@ -19,7 +19,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     public let requestSpec: RequestSpec
 
     /// レスポンスデータの正当性を検証する
-    public let isValidResponse: (Response) -> Bool
+    public let validate: (Response) -> Bool
 
     /// 通信レスポンスをデータモデルに変換する
     public let parseResponse: (Response) throws -> ResponseModel
@@ -65,7 +65,7 @@ open class Connection<ResponseModel>: ConnectionTask {
                                  onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
         self.requestSpec = requestSpec
         self.parseResponse = responseSpec.parseResponse
-        self.isValidResponse = responseSpec.isValidResponse
+        self.validate = responseSpec.validate
         self.onSuccess = onSuccess
     }
 
@@ -73,7 +73,7 @@ open class Connection<ResponseModel>: ConnectionTask {
                                    onSuccess: ((ResponseModel) -> Void)? = nil) where T.ResponseModel == ResponseModel {
         self.requestSpec = connectionSpec
         self.parseResponse = connectionSpec.parseResponse
-        self.isValidResponse = connectionSpec.isValidResponse
+        self.validate = connectionSpec.validate
         self.onSuccess = onSuccess
     }
 
@@ -179,7 +179,7 @@ open class Connection<ResponseModel>: ConnectionTask {
             if executionId !== self.executionId { return }
         }
 
-        guard listenerResult && isValidResponse(response) else {
+        guard listenerResult && validate(response) else {
             onResponseError(response: response, executionId: executionId)
             return
         }

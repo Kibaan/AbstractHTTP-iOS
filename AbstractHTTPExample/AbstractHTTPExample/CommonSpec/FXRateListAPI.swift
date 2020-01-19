@@ -25,7 +25,7 @@ class FXRateListAPI: ConnectionSpec {
         return nil
     }
 
-    func isValidResponse(response: Response) -> Bool {
+    func validate(response: Response) -> Bool {
         return response.statusCode == 200
     }
 

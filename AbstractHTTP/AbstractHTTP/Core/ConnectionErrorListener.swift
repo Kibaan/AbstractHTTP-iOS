@@ -22,7 +22,7 @@ public protocol ConnectionErrorListener: class {
     func onNetworkError(connection: ConnectionTask, error: Error?)
 
     /// レスポンス内容のパース前のバリデーションエラー時に呼ばれる。
-    /// 具体的には、ResponseSpec.isValidResponse で `false` が返却された場合に呼ばれる
+    /// 具体的には、ResponseSpec.validate、ConnectionResponseListener.onReceived で `false` が返却された場合に呼ばれる
     ///
     /// - Parameters:
     ///   - connection: 通信オブジェクト

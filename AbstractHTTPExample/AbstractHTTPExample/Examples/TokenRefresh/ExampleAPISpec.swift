@@ -30,7 +30,7 @@ class ExampleAPISpec: ConnectionSpec {
         self.tokenContainer = tokenContainer
     }
 
-    func isValidResponse(response: Response) -> Bool {
+    func validate(response: Response) -> Bool {
         // ステータスコード200系以外はエラーにする
         return 200 <= response.statusCode && response.statusCode < 300
     }

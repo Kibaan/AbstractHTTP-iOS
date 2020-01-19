@@ -31,7 +31,7 @@ class SimplestSpec: ConnectionSpec {
     func makeBody() -> Data? { return nil }
 
     // ステータスコードの正常判定
-    func isValidResponse(response: Response) -> Bool {
+    func validate(response: Response) -> Bool {
         return true
     }
 
