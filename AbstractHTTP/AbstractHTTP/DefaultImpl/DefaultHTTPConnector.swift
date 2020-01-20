@@ -21,7 +21,7 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
     public var isRedirectEnabled = true
 
     /// キャッシュポリシー
-    public var cachePolicy: NSURLRequest.CachePolicy?
+    public var cachePolicy: NSURLRequest.CachePolicy? = .reloadIgnoringCacheData
 
     public func execute(request: Request, complete: @escaping (Response?, Error?) -> Void) {
         let config = URLSessionConfiguration.default
