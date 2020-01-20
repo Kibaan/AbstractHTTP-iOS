@@ -22,14 +22,14 @@ class WaitableAPISpec: ConnectionSpec {
     var urlQuery: URLQuery? {
         return ["waitSeconds": "\(waitSeconds)"]
     }
+    
+    var body: Data? { return nil }
 
     let waitSeconds: Int
 
     init(waitSeconds: Int = 1) {
         self.waitSeconds = waitSeconds
     }
-
-    func makeBody() -> Data? { return nil }
 
     func validate(response: Response) -> Bool {
         return true

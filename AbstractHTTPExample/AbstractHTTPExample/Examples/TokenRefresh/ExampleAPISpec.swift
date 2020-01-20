@@ -24,7 +24,7 @@ class ExampleAPISpec: ConnectionSpec {
 
     let tokenContainer: TokenContainer
 
-    func makeBody() -> Data? { return nil }
+    var body: Data? { return nil }
 
     init(tokenContainer: TokenContainer) {
         self.tokenContainer = tokenContainer

@@ -27,13 +27,13 @@ class GetTokenSpec: ConnectionSpec {
 
     var urlQuery: URLQuery? { return nil }
 
+    var body: Data? { return nil }
+
     let fail: Bool
 
     init(fail: Bool = false) {
         self.fail = fail
     }
-
-    func makeBody() -> Data? { return nil }
 
     func validate(response: Response) -> Bool { return true }
 

@@ -141,7 +141,7 @@ open class Connection<ResponseModel>: ConnectionTask {
         // リクエスト作成
         let request = request ?? Request(url: url,
                                          method: requestSpec.httpMethod,
-                                         body: requestSpec.makeBody(),
+                                         body: requestSpec.body,
                                          headers: requestSpec.headers)
 
         if callOnStart {

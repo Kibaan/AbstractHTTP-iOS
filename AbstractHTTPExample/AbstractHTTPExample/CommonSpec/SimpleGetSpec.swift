@@ -17,12 +17,11 @@ class SimpleGetSpec: ConnectionSpec {
     var httpMethod: HTTPMethod { return .get }
     var headers: [String: String] { return [:] }
     var urlQuery: URLQuery? { return nil }
+    var body: Data? { return nil }
 
     init(url: String) {
         self.url = url
     }
-
-    func makeBody() -> Data? { return nil }
 
     func validate(response: Response) -> Bool {
         return true

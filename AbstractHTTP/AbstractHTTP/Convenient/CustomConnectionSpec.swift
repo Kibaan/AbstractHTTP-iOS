@@ -36,10 +36,6 @@ class CustomConnectionSpec<T>: ConnectionSpec {
         self.parse = parse
     }
 
-    func makeBody() -> Data? {
-        return body
-    }
-
     func validate(response: Response) -> Bool {
         return validate?(response) ?? true
     }

@@ -17,8 +17,8 @@ class GetJSONSpec: ConnectionSpec {
     var httpMethod: HTTPMethod { return .get }
     var headers: [String: String] { return [:] }
     var urlQuery: URLQuery? { return nil }
+    var body: Data? { return nil }
 
-    func makeBody() -> Data? { return nil }
     func validate(response: Response) -> Bool { return true }
 
     // 通信レスポンスをデータモデルに変換する

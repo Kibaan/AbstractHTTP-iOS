@@ -32,7 +32,7 @@ class CommonRequestSpec<T: Decodable>: ConnectionSpec {
 
     var urlQuery: URLQuery? { return nil }
 
-    func makeBody() -> Data? { return nil }
+    var body: Data? { return nil }
 
     func validate(response: Response) -> Bool {
         return true

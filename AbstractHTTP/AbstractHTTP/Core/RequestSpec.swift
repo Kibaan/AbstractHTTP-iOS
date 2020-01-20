@@ -23,7 +23,6 @@ public protocol RequestSpec {
     var headers: [String: String] { get }
     /// URLに付与するクエリパラメーター
     var urlQuery: URLQuery? { get }
-
-    /// リクエストボディを作成する
-    func makeBody() -> Data?
+    /// リクエストボディ
+    var body: Data? { get }
 }
