@@ -1,47 +1,152 @@
+[![CocoaPods Compatible](https://img.shields.io/badge/pod-compatible-green.svg)](https://cocoapods.org/pods/AbstractHTTP)
+
 # AbstractHTTP
 
-AbstractHTTP はHTTP通信とそれに付随する一連の処理を抽象化したライブラリです。
+## 一番シンプルな使用例
+https://foo.net にアクセスしてレスポンスの文字列を出力する例。
 
-本ライブラリは大部分がプロトコルで構成されており、**通信処理の実装より通信処理の設計を提供するものです**。
-
-
+```swift
+HTTP("https://foo.net”).asString {
+    print($0)
+}
 ```
-AbstractHTTP is abstract HTTP processing library.  
+
+## 概要
+
+上の簡単な例に反して、本ライブラリはHTTP通信を簡単にするためのものではありません。  
+本ライブラリの目的は **APIクライアントの設計を提供すること** です。
+
+本ライブラリは以下をプロトコルにして抽象化し、自由な実装と再利用ができるようにしています。
+
+* APIのリクエスト・レスポンス仕様
+*  HTTP通信処理
+* 通信に対するアプリケーションの共通的なふるまい
+
+## APIのリクエスト・レスポンス仕様
+
+一つのAPIはいくつか典型的な固有要素を持っています。  
+URL、クエリ、HTTPメソッド、ヘッダー、ボディといったリクエストの仕様と、どういう形のレスポンスが返ってくるかというレスポンスの仕様です。
+
+このライブラリではそれらのAPI仕様をプロトコルにしています。
+
+```swift
+// リクエストの仕様
+public protocol RequestSpec {
+    // リクエスト先のURL
+    var url: String { get }
+    
+    // HTTPメソッド
+    var httpMethod: HTTPMethod { get }
+    
+    // リクエストヘッダー
+    var headers: [String: String] { get }
+    
+    // URLに付与するクエリパラメーター
+    var urlQuery: URLQuery? { get }
+    
+    // リクエストボディ
+    func body() -> Data?
+}
 ```
+
+```swift
+// レスポンスの仕様
+public protocol ResponseSpec {
+    // レスポンスのデータ型
+    associatedtype ResponseModel
+
+    // パース前のレスポンスデータのバリデーションを行う
+    func validate(response: Response) -> Bool
+
+    // HTTPレスポンスをassociated typeに指定した型に変換する
+    func parseResponse(response: Response) throws -> ResponseModel
+}
+```
+
+また、利便性のため`RequestSpec`、`ResponseSpec`両方を継承した `ConnectionSpec` プロトコルを用意しています。
+
+```swift
+protocol ConnectionSpec: RequestSpec, ResponseSpec {}
+```
+
+１つのAPIに対して `ConnectionSpec` を実装したクラス（以下Specクラス）を１つ作るのが、本ライブラリの基本的な使い方になります。  
+REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのがおすすめです。
+
+## HTTP通信処理
+
+HTTP通信処理もタイムアウト時間、キャッシュの仕方、クッキーの扱い、SSL証明書の扱いなどいくつか典型的な固有要素がありますが、本ライブラリではそれらにあまり手出ししません。
+
+HTTP通信処理のプロトコルは以下のように簡単なので、各アプリケーションの要件に従って自由に実装してください。  
+UnitTest向けに通信を行わず固定値を返すモックを実装することもできます。
+
+```swift
+protocol HTTPConnector {
+    func execute(request: Request, complete: @escaping (Response?, Error?) -> Void)
+    func cancel()
+}
+```
+
+とはいえ利便性を考慮して標準の `DefaultHTTPConnector` も用意しているので、シビアで特殊な要件がなければ独自実装をする必要はありません。
+
+
+## 通信に対するアプリケーションの共通的なふるまい
+
+ほとんどのアプリケーションでは、通信エラーが起こった場合にポップアップを表示するなど、複数の通信で共通して行うふるまいがあります。  
+本ライブラリではそのような共通のふるまいを定義するためのプロトコルを以下の3種類用意しています。
+これらを使うことで複数のAPIに共通のエラー処理を実装することができます。  
+
+- ConnectionListener 通信の開始と終了をフックする
+- ConnectionResponseListener レスポンスデータ、パース後のモデルの取得などをフックする
+- ConnectionErrorListener ネットワークエラー、パースエラーなどのエラーをフックする
+
+`Listener` ディレクトリ内に各種リスナーのサンプルを実装しています。
+
+### ConnectionListener
+
+`ConnectionListener` は通信の開始と終了をフックできます。  
+通信インジケーターの表示/非表示切り替えなど、通信の開始と終了に共通して行う処理を実装することができます。
+
+### ConnectionResponseListener
+
+`ConnectionResponseListener` は通信データ受信後のいくつかのタイミングをフックし、レスポンスの内容を見てバリデーションエラーを発生させることもできます。
+
+このプロトコルを使うことで複数のAPIに共通のバリデーションを実装したり、複数のAPIのレスポンスデータに対して共通の処理を実装することができます。
+
+### ConnectionErrorListener
+
+`ConnectionErrorListener` ネットワークエラー、バリデーションエラー、パースエラーなど様々なエラーをフックします。
+また`ConnectionResponseListener`と併用すると、任意の条件でバリデーションエラーを発生させ、`ConnectionErrorListener`にエラー処理をさせることもできます。
+
 
 # プログラミングガイド (Programming guide)
 
 ## 基本の使い方 (Basic usages)
 
-通信を行うためには `ConnectionSpec` プロトコル（またはRequestSpecとResponseSpecプロトコル）を実装したクラス（以下Specクラス）を作る必要があります。  
-Specクラスは１つのAPIの仕様を表し、URLやパラメーターなどリクエストの詳細と、レスポンスのバリデーションとパース処理を記載します。  
-REST APIであればURLとHTTPメソッドの組み合わせに対して１つSpecクラスを作成するのがおすすめです。
+`ConnectionSpec` プロトコル（またはRequestSpecとResponseSpecプロトコル）を実装したクラスを作ります。  
 
 ```swift
-// シンプルなConnectionSpec実装
-class SimplestSpec: ConnectionSpec {
-    // 通信で受取るデータの型を定義する
+// ConnectionSpecの簡単な実装例
+class ExampleSpec: ConnectionSpec {
     typealias ResponseModel = String
 
-    // リクエスト先のURL 
-    var url: String { return "https://www.google.com/" }
+    var url: String { return "https://example.com/" }
     
-    // リクエストのHTTPメソッド
     var httpMethod: HTTPMethod { return .get }
     
-    // 送信するリクエストヘッダー
     var headers: [String: String] { return [:] }
     
-    // URLに付けるクエリパラメーター（URL末尾の`?`以降につけるkey=value形式のパラメーター）
-    var urlQuery: URLQuery? { return nil }
+    var urlQuery: URLQuery? { return [
+        "id": "123",
+        "name": "john"
+    ]}
 
-    // リクエストボディ（ポストするデータ）。GET通信など不要な場合はnilにする
-    func makeBody() -> Data? { return nil }
+    func body() -> Data? { return nil }
     
-    // レスポンスデータのパース前のバリデーション
-    func validate(response: Response) -> Bool { return true }
+    func validate(response: Response) -> Bool { 
+        // ステータスコード200以外はエラー扱いにする
+        return response.statusCode == 200
+    }
 
-    // 通信レスポンスをデータモデルに変換する
     func parseResponse(response: Response) throws -> ResponseModel {
         if let string = String(bytes: response.data, encoding: .utf8) {
             return string
@@ -63,49 +168,26 @@ class SimplestSpec: ConnectionSpec {
 
 #### リクエストボディ
 
-`func makeBody()` でリクエストボディ（ポストデータ）を決めます。  
-ボディがない場合はこの関数で `nil` を返します。 
+`body: Data?` プロパティでリクエストボディ（ポストデータ）を決めます。  
+ボディがない場合は `nil` を返します。 
 
 #### クエリパラメーター
 
 `urlQuery: URLQuery?` プロパティでURLに付与するクエリパラメーターを決めます。  
-`URLQuery` 型は `Dictionary` と同じ書き方で以下のように書くことができます。
-
-```swift
-var urlQuery: URLQuery? {
-    return [
-        "id": "123",
-        "name": "john",
-        "comment": "hello"
-    ]
-}
-```
+`URLQuery` 型はDictionaryLiteralで記載することができます。
 
 ### レスポンスの仕様定義
 
 #### レスポンスのバリデーション
-`validate(response: Response) -> Bool` 関数でレスポンスのバリデーションを行います。ここでのバリデーションはレスポンスデータパース前の簡易なチェックを想定しています。  
-典型的な例として以下のようにステータスコードのチェックを行うことができます。
-
-```swift
-func validate(response: Response) -> Bool {
-    // ステータスコード200以外はエラー扱いにする
-    return response.statusCode == 200
-}
-```
-
+`validate(response: Response) -> Bool` 関数でレスポンスのバリデーションを行います。ここでのバリデーションはステータスコードのチェックなど、レスポンスデータパース前の簡易なチェックを想定しています。  
 特にバリデーションが不要なら固定で `true` を返しても問題ありません。
 
 #### パース
 
-まずは受け取るレスポンスの型を `typealias ResponseModel` で指定します。  
-次に `parseResponse(response: Response)` 関数でレスポンスデータを指定したレスポンスの型に変換して返します。  
+受け取るレスポンスの型は `typealias ResponseModel` に指定し、`parseResponse(response: Response)` 関数でレスポンスデータを指定した型に変換します。  
+`typealias ResponseModel` の型は任意で、`Void` にして何も返さないことも可能です。
 
-`typealias ResponseModel` の型は任意に指定することができ、`String` や 特定のJSONデータを表すクラスなどを指定することが想定されます。  
-`ResponseModel` を`Data` にしてレスポンスデータを変換せずそのまま返したり、`Void` にして何も返さないことも可能です。
-
-パースに失敗した場合、この関数で何らかのエラーを`throw`すると呼び出し元でパースエラーとして扱われます。
- 
+また、この関数で何らかのエラーを`throw`すると呼び出し元でパースエラーとして扱われます。
 
 ### 通信の開始
 
@@ -113,24 +195,18 @@ func validate(response: Response) -> Bool {
 実装したSpecクラスと通信成功時のコールバック関数をイニシャライザに指定して、`start()` 関数を呼ぶと通信を開始します。
 
 ```swift
-let spec = SimplestSpec()
-Connection(spec) { response in
-    print(response)
+// ConnectionSpecを引数にする例
+Connection(ExampleSpec()) {
+    print($0)
 }.start()
 ```
 
-### ConnectionSpecをリクエスト仕様とレスポンス仕様に分割する
-
-`ConnectionSpec`は`RequestSpec`、`ResponseSpec`２つのプロトコルを継承したプロトコルです。ConnectionSpecを作成する代わりに、RequestSpecを継承したクラスとResponseSpecを継承したクラスを、それぞれ別に作成することもできます。
-
 ```swift
-// ConnectionSpecを使用する例
-Connection(FooConnectionSpec())
-```
+// RequestSpecとResponseSpecを別々に引数にする例
+Connection(requestSpec: BarRequestSpec(), responseSpec: BazResponseSpec()) {
+    print($0)
+}.start()
 
-```swift
-// RequestSpecとResponseSpecを使用する例
-Connection(requestSpec: BarRequestSpec(), responseSpec: BazResponseSpec())
 ```
 
 ## ConnectionTask (iOS only)
@@ -244,38 +320,6 @@ JSON形式のAPIを読み込む実装例を`GetJSON` ディレクトリ内に内
 リクエスト仕様を共通化する一つの方法は `ConnectionSpec` の実装に共通の基底クラスを作り、基底クラスを継承して各APIを実装することです。
 
 `CommonRequestSpec` ディレクトリ内にリクエスト仕様の共通化の例を実装しています。
-
-## 複数の通信で共通のふるまいを実装する
-
-ほとんどのプロジェクトでは、通信エラーが起こった場合にポップアップを表示するなど、複数の通信で共通して行うふるまいがあります。  
-本ライブラリではそのような共通の振る舞いを通信処理のリスナーとして実装することができます。
-
-リスナーには以下の3種類があります。
-
-- ConnectionListener 通信の開始と終了をフックする
-- ConnectionResponseListener レスポンスデータ、パース後のモデルの取得などをフックする
-- ConnectionErrorListener ネットワークエラー、パースエラーなどのエラーをフックする
-
-`Listener` ディレクトリ内に各種リスナーのサンプルを実装しています。
-
-### ConnectionListener
-
-`ConnectionListener` は通信の開始と終了をフックできます。  
-通信インジケーターの表示/非表示切り替えなど、通信の開始と終了に共通して行う処理を実装することができます。
-
-### ConnectionResponseListener
-
-`ConnectionResponseListener` は通信データ受信後のいくつかのタイミングをフックし、レスポンスの内容を見てバリデーションエラーを発生させることもできます。
-
-このプロトコルを使うことで複数のAPIに共通のバリデーションを実装したり、複数のAPIのレスポンスデータに対して共通の処理を実装することができます。
-
-### ConnectionErrorListener
-
-`ConnectionErrorListener` ネットワークエラー、バリデーションエラー、パースエラーなど様々なエラーをフックします。
-また`ConnectionResponseListener`と併用すると、任意の条件でバリデーションエラーを発生させ、`ConnectionErrorListener`にエラー処理をさせることもできます。
-
-このプロトコルを使うことで複数のAPIに共通のエラー処理を実装することができます。  
-
 
 ## 通信中にインジケーターを表示する
 
