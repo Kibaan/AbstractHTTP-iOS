@@ -19,6 +19,9 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
 
     /// 自動でリダイレクトするか
     public var isRedirectEnabled = true
+    
+    /// Cookieを有効にするか
+    public var isCookieEnabled = true
 
     /// キャッシュポリシー
     public var cachePolicy: NSURLRequest.CachePolicy? = .reloadIgnoringCacheData
@@ -26,6 +29,7 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
     public func execute(request: Request, complete: @escaping (Response?, Error?) -> Void) {
         let config = URLSessionConfiguration.default
         config.urlCache = nil // この指定がないとHTTPSでも平文でレスポンスが端末にキャッシュされてしまう
+        config.httpCookieStorage = isCookieEnabled ? HTTPCookieStorage.shared : nil
 
         if let timeoutInterval = timeoutInterval {
             // timeoutIntervalForResource は有効に使えるケースがあまりないので使わない（標準7日のまま）
