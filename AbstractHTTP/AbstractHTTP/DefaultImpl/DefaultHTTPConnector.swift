@@ -28,6 +28,7 @@ public class DefaultHTTPConnector: NSObject, HTTPConnector {
 
     public func execute(request: Request, complete: @escaping (Response?, Error?) -> Void) {
         let config = URLSessionConfiguration.default
+        // TODO キャッシュする場合は`urlCache`をnilにしたら不味いのでは？
         config.urlCache = nil // この指定がないとHTTPSでも平文でレスポンスが端末にキャッシュされてしまう
         config.httpCookieStorage = isCookieEnabled ? HTTPCookieStorage.shared : nil
 
