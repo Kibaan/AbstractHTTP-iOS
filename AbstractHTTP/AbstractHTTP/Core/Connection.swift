@@ -90,11 +90,11 @@ open class Connection<ResponseModel>: ConnectionTask {
     /// 通信をキャンセルする
     open func cancel() {
         // 既に実行完了している場合何もしない
-        guard let executionId = executionId else {
+        if executionId == nil {
             return
         }
 
-        onCancel(executionId: executionId)
+        onCancel()
         httpConnector.cancel()
     }
 
@@ -114,7 +114,7 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         self.executionId = interruptedId
         self.interruptedId = nil
-        onCancel(executionId: interruptedId)
+        onCancel()
     }
 
     /// 通信処理を開始する
@@ -247,10 +247,25 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
     }
 
-    func onCancel(executionId: ExecutionId) {
-        handleError(.canceled, executionId: executionId) {
-            return $0.onCanceled(connection: self)
+    func onCancel() {
+        callback {
+            self.executeCancelEvents()
         }
+
+        executionId = nil
+        interruptedId = nil
+    }
+
+    private func executeCancelEvents() {
+        errorListeners.forEach { $0.onCanceled(connection: self) }
+
+        let error = ConnectionError(type: .canceled, nativeError: nil)
+        errorListeners.forEach {
+            $0.afterError(connection: self, response: nil, responseModel: nil, error: error)
+        }
+
+        listeners.forEach { $0.onEnd(connection: self, response: nil, responseModel: nil, error: error) }
+        holder?.remove(connection: self)
     }
 
     /// エラーを処理する
