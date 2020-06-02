@@ -82,11 +82,6 @@ open class Connection<ResponseModel>: ConnectionTask {
         connect()
     }
 
-    /// 通信を再実行する
-    open func restart() {
-        connect()
-    }
-
     /// 直近のリクエストを再送信する
     open func repeatRequest() {
         connect(request: latestRequest)
@@ -176,8 +171,8 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         var listenerResult = true
         for i in responseListeners.indices {
-            listenerResult = listenerResult && responseListeners[i].onReceived(connection: self, response: response)
             if executionId !== self.executionId { return }
+            listenerResult = listenerResult && responseListeners[i].onReceived(connection: self, response: response)
         }
 
         guard listenerResult && validate(response) else {
@@ -189,6 +184,7 @@ open class Connection<ResponseModel>: ConnectionTask {
     }
 
     open func handleResponse(response: Response, executionId: ExecutionId) {
+        if executionId !== self.executionId { return }
 
         let responseModel: ResponseModel
 
@@ -201,8 +197,8 @@ open class Connection<ResponseModel>: ConnectionTask {
 
         var listenerResult = true
         for i in responseListeners.indices {
-            listenerResult = listenerResult && responseListeners[i].onReceivedModel(connection: self, responseModel: responseModel)
             if executionId !== self.executionId { return }
+            listenerResult = listenerResult && responseListeners[i].onReceivedModel(connection: self, responseModel: responseModel)
         }
 
         if !listenerResult {
@@ -211,6 +207,8 @@ open class Connection<ResponseModel>: ConnectionTask {
         }
 
         callback {
+            if executionId !== self.executionId { return }
+
             self.onSuccess?(responseModel)
             self.responseListeners.forEach {
                 $0.afterSuccess(connection: self, responseModel: responseModel)
@@ -262,6 +260,8 @@ open class Connection<ResponseModel>: ConnectionTask {
                              responseModel: ResponseModel? = nil,
                              executionId: ExecutionId,
                              callListener: @escaping (ConnectionErrorListener) -> Void) {
+        if executionId !== self.executionId { return }
+
         // エラーログ出力
         if isLogEnabled {
             let message = error?.localizedDescription ?? ""
@@ -282,8 +282,8 @@ open class Connection<ResponseModel>: ConnectionTask {
                               _ callListener: (ConnectionErrorListener) -> Void) {
 
         for i in errorListeners.indices {
-            callListener(errorListeners[i])
             if executionId !== self.executionId { return }
+            callListener(errorListeners[i])
         }
 
         let connectionError = ConnectionError(type: type, nativeError: error)

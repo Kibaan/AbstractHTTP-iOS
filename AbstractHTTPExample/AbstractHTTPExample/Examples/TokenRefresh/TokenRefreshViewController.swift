@@ -88,7 +88,7 @@ class TokenRefresher: ConnectionErrorListener {
         Connection(GetTokenSpec(fail: fail)) { token in
             self.printFunc("トークン取得完了、再通信。")
             self.tokenContainer.token = token
-            connection.restart()
+            connection.start()
         }.addOnError {_, _, _ in
             self.printFunc("トークン取得失敗")
             connection.breakInterruption()
