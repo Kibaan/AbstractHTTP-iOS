@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CancelViewController" customModule="AbstractHTTPExample" customModuleProvider="target">
             <connections>
+                <outlet property="textView" destination="eUg-l2-ifT" id="JyF-zZ-ogZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -46,17 +47,39 @@
                         </button>
                     </subviews>
                 </stackView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eUg-l2-ifT">
+                    <rect key="frame" x="20" y="180" width="374" height="662"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWx-cI-7JU">
+                    <rect key="frame" x="342" y="64" width="52" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="クリア"/>
+                    <connections>
+                        <action selector="clearAction:" destination="-1" eventType="touchUpInside" id="ayb-MP-dif"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
+                <constraint firstItem="eUg-l2-ifT" firstAttribute="top" secondItem="RCm-vI-0uf" secondAttribute="bottom" constant="20" id="4HB-Gn-1Z3"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RCm-vI-0uf" secondAttribute="trailing" constant="5" id="6aS-yf-BrQ"/>
                 <constraint firstItem="t4A-Z8-itJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DNi-Te-Eth"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="eUg-l2-ifT" secondAttribute="bottom" constant="20" id="OH0-lP-EYd"/>
                 <constraint firstItem="RCm-vI-0uf" firstAttribute="top" secondItem="t4A-Z8-itJ" secondAttribute="bottom" constant="30" id="aYE-ZQ-IzA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="EWx-cI-7JU" secondAttribute="trailing" constant="20" id="b2D-7A-nQz"/>
+                <constraint firstItem="eUg-l2-ifT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="f8e-wi-sgh"/>
                 <constraint firstItem="RCm-vI-0uf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="5" id="j2V-N0-o1Q"/>
                 <constraint firstItem="t4A-Z8-itJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="pDR-HW-W1a"/>
+                <constraint firstItem="EWx-cI-7JU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="sqB-g6-Zwg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eUg-l2-ifT" secondAttribute="trailing" constant="20" id="x74-2x-hO0"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="153"/>
+            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
         </view>
     </objects>
 </document>
