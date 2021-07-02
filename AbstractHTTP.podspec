@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'AbstractHTTP'
-  s.version          = '0.7.04'
+  s.version          = '0.7.05'
   s.summary          = 'Abstract HTTP processing library.'
   s.homepage         = 'https://github.com/Kibaan/AbstractHTTP-iOS'
   s.license          = { :type => 'Apache License 2.0', :file => 'LICENSE' }
