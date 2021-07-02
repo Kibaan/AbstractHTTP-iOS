@@ -76,7 +76,7 @@ public class ConnectionHolder {
     }
 }
 
-public protocol ConnectionHolderListener: class {
+public protocol ConnectionHolderListener: AnyObject {
     func onAdded(connection: ConnectionTask, count: Int)
     func onRemoved(connection: ConnectionTask, count: Int)
 }

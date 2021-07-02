@@ -9,7 +9,7 @@
 import Foundation
 
 /// 通信の開始と終了の通知を受け取るリスナー
-public protocol ConnectionListener: class {
+public protocol ConnectionListener: AnyObject {
     /// 通信の開始イベント
     ///
     /// - Parameters:

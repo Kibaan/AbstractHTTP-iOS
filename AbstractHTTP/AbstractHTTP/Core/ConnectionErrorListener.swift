@@ -12,7 +12,7 @@ import Foundation
 /// afterError以外のエラーコールバックは、Connectionに渡したエラーコールバックの実行前にバックグラウンドスレッドで呼ばれる。
 ///
 /// バックグラウンドスレッドから呼び出されるため、UIの操作を行う場合はメインスレッドに切り替える必要がある
-public protocol ConnectionErrorListener: class {
+public protocol ConnectionErrorListener: AnyObject {
 
     /// 通信エラー時に呼ばれる
     ///
